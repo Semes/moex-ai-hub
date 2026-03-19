@@ -161,7 +161,26 @@ function getInstallationSteps(item) {
     </div>`).join('');
 }
 
-// ——— 8. Prompt Detail Dialog ———
+// ——— 8. Modal like toggle (in-place update, no re-render) ———
+function toggleModalLike(id, baseLikes) {
+  LikesStore.toggle(id);
+  const btn = document.getElementById('modal-like-btn');
+  if (!btn) return;
+  const isLiked = LikesStore.isLiked(id);
+  const count = LikesStore.getEffective(id, baseLikes);
+  btn.innerHTML = `${icon('heart', 'w-5 h-5')} ${count}`;
+  btn.className = `cursor-pointer inline-flex items-center gap-2 min-h-[44px] px-3 py-2 text-sm font-medium rounded-lg transition-colors ${isLiked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}`;
+}
+
+// ——— 8b. Card like toggle (in-place update, no card re-render) ———
+function toggleCardLike(btn, id, baseLikes) {
+  const isLiked = LikesStore.isLiked(id);
+  const count = LikesStore.getEffective(id, baseLikes);
+  btn.innerHTML = `${icon('heart', 'h-5 w-5')} ${count}`;
+  btn.className = `flex items-center gap-1.5 px-2 py-1 rounded-lg text-sm font-medium transition-colors ${isLiked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}`;
+}
+
+// ——— 9. Prompt Detail Dialog ———
 function _slugify(text) {
   const ru = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'};
   return text.toLowerCase().replace(/[а-яё]/g, c => ru[c] || c).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
@@ -258,7 +277,7 @@ function openPromptDetail(item) {
         <span class="flex items-center gap-1">${icon('calendar', 'w-3 h-3')} ${new Date(item.createdAt).toLocaleDateString('ru-RU')}</span>
       </div>
       <div class="flex items-center gap-2">
-        <button onclick="LikesStore.toggle('${item.id}'); openPromptDetail(marketplaceItems.find(i=>i.id==='${item.id}'))"
+        <button id="modal-like-btn" onclick="toggleModalLike('${item.id}', ${item.likes})"
           class="cursor-pointer inline-flex items-center gap-2 min-h-[44px] px-3 py-2 text-sm font-medium rounded-lg transition-colors ${liked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}">
           ${icon('heart', 'w-5 h-5')} ${likes}
         </button>

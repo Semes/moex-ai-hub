@@ -199,8 +199,18 @@
       `).join('');
 
       // Latest library items
-      const newest = getNewestItems(marketplaceItems, NEWEST_ITEMS_LIMIT);
-      document.getElementById('latest-items').innerHTML = newest.map(item => renderPromptCard(item)).join('');
+      function renderLatestItems() {
+        const newest = getNewestItems(marketplaceItems, NEWEST_ITEMS_LIMIT);
+        document.getElementById('latest-items').innerHTML = newest.map(item => renderPromptCard(item)).join('');
+      }
+      renderLatestItems();
+
+      // Re-render cards when likes change from modal (scroll is locked while modal is open)
+      LikesStore.onChange(() => {
+        if (document.getElementById('dialog-overlay')) {
+          renderLatestItems();
+        }
+      });
 
       // Community
       document.getElementById('community-grid').innerHTML = communityChannels.map(ch => {
@@ -249,7 +259,7 @@
                 <button onclick="event.stopPropagation();openPromptDetail(marketplaceItems.find(i=>i.id==='${item.id}'))" class="p-2 rounded-lg text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" title="Подробнее">
                   ${icon('eye', 'h-4 w-4')}
                 </button>
-                <button onclick="event.stopPropagation();LikesStore.toggle('${item.id}');this.closest('[role=button]').outerHTML=renderPromptCard(marketplaceItems.find(i=>i.id==='${item.id}'))"
+                <button onclick="event.stopPropagation();LikesStore.toggle('${item.id}');toggleCardLike(this,'${item.id}',${item.likes})"
                   class="flex items-center gap-1.5 px-2 py-1 rounded-lg text-sm font-medium transition-colors ${liked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}" title="Мне нравится">
                   ${icon('heart', 'h-5 w-5')} ${likes}
                 </button>

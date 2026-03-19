@@ -254,7 +254,7 @@
                 <button onclick="event.stopPropagation();copyToClipboard(marketplaceItems.find(i=>i.id==='${item.id}').content)" class="p-2 rounded-lg text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" title="Копировать">
                   ${icon('copy', 'h-4 w-4')}
                 </button>
-                <button onclick="event.stopPropagation();LikesStore.toggle('${item.id}');renderLibrary()"
+                <button onclick="event.stopPropagation();LikesStore.toggle('${item.id}');toggleCardLike(this,'${item.id}',${item.likes})"
                   class="flex items-center gap-1.5 px-2 py-1 rounded-lg text-sm font-medium transition-colors ${liked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}" title="Мне нравится">
                   ${icon('heart', 'h-5 w-5')} ${likes}
                 </button>
@@ -287,6 +287,14 @@
           activeTagFilter = '';
         }
         renderLibrary();
+      });
+
+      // Re-render library when likes change from modal
+      // (body overflow is hidden while modal is open, so no scroll jump)
+      LikesStore.onChange(() => {
+        if (document.getElementById('dialog-overlay')) {
+          renderLibrary();
+        }
       });
 
       renderLibrary();
