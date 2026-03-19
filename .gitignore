@@ -1,0 +1,25 @@
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# Backend (Python)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Tailwind (если используется standalone CLI)
+static-site/css/tailwind-output.css
+
+# Misc
+*.pem
+*.log

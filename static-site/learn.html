@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Обучение — MOEX AI Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="antialiased bg-white text-[#33373B]">
+  <div id="site-header"></div>
+
+  <main class="min-h-screen bg-white">
+    <!-- Header -->
+    <div class="border-b border-[#EEE7DC] bg-gradient-to-br from-[#FBF7F3] to-white">
+      <div class="container-main py-10">
+        <div class="flex items-center gap-2.5 mb-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FBF7F3] border border-[#EEE7DC]" id="icon-grad-cap"></div>
+          <p class="section-label mb-0">Обучение</p>
+        </div>
+        <h1 class="page-title">Гайды и глоссарий</h1>
+        <p class="page-subtitle max-w-lg">Ресурсы для работы с AI-инструментами Биржи — от установки до продвинутых техник</p>
+      </div>
+    </div>
+
+    <div class="container-main py-10">
+      <div class="space-y-12">
+
+        <!-- Onboarding: С чего начать? -->
+        <div>
+          <p class="section-label">Быстрый старт</p>
+          <h2 class="section-title mb-8">С чего начать?</h2>
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Step 1 -->
+            <div class="rounded-xl border border-[#EEE7DC] bg-white p-6 flex flex-col animate-fade-in-up" style="animation-delay:0ms;animation-fill-mode:both">
+              <div class="flex items-center justify-center h-10 w-10 rounded-full bg-[#FF0508] text-white text-sm font-bold mb-4 shrink-0">1</div>
+              <h3 class="text-base font-bold text-[#33373B] mb-2">Откройте MOEX GPT</h3>
+              <p class="body-text-sm flex-1 mb-4">Перейдите по ссылке и авторизуйтесь. Это ваш AI-ассистент для любых рабочих задач.</p>
+              <a href="#openwebui-placeholder" class="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors">Открыть MOEX GPT</a>
+            </div>
+            <!-- Step 2 -->
+            <div class="rounded-xl border border-[#EEE7DC] bg-white p-6 flex flex-col animate-fade-in-up" style="animation-delay:80ms;animation-fill-mode:both">
+              <div class="flex items-center justify-center h-10 w-10 rounded-full bg-[#FF0508] text-white text-sm font-bold mb-4 shrink-0">2</div>
+              <h3 class="text-base font-bold text-[#33373B] mb-2">Попробуйте готовый промпт</h3>
+              <p class="body-text-sm flex-1 mb-4">Скопируйте промпт из библиотеки и вставьте в чат.</p>
+              <a href="library.html" class="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors">Перейти в библиотеку</a>
+            </div>
+            <!-- Step 3 -->
+            <div class="rounded-xl border border-[#EEE7DC] bg-white p-6 flex flex-col animate-fade-in-up" style="animation-delay:160ms;animation-fill-mode:both">
+              <div class="flex items-center justify-center h-10 w-10 rounded-full bg-[#FF0508] text-white text-sm font-bold mb-4 shrink-0">3</div>
+              <h3 class="text-base font-bold text-[#33373B] mb-2">Поделитесь с коллегами</h3>
+              <p class="body-text-sm flex-1 mb-4">Создали свой промпт? Отправьте в библиотеку и заработайте mops!</p>
+              <a href="submit.html" class="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors">Предложить промпт</a>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-[#EEE7DC]">
+
+        <!-- Что умеют AI-продукты -->
+        <div>
+          <p class="section-label">Возможности</p>
+          <h2 class="section-title mb-4">Что умеют AI-продукты</h2>
+          <div id="capabilities-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 items-stretch"></div>
+        </div>
+
+        <hr class="border-[#EEE7DC]">
+
+        <!-- Guides -->
+        <div>
+          <p class="section-label">Инструкции</p>
+          <h2 class="section-title mb-5">Гайды на Confluence</h2>
+          <div id="guides-grid" class="grid gap-3 sm:grid-cols-2"></div>
+        </div>
+
+        <hr class="border-[#EEE7DC]">
+
+        <!-- Quiz -->
+        <div>
+          <p class="section-label">Квиз</p>
+          <h2 class="section-title mb-8">Проверьте свои знания</h2>
+          <div id="quiz-container" class="max-w-3xl">
+            <!-- Initial state -->
+            <div id="quiz-start" class="rounded-xl border border-[#EEE7DC] bg-white p-6">
+              <p class="body-text mb-5">Пройдите короткий квиз из 5 вопросов, чтобы проверить, насколько хорошо вы разбираетесь в AI-инструментах Биржи.</p>
+              <button onclick="startQuiz()" class="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-5 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors cursor-pointer">Начать квиз</button>
+            </div>
+            <!-- Question state (hidden initially) -->
+            <div id="quiz-question" class="rounded-xl border border-[#EEE7DC] bg-white p-6 hidden">
+              <p id="quiz-progress" class="text-xs font-semibold uppercase tracking-wide text-[#5c5f63] mb-3"></p>
+              <h3 id="quiz-q-text" class="text-base font-bold text-[#33373B] mb-5"></h3>
+              <div id="quiz-options" class="space-y-2.5 mb-5"></div>
+              <div id="quiz-explanation" class="hidden rounded-lg p-4 mb-4 text-sm leading-relaxed"></div>
+              <button id="quiz-next-btn" onclick="nextQuestion()" class="hidden inline-flex items-center justify-center gap-1.5 h-9 px-5 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors cursor-pointer">Следующий вопрос</button>
+            </div>
+            <!-- Results state (hidden initially) -->
+            <div id="quiz-results" class="rounded-xl border border-[#EEE7DC] bg-white p-6 hidden text-center">
+              <div class="flex items-center justify-center h-16 w-16 rounded-full bg-[#FBF7F3] mx-auto mb-4">
+                <span id="quiz-score-icon" class="text-2xl font-bold"></span>
+              </div>
+              <h3 id="quiz-score-text" class="text-lg font-bold text-[#33373B] mb-2"></h3>
+              <p id="quiz-score-desc" class="body-text-sm mb-5"></p>
+              <button onclick="startQuiz()" class="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-5 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors cursor-pointer">Попробовать снова</button>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-[#EEE7DC]">
+
+        <!-- FAQ -->
+        <div>
+          <p class="section-label">FAQ</p>
+          <h2 class="section-title mb-8">Частые вопросы</h2>
+          <div id="faq-accordion" class="max-w-3xl space-y-3"></div>
+        </div>
+
+        <hr class="border-[#EEE7DC]">
+
+        <!-- Glossary -->
+        <div>
+          <p class="section-label">Глоссарий</p>
+          <h2 class="section-title mb-1.5">Термины AI-мира</h2>
+          <p class="page-subtitle mb-5">Основные понятия для уверенной работы с инструментами</p>
+          <div id="glossary-grid" class="grid gap-3 sm:grid-cols-2"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // ── Quiz state ──────────────────────────────────────────────────────────
+    let quizPool = [];
+    let quizCurrent = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function startQuiz() {
+      quizPool = shuffle(quizQuestions).slice(0, 5);
+      quizCurrent = 0;
+      quizScore = 0;
+      document.getElementById('quiz-start').classList.add('hidden');
+      document.getElementById('quiz-results').classList.add('hidden');
+      document.getElementById('quiz-question').classList.remove('hidden');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      quizAnswered = false;
+      const q = quizPool[quizCurrent];
+      document.getElementById('quiz-progress').textContent = `Вопрос ${quizCurrent + 1} из 5`;
+      document.getElementById('quiz-q-text').textContent = q.question;
+      document.getElementById('quiz-explanation').classList.add('hidden');
+      document.getElementById('quiz-next-btn').classList.add('hidden');
+
+      const optionsHtml = q.options.map((opt, idx) => `
+        <label id="quiz-opt-${idx}" onclick="selectAnswer(${idx})"
+               class="flex items-center gap-3 p-3.5 rounded-lg border border-[#EEE7DC] cursor-pointer transition-all duration-200 hover:border-[#ccc] hover:bg-[#FBF7F3] bg-white">
+          <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-[#ccc] transition-colors" id="quiz-radio-${idx}">
+            <span class="h-2.5 w-2.5 rounded-full scale-0 transition-transform" id="quiz-dot-${idx}"></span>
+          </span>
+          <span class="text-sm text-[#33373B] leading-snug">${opt}</span>
+        </label>
+      `).join('');
+      document.getElementById('quiz-options').innerHTML = optionsHtml;
+    }
+
+    function selectAnswer(idx) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      const q = quizPool[quizCurrent];
+      const isCorrect = idx === q.correctIndex;
+      if (isCorrect) quizScore++;
+
+      // Highlight selected
+      for (let i = 0; i < q.options.length; i++) {
+        const label = document.getElementById('quiz-opt-' + i);
+        const radio = document.getElementById('quiz-radio-' + i);
+        const dot = document.getElementById('quiz-dot-' + i);
+        label.classList.remove('hover:border-[#ccc]');
+        label.style.cursor = 'default';
+
+        if (i === q.correctIndex) {
+          label.classList.remove('border-[#EEE7DC]');
+          label.classList.add('border-[#22c55e]', 'bg-green-50');
+          radio.classList.remove('border-[#ccc]');
+          radio.classList.add('border-[#22c55e]');
+          dot.classList.add('bg-[#22c55e]', 'scale-100');
+          dot.classList.remove('scale-0');
+        } else if (i === idx && !isCorrect) {
+          label.classList.remove('border-[#EEE7DC]');
+          label.classList.add('border-[#ef4444]', 'bg-red-50');
+          radio.classList.remove('border-[#ccc]');
+          radio.classList.add('border-[#ef4444]');
+          dot.classList.add('bg-[#ef4444]', 'scale-100');
+          dot.classList.remove('scale-0');
+        }
+      }
+
+      // Show explanation
+      const expEl = document.getElementById('quiz-explanation');
+      expEl.classList.remove('hidden');
+      expEl.className = `rounded-lg p-4 mb-4 text-sm leading-relaxed ${isCorrect ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`;
+      expEl.textContent = (isCorrect ? 'Верно! ' : 'Неверно. ') + q.explanation;
+
+      // Show next button
+      const nextBtn = document.getElementById('quiz-next-btn');
+      nextBtn.classList.remove('hidden');
+      nextBtn.textContent = quizCurrent < 4 ? 'Следующий вопрос' : 'Показать результат';
+    }
+
+    function nextQuestion() {
+      quizCurrent++;
+      if (quizCurrent >= 5) {
+        showResults();
+      } else {
+        renderQuestion();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('quiz-question').classList.add('hidden');
+      const res = document.getElementById('quiz-results');
+      res.classList.remove('hidden');
+
+      document.getElementById('quiz-score-text').textContent = `Вы ответили правильно на ${quizScore} из 5`;
+      const scoreIcon = document.getElementById('quiz-score-icon');
+      const scoreDesc = document.getElementById('quiz-score-desc');
+
+      if (quizScore >= 4) {
+        scoreIcon.textContent = '🎯';
+        scoreDesc.textContent = 'Отличный результат! Вы хорошо разбираетесь в AI-инструментах.';
+      } else if (quizScore >= 2) {
+        scoreIcon.textContent = '💡';
+        scoreDesc.textContent = 'Неплохо! Изучите гайды выше, чтобы углубить знания.';
+      } else {
+        scoreIcon.textContent = '📚';
+        scoreDesc.textContent = 'Рекомендуем пройти гайды и попробовать ещё раз!';
+      }
+    }
+
+    // ── FAQ accordion ───────────────────────────────────────────────────────
+    function toggleFaq(idx) {
+      const items = document.querySelectorAll('[data-faq-item]');
+      items.forEach((item, i) => {
+        const body = item.querySelector('[data-faq-body]');
+        const button = item.querySelector('button');
+        const isOpen = item.classList.contains('faq-expanded');
+
+        if (i === idx && !isOpen) {
+          // Open this item
+          body.style.maxHeight = body.scrollHeight + 'px';
+          item.classList.add('faq-expanded');
+          if (button) button.setAttribute('aria-expanded', 'true');
+        } else {
+          // Close this item
+          body.style.maxHeight = '0px';
+          item.classList.remove('faq-expanded');
+          if (button) button.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    // ── DOMContentLoaded ────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('icon-grad-cap').innerHTML = icon('graduationCap', 'h-5 w-5 text-[#5c5f63]');
+
+      // Capabilities
+      document.getElementById('capabilities-grid').innerHTML = productCapabilities.map((cap, idx) => `
+        <div class="h-full rounded-xl border border-[#EEE7DC] overflow-hidden bg-white transition-shadow duration-300 hover:shadow-md animate-fade-in-up"
+             style="animation-delay:${idx * 80}ms;animation-fill-mode:both">
+          <div class="p-4">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="relative h-12 w-12 shrink-0 rounded-xl overflow-hidden bg-[#FBF7F3]">
+                <img src="${getProductLogo(cap.productId)}" alt="${cap.productName}" width="48" height="48" class="object-contain p-1.5">
+              </div>
+              <h3 class="text-lg font-bold text-[#33373B] truncate min-w-0">${cap.productName}</h3>
+            </div>
+            <ul class="space-y-0.5">
+              ${cap.items.map(item => `<li class="flex items-start gap-1.5 text-sm leading-snug text-[#5c5f63]"><span class="mt-px shrink-0">•</span><span class="line-clamp-2">${item}</span></li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `).join('');
+
+      // Guides
+      document.getElementById('guides-grid').innerHTML = guides.map(guide => {
+        const badge = guide.product ? `<span class="badge-text px-1.5 py-0 shrink-0 rounded ${getProductBadgeClass(guide.product)}" style="font-size:9px">${guide.product}</span>` : '';
+        return `
+          <a href="${guide.url}" target="_blank" rel="noopener noreferrer"
+             class="group flex items-start gap-3.5 rounded-xl border border-[#EEE7DC] bg-white p-4 transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 cursor-pointer">
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FBF7F3] text-[#5c5f63] group-hover:bg-[#EEE7DC] group-hover:text-[#33373B] transition-colors">
+              ${icon(guide.icon, 'h-4 w-4')}
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2 mb-0.5 min-w-0">
+                <h3 class="card-title leading-tight truncate">${guide.title}</h3>
+                ${badge}
+              </div>
+              <p class="text-xs text-[#5c5f63] leading-relaxed line-clamp-2">${guide.description}</p>
+              <div class="mt-2 flex items-center gap-2">
+                ${guide.readingMin != null ? `<span class="badge-text text-[#5c5f63]">~${guide.readingMin} мин</span>` : ''}
+                <span class="badge-text text-[#5c5f63] group-hover:text-[#FF0508] transition-colors flex items-center gap-1">
+                  Открыть ${icon('externalLink', 'h-3 w-3')}
+                </span>
+              </div>
+            </div>
+          </a>`;
+      }).join('');
+
+      // FAQ accordion
+      document.getElementById('faq-accordion').innerHTML = faqItems.map((item, idx) => `
+        <div data-faq-item class="faq-item">
+          <button onclick="toggleFaq(${idx})" aria-expanded="false" class="faq-question">
+            <span>${item.question}</span>
+            <span data-faq-chevron class="faq-chevron">${icon('chevronDown', 'h-4 w-4')}</span>
+          </button>
+          <div data-faq-body class="faq-body">
+            <div class="faq-answer">${item.answer}</div>
+          </div>
+        </div>
+      `).join('');
+
+      // Glossary
+      document.getElementById('glossary-grid').innerHTML = glossaryTerms.map(term => `
+        <div class="rounded-xl border border-[#EEE7DC] bg-white p-4 transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5">
+          <div class="flex items-center gap-2.5 mb-2 min-w-0">
+            <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#FBF7F3] text-[#5c5f63]">
+              ${icon(term.icon, 'h-3.5 w-3.5')}
+            </div>
+            <h3 class="text-sm font-bold text-[#33373B] truncate min-w-0">${term.term}</h3>
+          </div>
+          <p class="body-text-sm">${term.definition}</p>
+        </div>
+      `).join('');
+    });
+  </script>
+</body>
+</html>

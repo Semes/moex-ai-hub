@@ -1,0 +1,16 @@
+FROM nexus-dev.tech.moex.com/moex-docker-static-hosted/python:3.10
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+COPY backend/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir \
+    --index-url http://nexus-dev.tech.moex.com/repository/moex-pypi-static-hosted/simple \
+    --trusted-host nexus-dev.tech.moex.com \
+    -r /app/requirements.txt
+
+COPY backend /app
+
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${API_PORT:-8000}

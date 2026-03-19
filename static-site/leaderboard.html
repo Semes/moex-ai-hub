@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Лидерборд — MOEX AI Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="antialiased bg-white text-[#33373B]">
+  <div id="site-header"></div>
+
+  <main class="min-h-screen bg-white">
+    <!-- Header -->
+    <div class="border-b border-[#EEE7DC] bg-gradient-to-br from-[#FBF7F3] via-amber-50/30 to-white">
+      <div class="container-main py-10">
+        <div class="flex items-center gap-2.5 mb-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100" id="icon-trophy-header"></div>
+          <p class="section-label mb-0">Лидерборд</p>
+        </div>
+        <h1 class="page-title">Лучшие контрибьюторы</h1>
+        <p class="page-subtitle max-w-lg">Сотрудники, которые делают AI доступнее для всех. Делитесь промптами и скиллами — зарабатывайте mops и признание коллег.</p>
+      </div>
+    </div>
+
+    <div class="container-main py-10">
+      <div class="grid gap-10 lg:grid-cols-5">
+        <!-- Left: Leaderboard -->
+        <div class="lg:col-span-3 space-y-6">
+          <div id="top-three" class="grid gap-4 sm:grid-cols-3"></div>
+          <div id="rest-list"></div>
+        </div>
+
+        <!-- Right: Top prompts -->
+        <div class="lg:col-span-2 space-y-5">
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <div class="flex items-center gap-2">
+              <span id="icon-star-header"></span>
+              <h2 class="section-title">Популярные материалы</h2>
+            </div>
+            <a href="library.html" class="text-xs font-medium text-[#FF0508] hover:underline">В библиотеку</a>
+          </div>
+          <div id="top-prompts" class="rounded-xl border border-[#EEE7DC] overflow-hidden"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const rankConfig = {
+      1: { ring: 'ring-amber-400', bg: 'bg-gradient-to-br from-amber-50 to-orange-50', iconCls: 'text-amber-500' },
+      2: { ring: 'ring-slate-300', bg: 'bg-gradient-to-br from-slate-50 to-gray-50', iconCls: 'text-slate-400' },
+      3: { ring: 'ring-amber-600', bg: 'bg-gradient-to-br from-orange-50 to-amber-50', iconCls: 'text-amber-700' },
+    };
+
+    function getLikes(item) {
+      return LikesStore.getEffective(item.id, item.likes);
+    }
+
+    function renderLeaderboard() {
+      const users = buildLeaderboard(marketplaceItems, getLikes);
+      const topThree = users.filter(u => u.rank <= 3);
+      const rest = users.filter(u => u.rank > 3);
+
+      // Empty state
+      if (users.length === 0) {
+        document.getElementById('top-three').innerHTML = '';
+        document.getElementById('rest-list').innerHTML = `
+          <div class="text-center py-16">
+            <div class="mx-auto w-16 h-16 rounded-2xl bg-[#FBF7F3] flex items-center justify-center mb-4">
+              ${icon('trophy', 'h-7 w-7 text-amber-500')}
+            </div>
+            <h3 class="card-title mb-2">Лидерборд пока пуст</h3>
+            <p class="body-text-sm max-w-md mx-auto mb-6">Предложите свой промпт или скилл — и станьте первым в рейтинге!</p>
+            <a href="submit.html" class="inline-flex items-center gap-1.5 h-10 px-5 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors">
+              Предложить промпт
+            </a>
+          </div>`;
+      } else {
+        // Top 3
+        document.getElementById('top-three').innerHTML = topThree.map(user => {
+          const cfg = rankConfig[user.rank];
+          const rankIcon = user.rank === 1 ? icon('crown', 'h-3.5 w-3.5') : icon('medal', 'h-3.5 w-3.5');
+          return `
+            <div class="relative overflow-hidden rounded-xl border border-[#EEE7DC] transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 ${cfg.bg}">
+              <div class="p-5 text-center">
+                <div class="relative inline-block mb-3">
+                  <div class="h-16 w-16 rounded-full ring-2 ${cfg.ring} bg-white flex items-center justify-center mx-auto text-lg font-bold text-[#33373B]">${user.avatar}</div>
+                  <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-sm ${cfg.iconCls}">
+                    ${rankIcon}
+                  </div>
+                </div>
+                <p class="card-title truncate">${user.name}</p>
+                <p class="text-xs text-[#5c5f63] mb-3 truncate">${user.department}</p>
+                <div class="flex items-center justify-center gap-4 text-xs">
+                  <div>
+                    <p class="text-base font-bold text-[#33373B]">${user.promptsShared + user.skillsShared}</p>
+                    <p class="badge-text text-[#5c5f63]">${pluralize(user.promptsShared + user.skillsShared, 'публикация', 'публикации', 'публикаций').replace(/^\d+\s/, '')}</p>
+                  </div>
+                  <div class="w-px h-6 bg-[#EEE7DC]"></div>
+                  <div>
+                    <p class="text-base font-bold text-[#33373B]">${user.totalLikes}</p>
+                    <p class="badge-text text-[#5c5f63]">${pluralize(user.totalLikes, 'лайк', 'лайка', 'лайков').replace(/^\d+\s/, '')}</p>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+
+        // Rest
+        if (rest.length > 0) {
+          document.getElementById('rest-list').innerHTML = `
+            <div class="rounded-xl border border-[#EEE7DC] overflow-hidden divide-y divide-[#EEE7DC]">
+              ${rest.map(user => `
+                <div class="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-[#FBF7F3]/50">
+                  <span class="w-7 text-center text-sm font-bold text-[#5c5f63]">${user.rank}</span>
+                  <div class="h-10 w-10 rounded-full bg-[#FBF7F3] flex items-center justify-center text-xs font-bold text-[#5c5f63]">${user.avatar}</div>
+                  <div class="flex-1 min-w-0">
+                    <p class="card-title truncate">${user.name}</p>
+                    <p class="text-xs text-[#5c5f63] truncate">${user.department}</p>
+                  </div>
+                  <div class="flex items-center gap-5 text-sm text-[#5c5f63] shrink-0">
+                    <span class="flex items-center gap-1.5" title="Промпты">${icon('fileText', 'h-3.5 w-3.5')} ${user.promptsShared}</span>
+                    <span class="flex items-center gap-1.5" title="Скиллы">${icon('wrench', 'h-3.5 w-3.5')} ${user.skillsShared}</span>
+                    <span class="flex items-center gap-1.5 text-[#FF0508]" title="Лайки">${icon('heart', 'h-3.5 w-3.5')} ${user.totalLikes}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>`;
+        }
+      }
+
+      // Top prompts
+      const topPrompts = getTopItemsByLikes(marketplaceItems, 6, getLikes);
+      document.getElementById('top-prompts').innerHTML = `
+        <div class="divide-y divide-[#EEE7DC]">
+          ${topPrompts.map((item, i) => `
+            <div class="cursor-pointer flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-[#FBF7F3]/50" role="button" tabindex="0" onclick="openPromptDetail(marketplaceItems.find(x=>x.id==='${item.id}'))">
+              <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#FBF7F3] text-xs font-bold text-[#5c5f63]">${i + 1}</span>
+              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md overflow-hidden bg-[#FBF7F3]">
+                <img src="${getProductLogo(item.product)}" alt="${item.product}" width="22" height="22" class="object-contain">
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="card-title leading-snug truncate">${item.title}</p>
+                <div class="mt-0.5 flex items-center gap-2">
+                  <span class="badge-text px-1.5 py-0 rounded ${getProductBadgeClass(item.product)}">${item.product}</span>
+                  <span class="flex items-center gap-0.5 text-xs text-[#FF0508]">${icon('heart', 'h-3 w-3')} ${getLikes(item)}</span>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('icon-trophy-header').innerHTML = icon('trophy', 'h-5 w-5 text-amber-600');
+      document.getElementById('icon-star-header').innerHTML = icon('star', 'h-4 w-4 text-[#FF0508]/50');
+
+      LikesStore.onChange(renderLeaderboard);
+      renderLeaderboard();
+    });
+  </script>
+</body>
+</html>

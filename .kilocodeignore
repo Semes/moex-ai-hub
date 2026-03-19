@@ -1,0 +1,133 @@
+# ============================================================
+# .kilocodeignore -- MOEX AI Hub
+# Файлы и папки, скрытые от AI-агента Kilo Code
+# Синтаксис идентичен .gitignore
+# ============================================================
+
+# ========================
+# БЕЗОПАСНОСТЬ -- КРИТИЧНО
+# ========================
+# Секреты и credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+secrets/
+credentials/
+**/secret*
+**/credential*
+
+# SSH ключи
+.ssh/
+id_rsa*
+id_ed25519*
+
+# ========================
+# ЗАВИСИМОСТИ
+# ========================
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Node.js
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ========================
+# СБОРКА И АРТЕФАКТЫ
+# ========================
+*.min.js
+*.min.css
+*.map
+*.bundle.js
+coverage/
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Docker
+docker-compose.override.yml
+
+# ========================
+# ДАННЫЕ И ЛОГИ
+# ========================
+*.log
+*.sql.bak
+*.dump
+data/
+backups/
+logs/
+tmp/
+temp/
+
+# Базы данных
+*.db
+*.sqlite
+*.sqlite3
+
+# ========================
+# МЕДИА И БИНАРНЫЕ ФАЙЛЫ
+# ========================
+# Изображения (если не критичны для контекста)
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.svg
+# *.ico
+
+# Документы
+*.pdf
+*.docx
+*.xlsx
+*.pptx
+
+# Архивы
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ========================
+# IDE И ОС
+# ========================
+.idea/
+.vscode/settings.json
+.vscode/launch.json
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========================
+# БОЛЬШИЕ / СГЕНЕРИРОВАННЫЕ ФАЙЛЫ
+# ========================
+# HTML-файлы полного приложения (одностраничные сборки)
+moex-ai-hub-full-app.html
+moex-ai-hub-stakeholder-overview.html
+
+# Alembic versions (AI не должен трогать существующие миграции)
+# backend/alembic/versions/
+
+# ========================
+# ТЕСТОВЫЕ ДАННЫЕ
+# ========================
+tests/fixtures/large_*.json
+tests/fixtures/mock_data_*.csv

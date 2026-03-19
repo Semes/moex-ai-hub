@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOEX AI Hub — Единая платформа AI-инструментов</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;}
+    body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#fff;color:#33373B;line-height:1.5;-webkit-font-smoothing:antialiased;}
+    .container{max-width:1280px;margin:0 auto;padding:0 1rem;}
+    @media (min-width:640px){.container{padding:0 1.5rem;}}
+    a{color:inherit;text-decoration:none;}
+    button,cursor-pointer{cursor:pointer;}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:50;border-bottom:1px solid #EEE7DC;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;height:72px;}
+    .logo{font-size:1.125rem;font-weight:700;letter-spacing:-0.02em;}
+    .logo .red{color:#FF0508;}
+    .logo-sub{font-size:11px;font-weight:500;color:#5c5f63;}
+    nav{display:flex;align-items:center;gap:2px;}
+    .nav-link{padding:0.5rem 1rem;font-size:0.875rem;font-weight:500;color:#5c5f63;border-radius:0.5rem;}
+    .nav-link:hover{color:#33373B;background:#FBF7F3;}
+    .nav-link.active{color:#33373B;background:#EEE7DC;}
+    .btn{display:inline-flex;align-items:center;gap:0.375rem;padding:0.5rem 1rem;font-size:0.875rem;font-weight:600;border-radius:0.5rem;border:none;cursor:pointer;transition:all .2s;}
+    .btn-primary{background:#FF0508;color:#fff;}
+    .btn-primary:hover{background:#d90407;}
+    .btn-outline{background:transparent;border:1px solid #33373B;color:#33373B;}
+    .btn-outline:hover{background:#33373B;color:#fff;}
+    .btn-ghost{background:transparent;color:#5c5f63;}
+    .btn-ghost:hover{background:#FBF7F3;color:#33373B;}
+
+    /* Sections */
+    .screen{display:none;}
+    .screen.active{display:block;}
+    .section-label{font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#5c5f63;margin-bottom:0.5rem;}
+    .section-title{font-size:1.25rem;font-weight:700;color:#33373B;margin:0 0 0.5rem;}
+    .page-title{font-size:1.875rem;font-weight:700;letter-spacing:-0.02em;color:#33373B;}
+    .page-subtitle{font-size:0.875rem;color:#5c5f63;margin-top:0.25rem;}
+    .card-title{font-size:1rem;font-weight:600;color:#33373B;}
+    .body-text{font-size:0.875rem;color:#5c5f63;line-height:1.5;}
+
+    /* Hero */
+    .hero{background:linear-gradient(180deg,#fff 0%,#FBF7F3 50%,#F5F0EB 100%);border-bottom:1px solid #EEE7DC;padding:2.5rem 0 3rem;}
+    .hero h1{font-size:2.5rem;font-weight:700;letter-spacing:-0.02em;line-height:1.1;}
+    .hero .red{color:#FF0508;}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:28rem;margin-top:2rem;}
+    .hero-stat .val{font-size:1.75rem;font-weight:700;color:#33373B;}
+    .hero-stat .lbl{font-size:0.875rem;color:#5c5f63;}
+
+    /* Cards */
+    .card{background:#fff;border:1px solid #EEE7DC;border-radius:1rem;padding:1.25rem;transition:box-shadow .2s,border-color .2s;}
+    .card:hover{box-shadow:0 12px 28px rgba(0,0,0,.08);border-color:#E1BD95;}
+    .product-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:0.5rem;}
+    .product-dot.gpt{background:#FF0508;}
+    .product-dot.insight{background:#8b5cf6;}
+    .product-dot.code{background:#64748b;}
+    .badge{display:inline-flex;align-items:center;padding:0.2rem 0.5rem;font-size:11px;font-weight:500;border-radius:0.375rem;border:1px solid;}
+    .badge-gpt{background:#fef2f2;color:#b91c1c;border-color:#fecaca;}
+    .badge-insight{background:#f5f3ff;color:#6d28d9;border-color:#e9d5ff;}
+    .badge-code{background:#f1f5f9;color:#475569;border-color:#cbd5e1;}
+    .grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;}
+    .grid-4{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;}
+
+    /* Prompt card */
+    .prompt-card{background:#fff;border:1px solid #EEE7DC;border-radius:1rem;padding:1rem;cursor:pointer;transition:all .2s;}
+    .prompt-card:hover{box-shadow:0 12px 28px rgba(0,0,0,.1);transform:translateY(-2px);}
+    .prompt-card .tags-wrap{display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.5rem;}
+    .prompt-card .tag{font-size:11px;padding:0.2rem 0.5rem;background:#FBF7F3;color:#5c5f63;border-radius:0.25rem;}
+    .prompt-card .footer{border-top:1px solid #EEE7DC;margin-top:0.75rem;padding-top:0.75rem;display:flex;align-items:center;justify-content:space-between;}
+    .prompt-card .actions{display:flex;align-items:center;gap:2px;}
+    .prompt-card .actions button{width:32px;height:32px;border:none;background:transparent;border-radius:0.375rem;color:#5c5f63;cursor:pointer;}
+    .prompt-card .actions button:hover{background:#FBF7F3;color:#33373B;}
+    .prompt-card .actions .like{min-width:44px;}
+    .prompt-card .actions .like.liked{color:#FF0508;}
+
+    /* Modal */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;display:none;align-items:center;justify-content:center;padding:1rem;}
+    .overlay.open{display:flex;}
+    .modal{background:#fff;border-radius:1rem;max-width:560px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);}
+    .modal-header{padding:1.25rem 1.5rem;border-bottom:1px solid #EEE7DC;display:flex;justify-content:space-between;align-items:flex-start;}
+    .modal-header h2{font-size:1.125rem;font-weight:600;margin:0;}
+    .modal-close{width:32px;height:32px;border:none;background:transparent;border-radius:0.375rem;cursor:pointer;color:#5c5f63;}
+    .modal-close:hover{background:#FBF7F3;}
+    .modal-body{padding:1.5rem;}
+    .modal-body pre{white-space:pre-wrap;font-size:0.8rem;color:#33373B;background:#FBF7F3;padding:1rem;border-radius:0.5rem;overflow:auto;max-height:320px;}
+    .modal-copy{margin-top:1rem;}
+
+    /* Quiz */
+    .quiz-card{background:#fff;border:1px solid #EEE7DC;border-radius:1rem;padding:1.5rem;max-width:32rem;margin:0 auto;}
+    .quiz-progress{height:6px;background:#EEE7DC;border-radius:999px;overflow:hidden;margin-bottom:1rem;}
+    .quiz-progress-bar{height:100%;background:#FF0508;border-radius:999px;transition:width .3s;}
+    .quiz-option{width:100%;text-align:left;padding:0.875rem 1rem;border:1px solid #EEE7DC;border-radius:0.5rem;background:#fff;cursor:pointer;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.75rem;}
+    .quiz-option:hover{border-color:#E1BD95;background:#FBF7F3;}
+    .quiz-option.selected{border-color:#33373B;background:#FBF7F3;}
+    .quiz-option.correct{border-color:#10b981;background:#ecfdf5;}
+    .quiz-option.wrong{border-color:#ef4444;background:#fef2f2;}
+    .quiz-option .letter{width:24px;height:24px;border-radius:50%;border:1px solid #EEE7DC;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;flex-shrink:0;}
+    .quiz-explanation{margin-top:1rem;padding:1rem;background:#FBF7F3;border:1px solid #EEE7DC;border-radius:0.5rem;font-size:0.875rem;color:#5c5f63;}
+    .quiz-result-icon{width:56px;height:56px;border-radius:1rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.75rem;}
+    .quiz-result-icon.good{background:#ecfdf5;border:1px solid #a7f3d0;}
+    .quiz-result-icon.bad{background:#fef2f2;border:1px solid #fecaca;}
+
+    /* Library filters */
+    .filters{display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;margin-bottom:1.25rem;}
+    .filter-tabs{display:flex;gap:2px;}
+    .filter-tab{padding:0.35rem 0.75rem;font-size:0.75rem;border:1px solid #EEE7DC;background:#fff;border-radius:0.375rem;cursor:pointer;}
+    .filter-tab:hover{background:#FBF7F3;}
+    .filter-tab.active{background:#33373B;color:#fff;border-color:#33373B;}
+    .search-inp{height:36px;padding:0 0.75rem;border:1px solid #EEE7DC;border-radius:0.5rem;font-size:0.875rem;min-width:200px;}
+    .search-inp:focus{outline:none;border-color:#E1BD95;box-shadow:0 0 0 2px rgba(225,189,149,.3);}
+
+    /* Form */
+    .form-group{margin-bottom:1.25rem;}
+    .form-label{display:block;font-size:0.75rem;font-weight:600;color:#33373B;margin-bottom:0.35rem;}
+    .form-label .req{color:#FF0508;}
+    .form-input,.form-textarea{width:100%;padding:0.5rem 0.75rem;border:1px solid #EEE7DC;border-radius:0.5rem;font-size:0.875rem;}
+    .form-input:focus,.form-textarea:focus{outline:none;border-color:#E1BD95;}
+    .form-textarea{min-height:160px;resize:vertical;font-family:ui-monospace,monospace;}
+    .form-select{height:36px;padding:0 2rem 0 0.75rem;border:1px solid #EEE7DC;border-radius:0.5rem;font-size:0.875rem;background:#fff;cursor:pointer;min-width:180px;}
+    .form-tabs{display:flex;gap:2px;padding:2px;background:#FBF7F3;border:1px solid #EEE7DC;border-radius:0.5rem;}
+    .form-tab{flex:1;padding:0.5rem;font-size:0.75rem;border:none;background:transparent;border-radius:0.375rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.35rem;}
+    .form-tab.active{background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05);}
+
+    /* Leaderboard */
+    .lb-top3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+    .lb-user{text-align:center;padding:1.25rem;border-radius:1rem;background:linear-gradient(180deg,#fff 0%,#FBF7F3 100%);border:1px solid #EEE7DC;}
+    .lb-user .avatar{width:48px;height:48px;border-radius:50%;background:#EEE7DC;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto 0.5rem;}
+    .lb-row{display:flex;align-items:center;gap:1rem;padding:0.75rem 1rem;border-bottom:1px solid #EEE7DC;}
+    .lb-row:last-child{border-bottom:none;}
+    .lb-row:hover{background:#FBF7F3;}
+    .lb-row .rank{width:28px;text-align:center;font-weight:700;color:#5c5f63;}
+    .lb-row .name{flex:1;font-weight:600;}
+    .lb-row .dept{font-size:0.75rem;color:#5c5f63;}
+    .lb-row .nums{display:flex;gap:1rem;font-size:0.875rem;color:#5c5f63;}
+    .lb-row .nums .heart{color:#FF0508;}
+
+    /* Toast */
+    #toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#33373B;color:#fff;padding:0.5rem 1rem;border-radius:0.5rem;font-size:0.875rem;z-index:200;opacity:0;transition:opacity .2s;}
+    #toast.show{opacity:1;}
+    .py-10{padding-top:2.5rem;padding-bottom:2.5rem;}
+    .mb-6{margin-bottom:1.5rem;}
+    .mb-8{margin-bottom:2rem;}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="#home" class="logo" data-nav="home">MOEX <span class="red">AI</span> Hub<br><span class="logo-sub">Powered by ★ MOEX AI Team</span></a>
+      <nav>
+        <a href="#home" class="nav-link" data-nav="home">Главная</a>
+        <a href="#library" class="nav-link" data-nav="library">Библиотека</a>
+        <a href="#learn" class="nav-link" data-nav="learn">Обучение</a>
+        <a href="#leaderboard" class="nav-link" data-nav="leaderboard">Лидерборд</a>
+        <a href="#submit" class="btn btn-primary"><span>+</span> Предложить свой кейс</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="screen-home" class="screen active">
+      <div class="hero">
+        <div class="container">
+          <p class="section-label">Офис по развитию искусственного интеллекта</p>
+          <h1>MOEX <span class="red">AI</span> Hub</h1>
+          <p class="body-text" style="max-width:32rem;margin-top:0.5rem;">Единая платформа AI-инструментов. Промпты, скиллы и гайды для продуктивной работы.</p>
+          <div class="hero-stats">
+            <div class="hero-stat"><div class="val" id="stat-prompts">0</div><div class="lbl">Промптов в библиотеке</div></div>
+            <div class="hero-stat"><div class="val" id="stat-skills">0</div><div class="lbl">Скиллов</div></div>
+            <div class="hero-stat"><div class="val">2100+</div><div class="lbl">Сотрудников используют AI</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="container py-10">
+        <p class="section-label">AI-продукты</p>
+        <h2 class="section-title mb-6">AI-продукты Московской биржи</h2>
+        <div class="grid-3" id="home-products"></div>
+      </div>
+      <div class="container py-10" style="border-top:1px solid #EEE7DC;">
+        <p class="section-label">Библиотека</p>
+        <h2 class="section-title mb-6">Новые промпты и скиллы</h2>
+        <div class="grid-4" id="home-library"></div>
+      </div>
+      <div class="container py-10" style="border-top:1px solid #EEE7DC;">
+        <p class="section-label">Проверьте себя</p>
+        <h2 class="section-title mb-2">AI-тест</h2>
+        <p class="body-text mb-6" style="max-width:28rem;">5 вопросов на знание AI-терминов. Займёт пару минут.</p>
+        <div id="quiz-root"></div>
+      </div>
+      <div class="container py-10" style="border-top:1px solid #EEE7DC;background:linear-gradient(180deg,#FBF7F3 0%,#F5F0EB 100%);">
+        <p class="section-label">Сообщество</p>
+        <h2 class="section-title mb-6">Каналы в Express</h2>
+        <div class="grid-4" id="home-community"></div>
+      </div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section id="screen-library" class="screen">
+      <div style="border-bottom:1px solid #EEE7DC;background:linear-gradient(180deg,#FBF7F3,#fff);">
+        <div class="container py-10">
+          <p class="section-label">Библиотека</p>
+          <h1 class="page-title">Промпты и скиллы</h1>
+          <p class="page-subtitle" id="library-count">0 материалов</p>
+        </div>
+      </div>
+      <div class="container py-10">
+        <div class="filters">
+          <div class="filter-tabs" id="filter-tabs"></div>
+          <select class="form-select" id="filter-product">
+            <option value="all">Все продукты</option>
+            <option value="MOEX GPT">MOEX GPT</option>
+            <option value="MOEX Insight">MOEX Insight</option>
+            <option value="Code Agent">Code Agent</option>
+          </select>
+          <input type="text" class="search-inp" id="filter-search" placeholder="Поиск..." />
+        </div>
+        <div class="grid-4" id="library-grid"></div>
+      </div>
+    </section>
+
+    <!-- LEARN -->
+    <section id="screen-learn" class="screen">
+      <div style="border-bottom:1px solid #EEE7DC;background:linear-gradient(180deg,#FBF7F3,#fff);">
+        <div class="container py-10">
+          <p class="section-label">Обучение</p>
+          <h1 class="page-title">Гайды, глоссарий и тест</h1>
+          <p class="page-subtitle">Ресурсы для работы с AI-инструментами Биржи</p>
+        </div>
+      </div>
+      <div class="container py-10">
+        <div class="grid-3 mb-8" id="learn-guides"></div>
+        <p class="section-label">Проверьте себя</p>
+        <h2 class="section-title mb-6">AI-тест</h2>
+        <div id="learn-quiz-root"></div>
+      </div>
+    </section>
+
+    <!-- LEADERBOARD -->
+    <section id="screen-leaderboard" class="screen">
+      <div style="border-bottom:1px solid #EEE7DC;background:linear-gradient(180deg,#FBF7F3,#fff);">
+        <div class="container py-10">
+          <p class="section-label">Лидерборд</p>
+          <h1 class="page-title">Лучшие контрибьюторы</h1>
+          <p class="page-subtitle">Сотрудники, которые делают AI доступнее для всех</p>
+        </div>
+      </div>
+      <div class="container py-10">
+        <div class="lb-top3" id="lb-top3"></div>
+        <div class="card" id="lb-rest"></div>
+      </div>
+    </section>
+
+    <!-- SUBMIT -->
+    <section id="screen-submit" class="screen">
+      <div style="border-bottom:1px solid #EEE7DC;background:linear-gradient(180deg,#FBF7F3,#fff);">
+        <div class="container py-10">
+          <a href="#library" class="body-text" style="display:inline-flex;align-items:center;gap:0.35rem;margin-bottom:0.5rem;">← Назад в библиотеку</a>
+          <h1 class="page-title">Поделиться с сообществом</h1>
+          <p class="page-subtitle">Добавьте промпт или скилл</p>
+        </div>
+      </div>
+      <div class="container py-10" id="submit-form-wrap">
+        <div class="card" style="max-width:36rem;margin:0 auto;">
+          <div style="padding:1.5rem;">
+            <form id="submit-form">
+              <div class="form-group">
+                <span class="form-label">Тип материала</span>
+                <div class="form-tabs">
+                  <button type="button" class="form-tab active" data-type="prompt">Промпт</button>
+                  <button type="button" class="form-tab" data-type="skill">Скилл</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Название <span class="req">*</span></label>
+                <input type="text" class="form-input" id="submit-title" placeholder="Например: Суммаризация протокола" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Краткое описание</label>
+                <input type="text" class="form-input" id="submit-desc" placeholder="Одно предложение" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Текст промпта / код <span class="req">*</span></label>
+                <textarea class="form-textarea" id="submit-content" placeholder="Вставьте текст..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Продукт <span class="req">*</span></label>
+                <select class="form-select" id="submit-product" required>
+                  <option value="">Выберите продукт</option>
+                  <option value="MOEX GPT">MOEX GPT</option>
+                  <option value="MOEX Insight">MOEX Insight</option>
+                  <option value="Code Agent">Code Agent</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%;">
+                Отправить на модерацию
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div id="submit-success" style="display:none;text-align:center;padding:4rem 1rem;">
+        <div class="quiz-result-icon good">✓</div>
+        <h2 class="section-title">Материал отправлен</h2>
+        <p class="body-text">После модерации он станет доступен в библиотеке.</p>
+        <div style="margin-top:1.5rem;">
+          <a href="#library" class="btn btn-outline">В библиотеку</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-title"></h2>
+        <button type="button" class="modal-close" id="modal-close" aria-label="Закрыть">×</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-badges"></div>
+        <pre id="modal-content"></pre>
+        <button type="button" class="btn btn-primary modal-copy" id="modal-copy">Копировать</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast">Скопировано</div>
+
+  <script>
+(function() {
+  const PRODUCTS = [
+    { name: 'MOEX GPT', tagline: 'Корпоративный AI-чат', desc: 'Генерация текстов, ответы на вопросы, работа с документами.', dot: 'gpt', prompts: 45, skills: 8 },
+    { name: 'MOEX Insight', tagline: 'AI-ассистент рабочего стола', desc: 'Анализ экрана, Outlook, резюме встреч, OCR.', dot: 'insight', prompts: 22, skills: 0 },
+    { name: 'Code Agent', tagline: 'Программирование с помощью AI', desc: 'Вайбкодинг в VS Code, скиллы для тестов и рефакторинга.', dot: 'code', prompts: 38, skills: 24 }
+  ];
+  const CHANNELS = [
+    { title: 'MOEX AI', desc: 'Новости и обновления всех AI-продуктов' },
+    { title: 'MOEX GPT', desc: 'Обсуждение, кейсы, помощь с промптами' },
+    { title: 'MOEX Insight', desc: 'Вопросы по Insight, фичреквесты' },
+    { title: 'Code Agent', desc: 'Kilo Code, скиллы, автоматизация' }
+  ];
+  const GUIDES = [
+    { title: 'Установка Python + Node.js', desc: 'Настройка окружения' },
+    { title: 'Настройка Kilo Code в VS Code', desc: 'Подключение к локальным LLM' },
+    { title: 'Первые шаги в MOEX Insight', desc: 'От установки до первого анализа' },
+    { title: 'Как писать эффективные промпты', desc: 'Техники и шаблоны' },
+    { title: 'Безопасность при работе с AI', desc: 'Правила и лучшие практики' },
+    { title: 'API MOEX LLMs', desc: 'Получение API-ключа' }
+  ];
+  const QUIZ_QUESTIONS = [
+    { question: 'Что такое промпт?', options: ['Программа для компьютера', 'Текстовая инструкция для AI-модели', 'Тип файла', 'Название сервера'], correctIndex: 1, explanation: 'Промпт — это текстовая инструкция, которая задаёт AI-модели контекст, роль и формат ответа.' },
+    { question: 'Чем скилл отличается от промпта?', options: ['Скилл — это промпт на английском', 'Скилл всегда длиннее', 'Скилл включает код и автоматизацию', 'Ничем'], correctIndex: 2, explanation: 'Скилл — конфигурация или код. Промпт — только текст.' },
+    { question: 'Что такое вайбкодинг?', options: ['Программирование под музыку', 'Описание задачи словами, AI пишет код', 'Тестирование интерфейсов', 'Парное программирование'], correctIndex: 1, explanation: 'Вайбкодинг — вы описываете результат, AI генерирует код.' },
+    { question: 'Для чего нужен RAG?', options: ['Ускорение модели', 'Ответы на основе актуальных документов', 'Шифрование данных', 'Обучение моделей'], correctIndex: 1, explanation: 'RAG подтягивает данные в контекст для ответа.' },
+    { question: 'Что такое LLM?', options: ['Long Learning Machine', 'Large Language Model', 'Logical Learning Module', 'Low Latency Memory'], correctIndex: 1, explanation: 'LLM = Large Language Model.' }
+  ];
+
+  let ITEMS = [];
+  function getItems() {
+    if (ITEMS.length) return ITEMS;
+    const raw = [
+      { id: 'p1', title: 'Суммаризация протокола совещания', description: 'Роль + структурированный вывод. Решения, задачи, дедлайны.', content: '**Роль:** Ты — корпоративный секретарь.\n\n**Инструкция:** Проанализируй протокол: 1) Решения 2) Задачи с ответственными и сроками 3) Открытые вопросы. Выведи резюме и таблицы. Язык: русский.', tags: ['Текст','Совещания'], product: 'MOEX GPT', author: 'Алексей С.', likes: 0, type: 'prompt' },
+      { id: 'p2', title: 'Генератор SQL по описанию', description: 'Chain-of-thought: модель рассуждает перед выдачей SQL (PostgreSQL).', content: '**Роль:** Ты — senior DBA PostgreSQL. Действуй по шагам: 1) Переформулируй задачу 2) Определи JOIN и агрегации 3) Напиши SQL с комментариями.', tags: ['SQL','Аналитика'], product: 'MOEX GPT', author: 'Алексей С.', likes: 0, type: 'prompt' },
+      { id: 'p3', title: 'Деловое письмо за 30 секунд', description: 'Роль + шаблон. Приветствие, суть, призыв к действию.', content: '**Роль:** Опытный специалист по коммуникациям. Структура: обращение, контекст, ключевые пункты, call-to-action, подпись. До 200 слов.', tags: ['Email','Текст'], product: 'MOEX GPT', author: 'Алексей С.', likes: 0, type: 'prompt' },
+      { id: 'p4', title: 'Анализ рисков по документу', description: 'Выявляет и классифицирует риски из документов.', content: 'Проанализируй документ. Для каждого риска: Категория | Описание | Вероятность | Влияние | Митигация. Категории: Операционный/Финансовый/Технологический.', tags: ['Риски','Аналитика'], product: 'MOEX GPT', author: 'Алексей С.', likes: 0, type: 'prompt' },
+      { id: 'p5', title: 'Перевод с сохранением форматирования', description: 'Переводит документ, сохраняя структуру и таблицы.', content: 'Ты — переводчик финансовой документации. Переведи с {язык} на {язык}. Сохраняй заголовки, списки, таблицы. Формат: Markdown.', tags: ['Перевод','Документы'], product: 'MOEX GPT', author: 'Алексей С.', likes: 0, type: 'prompt' },
+      { id: 'p12', title: 'Анализ графика котировок', description: 'Анализирует скриншот с графиком — тренды, уровни.', content: 'Ты — технический аналитик. По скриншоту графика: инструмент, тренд, уровни поддержки/сопротивления, паттерны. Без финансовых рекомендаций.', tags: ['Скриншот','Аналитика'], product: 'MOEX Insight', author: 'Алексей С.', likes: 0, type: 'prompt' },
+      { id: 'p13', title: 'Резюме совещания от AI-агента', description: 'Шаблон для AI-агента на встрече: транскрипция и резюме.', content: 'После совещания: дата, участники, темы, решения, таблица задач (задача | ответственный | срок), следующие шаги. Markdown.', tags: ['Совещания','Outlook'], product: 'MOEX Insight', author: 'Алексей С.', likes: 0, type: 'prompt' },
+      { id: 'p14', title: 'Написание email по скриншоту переписки', description: 'Анализирует скриншот переписки и помогает с ответом.', content: 'По скриншоту переписки: контекст, ожидания, 2 варианта ответа (формальный и нейтральный). Вежливо и конструктивно.', tags: ['Email','Скриншот'], product: 'MOEX Insight', author: 'Алексей С.', likes: 0, type: 'prompt' },
+      { id: 'p16', title: 'Code Review: Python', description: 'Ревью Python-кода: качество и безопасность.', content: 'Проведи code review: PEP 8, баги, edge cases, безопасность, тесты. Выдай список замечаний с приоритетом.', tags: ['Код','Python'], product: 'Code Agent', author: 'Алексей С.', likes: 0, type: 'prompt' },
+      { id: 's1', title: 'Document Chunker для LLM', description: 'Разбивает длинный документ на чанки с перекрытием.', content: 'Конфигурация скилла: chunk_size=512, overlap=64, split_by="paragraph". Используется в RAG-пайплайне.', tags: ['RAG','Документы'], product: 'Code Agent', author: 'Мария К.', likes: 0, type: 'skill' }
+    ];
+    ITEMS = raw;
+    return ITEMS;
+  }
+
+  let state = {
+    screen: 'home',
+    libraryTab: 'all',
+    libraryProduct: 'all',
+    librarySearch: '',
+    likes: {},
+    selectedItem: null,
+    quiz: { started: false, index: 0, selected: null, answered: false, score: 0, finished: false, seed: 1 },
+    submitType: 'prompt',
+    submitDone: false
+  };
+
+  function getLikes(id, defaultLikes) {
+    return state.likes[id] !== undefined ? state.likes[id] : defaultLikes;
+  }
+  function setLike(id, delta) {
+    const base = getLikes(id, ITEMS.find(i => i.id === id)?.likes ?? 0);
+    state.likes[id] = base + delta;
+  }
+  function toggleLike(id) {
+    const cur = getLikes(id, ITEMS.find(i => i.id === id)?.likes ?? 0);
+    const key = 'liked_' + id;
+    if (state[key]) {
+      state[key] = false;
+      setLike(id, -1);
+    } else {
+      state[key] = true;
+      setLike(id, 1);
+    }
+    render();
+  }
+  function isLiked(id) {
+    return state['liked_' + id] === true;
+  }
+
+  function filterItems() {
+    const items = getItems();
+    let list = items.filter(i => {
+      if (state.libraryTab !== 'all' && i.type !== state.libraryTab) return false;
+      if (state.libraryProduct !== 'all' && i.product !== state.libraryProduct) return false;
+      const q = state.librarySearch.trim().toLowerCase();
+      if (!q) return true;
+      return i.title.toLowerCase().includes(q) || i.description.toLowerCase().includes(q) || (i.tags && i.tags.some(t => t.toLowerCase().includes(q)));
+    });
+    return list;
+  }
+
+  function buildLeaderboard() {
+    const items = getItems();
+    const byAuthor = {};
+    items.forEach(i => {
+      const n = i.author;
+      if (!byAuthor[n]) byAuthor[n] = { name: n, prompts: 0, skills: 0, likes: 0 };
+      if (i.type === 'prompt') byAuthor[n].prompts++; else byAuthor[n].skills++;
+      byAuthor[n].likes += getLikes(i.id, i.likes);
+    });
+    return Object.values(byAuthor).sort((a, b) => b.likes - a.likes).map((u, i) => ({ ...u, rank: i + 1 }));
+  }
+
+  function showScreen(screen) {
+    state.screen = screen;
+    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+    const el = document.getElementById('screen-' + screen);
+    if (el) el.classList.add('active');
+    const nav = document.querySelector('.nav-link[data-nav="' + screen + '"]');
+    if (nav) nav.classList.add('active');
+    if (screen === 'submit' && state.submitDone) {
+      document.getElementById('submit-form-wrap').style.display = 'none';
+      document.getElementById('submit-success').style.display = 'block';
+    } else if (screen === 'submit') {
+      document.getElementById('submit-form-wrap').style.display = 'block';
+      document.getElementById('submit-success').style.display = 'none';
+    }
+    render();
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg || 'Скопировано';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  function openDetail(item) {
+    state.selectedItem = item;
+    document.getElementById('modal-title').textContent = item.title;
+    document.getElementById('modal-content').textContent = item.content;
+    const badges = document.getElementById('modal-badges');
+    const badgeClass = item.product === 'MOEX GPT' ? 'badge-gpt' : item.product === 'MOEX Insight' ? 'badge-insight' : 'badge-code';
+    badges.innerHTML = '<span class="badge ' + badgeClass + '">' + item.product + '</span> <span class="badge badge-code">' + (item.type === 'prompt' ? 'Промпт' : 'Скилл') + '</span>';
+    document.getElementById('modal-overlay').classList.add('open');
+  }
+  function closeModal() {
+    state.selectedItem = null;
+    document.getElementById('modal-overlay').classList.remove('open');
+  }
+  document.getElementById('modal-close').onclick = closeModal;
+  document.getElementById('modal-overlay').onclick = function(e) { if (e.target === this) closeModal(); };
+  document.getElementById('modal-copy').onclick = function() {
+    if (state.selectedItem) {
+      navigator.clipboard.writeText(state.selectedItem.content).then(showToast);
+    }
+  };
+
+  function copyItem(item) {
+    navigator.clipboard.writeText(item.content).then(showToast);
+  }
+
+  function renderProducts(containerId) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = PRODUCTS.map(p => {
+      const badge = 'badge-' + p.dot;
+      return '<div class="card"><span class="product-dot ' + p.dot + '"></span><h3 class="card-title">' + p.name + '</h3><p class="body-text">' + p.desc + '</p><p style="margin-top:0.5rem;"><span class="badge ' + badge + '">' + p.prompts + ' промптов</span> ' + (p.skills ? '<span class="badge ' + badge + '">' + p.skills + ' скиллов</span>' : '') + '</p></div>';
+    }).join('');
+  }
+
+  function renderPromptCard(item, showActions) {
+    const style = item.product === 'MOEX GPT' ? 'gpt' : item.product === 'MOEX Insight' ? 'insight' : 'code';
+    const badgeClass = 'badge-' + style;
+    const likes = getLikes(item.id, item.likes);
+    const liked = isLiked(item.id);
+    const tags = (item.tags || []).slice(0, 3).map(t => '<span class="tag">' + t + '</span>').join('');
+    const actions = showActions !== false ? '<div class="footer"><span class="body-text" style="font-size:0.75rem">' + item.author + '</span><div class="actions"><button type="button" title="Копировать" data-copy="' + item.id + '">⎘</button><button type="button" title="Подробнее" data-detail="' + item.id + '">👁</button><button type="button" class="like ' + (liked ? 'liked' : '') + '" data-like="' + item.id + '" title="Нравится">♥ ' + likes + '</button></div></div>' : '';
+    return '<div class="prompt-card" data-detail="' + item.id + '"><div><span class="product-dot ' + style + '"></span><span class="badge ' + badgeClass + '">' + item.product + '</span> <span class="badge badge-code">' + (item.type === 'prompt' ? 'Промпт' : 'Скилл') + '</span></div><h3 class="card-title" style="margin-top:0.5rem">' + item.title + '</h3><p class="body-text" style="margin-top:0.25rem">' + item.description + '</p><div class="tags-wrap">' + tags + '</div>' + actions + '</div>';
+  }
+
+  function bindCardActions(parent) {
+    if (!parent) return;
+    parent.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.onclick = function(e) { e.stopPropagation(); const id = this.getAttribute('data-copy'); const item = getItems().find(i => i.id === id); if (item) copyItem(item); };
+    });
+    parent.querySelectorAll('[data-like]').forEach(btn => {
+      btn.onclick = function(e) { e.stopPropagation(); toggleLike(this.getAttribute('data-like')); };
+    });
+    parent.querySelectorAll('[data-detail], .prompt-card').forEach(card => {
+      const id = card.getAttribute('data-detail') || card.closest('.prompt-card')?.getAttribute('data-detail');
+      if (id) {
+        card.onclick = function(e) { if (!e.target.closest('button')) { const item = getItems().find(i => i.id === id); if (item) openDetail(item); } };
+      }
+    });
+  }
+
+  function renderHome() {
+    const items = getItems();
+    const prompts = items.filter(i => i.type === 'prompt').length;
+    const skills = items.filter(i => i.type === 'skill').length;
+    document.getElementById('stat-prompts').textContent = prompts + '+';
+    document.getElementById('stat-skills').textContent = skills + '+';
+    renderProducts('home-products');
+    const newest = [...items].sort((a,b) => (b.createdAt || b.id).localeCompare(a.createdAt || a.id)).slice(0, 8);
+    const libEl = document.getElementById('home-library');
+    libEl.innerHTML = newest.map(i => renderPromptCard(i)).join('');
+    bindCardActions(libEl);
+    document.getElementById('home-community').innerHTML = CHANNELS.map(c => '<div class="card"><h3 class="card-title">' + c.title + '</h3><p class="body-text">' + c.desc + '</p></div>').join('');
+    renderQuiz('quiz-root');
+  }
+
+  function renderLibrary() {
+    const list = filterItems();
+    document.getElementById('library-count').textContent = list.length + ' материалов';
+    const tabsEl = document.getElementById('filter-tabs');
+    const tabs = [{ v: 'all', l: 'Все' }, { v: 'prompt', l: 'Промпты' }, { v: 'skill', l: 'Скиллы' }];
+    tabsEl.innerHTML = tabs.map(t => '<button type="button" class="filter-tab ' + (state.libraryTab === t.v ? 'active' : '') + '" data-tab="' + t.v + '">' + t.l + '</button>').join('');
+    tabsEl.querySelectorAll('.filter-tab').forEach(btn => {
+      btn.onclick = function() { state.libraryTab = this.getAttribute('data-tab'); document.getElementById('filter-product').value = state.libraryProduct; document.getElementById('filter-search').value = state.librarySearch; render(); };
+    });
+    document.getElementById('filter-product').value = state.libraryProduct;
+    document.getElementById('filter-product').onchange = function() { state.libraryProduct = this.value; render(); };
+    document.getElementById('filter-search').value = state.librarySearch;
+    document.getElementById('filter-search').oninput = function() { state.librarySearch = this.value; render(); };
+    const grid = document.getElementById('library-grid');
+    grid.innerHTML = list.map(i => renderPromptCard(i)).join('');
+    bindCardActions(grid);
+  }
+
+  function renderLearn() {
+    document.getElementById('learn-guides').innerHTML = GUIDES.map(g => '<div class="card"><h3 class="card-title">' + g.title + '</h3><p class="body-text">' + g.desc + '</p></div>').join('');
+    renderQuiz('learn-quiz-root');
+  }
+
+  function renderLeaderboard() {
+    const lb = buildLeaderboard();
+    const top3 = lb.filter(u => u.rank <= 3);
+    const rest = lb.filter(u => u.rank > 3);
+    const getInitials = (name) => name.split(/\s+/).slice(0,2).map(s => (s||'')[0]).join('').toUpperCase() || '??';
+    document.getElementById('lb-top3').innerHTML = top3.map(u => '<div class="lb-user"><div class="avatar">' + getInitials(u.name) + '</div><div class="card-title">' + u.name + '</div><div class="body-text">Библиотека</div><div style="margin-top:0.5rem"><strong>' + (u.prompts + u.skills) + '</strong> публикаций · <strong class="heart">' + u.likes + '</strong> лайков</div></div>').join('');
+    document.getElementById('lb-rest').innerHTML = rest.length ? rest.map(u => '<div class="lb-row"><span class="rank">' + u.rank + '</span><div><div class="name">' + u.name + '</div><div class="dept">Библиотека</div></div><div class="nums">' + u.prompts + ' промптов · ' + u.skills + ' скиллов · <span class="heart">' + u.likes + ' ♥</span></div></div>').join('') : '<div style="padding:1rem;color:#5c5f63">Нет данных</div>';
+  }
+
+  function renderQuiz(containerId) {
+    const root = document.getElementById(containerId);
+    if (!root) return;
+    const q = state.quiz;
+    const questions = QUIZ_QUESTIONS.slice();
+    for (let i = questions.length - 1; i > 0; i--) {
+      const j = Math.floor((q.seed * (i + 1)) % (i + 1));
+      [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+    const take = questions.slice(0, 5);
+
+    if (!q.started) {
+      root.innerHTML = '<div class="quiz-card"><div style="text-align:center"><div class="quiz-result-icon good" style="background:#fef3c7;border-color:#fcd34d">⚡</div><p class="body-text mb-6">5 вопросов · ~2 минуты</p><button type="button" class="btn btn-primary" id="quiz-start">Начать тест</button></div></div>';
+      root.querySelector('#quiz-start').onclick = function() { state.quiz.started = true; state.quiz.index = 0; state.quiz.selected = null; state.quiz.answered = false; state.quiz.score = 0; state.quiz.finished = false; state.quiz.seed = Date.now() % 1e6; render(); };
+      return;
+    }
+    if (q.finished) {
+      const score = q.score;
+      const total = take.length;
+      const pct = Math.round((score / total) * 100);
+      const msg = pct === 100 ? 'Идеально!' : pct >= 60 ? 'Хороший результат!' : 'Есть над чем поработать.';
+      root.innerHTML = '<div class="quiz-card"><div style="text-align:center"><div class="quiz-result-icon ' + (pct >= 60 ? 'good' : 'bad') + '">' + (pct >= 60 ? '✓' : '✗') + '</div><h3 class="section-title">' + score + ' из ' + total + '</h3><p class="body-text">' + msg + '</p><button type="button" class="btn btn-outline" id="quiz-restart">Попробовать ещё раз</button></div></div>';
+      root.querySelector('#quiz-restart').onclick = function() { state.quiz.started = false; render(); };
+      return;
+    }
+
+    const cur = take[q.index];
+    const progress = ((q.index + (q.answered ? 1 : 0)) / take.length) * 100;
+    let optionsHtml = cur.options.map((opt, i) => {
+      let cls = 'quiz-option';
+      if (q.answered) {
+        if (i === cur.correctIndex) cls += ' correct';
+        else if (i === q.selected) cls += ' wrong';
+      } else if (i === q.selected) cls += ' selected';
+      const letter = String.fromCharCode(65 + i);
+      return '<button type="button" class="' + cls + '" data-option="' + i + '">' +
+        '<span class="letter">' + (q.answered && i === cur.correctIndex ? '✓' : q.answered && i === q.selected && i !== cur.correctIndex ? '✗' : letter) + '</span>' +
+        '<span>' + opt + '</span></button>';
+    }).join('');
+    root.innerHTML = '<div class="quiz-card"><div style="display:flex;justify-content:space-between;margin-bottom:0.5rem"><span class="section-label">Вопрос ' + (q.index + 1) + ' / ' + take.length + '</span><span class="section-label">Счёт: ' + q.score + '</span></div><div class="quiz-progress"><div class="quiz-progress-bar" style="width:' + progress + '%"></div></div><h3 class="card-title">' + cur.question + '</h3><div class="quiz-options">' + optionsHtml + '</div>' + (q.answered ? '<div class="quiz-explanation">' + cur.explanation + '</div><button type="button" class="btn btn-primary" style="width:100%;margin-top:1rem" id="quiz-next">' + (q.index < take.length - 1 ? 'Следующий вопрос' : 'Результаты') + '</button>' : '') + '</div>';
+    root.querySelectorAll('.quiz-option').forEach(btn => {
+      btn.onclick = function() {
+        if (q.answered) return;
+        state.quiz.selected = parseInt(this.getAttribute('data-option'), 10);
+        state.quiz.answered = true;
+        if (state.quiz.selected === cur.correctIndex) state.quiz.score++;
+        render();
+      };
+    });
+    const nextBtn = root.querySelector('#quiz-next');
+    if (nextBtn) nextBtn.onclick = function() {
+      if (q.index < take.length - 1) { state.quiz.index++; state.quiz.selected = null; state.quiz.answered = false; }
+      else state.quiz.finished = true;
+      render();
+    };
+  }
+
+  function render() {
+    getItems();
+    if (state.screen === 'home') renderHome();
+    else if (state.screen === 'library') renderLibrary();
+    else if (state.screen === 'learn') renderLearn();
+    else if (state.screen === 'leaderboard') renderLeaderboard();
+  }
+
+  document.getElementById('submit-form').onsubmit = function(e) {
+    e.preventDefault();
+    state.submitDone = true;
+    document.getElementById('submit-form-wrap').style.display = 'none';
+    document.getElementById('submit-success').style.display = 'block';
+    showToast('Отправлено на модерацию');
+  };
+  document.querySelectorAll('.form-tab').forEach(btn => {
+    btn.onclick = function() {
+      document.querySelectorAll('.form-tab').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      state.submitType = this.getAttribute('data-type');
+    };
+  });
+
+  window.addEventListener('hashchange', function() {
+    const screen = (location.hash || '#home').slice(1) || 'home';
+    showScreen(screen);
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const h = this.getAttribute('href');
+      if (h && h !== '#') { location.hash = h.slice(1); showScreen(h.slice(1) || 'home'); e.preventDefault(); }
+    });
+  });
+
+  const initialScreen = (location.hash || '#home').slice(1) || 'home';
+  showScreen(initialScreen);
+})();
+  </script>
+</body>
+</html>

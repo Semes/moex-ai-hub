@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Библиотека — MOEX AI Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="antialiased bg-white text-[#33373B]">
+  <div id="site-header"></div>
+
+  <main class="min-h-screen bg-white">
+    <!-- Header -->
+    <div class="border-b border-[#EEE7DC] bg-gradient-to-br from-[#FBF7F3] to-white">
+      <div class="container-main py-10">
+        <p class="section-label">Библиотека</p>
+        <h1 class="page-title">Промпты и скиллы</h1>
+        <p class="page-subtitle" id="lib-total"></p>
+      </div>
+    </div>
+
+    <!-- Intro: Prompt vs Skill -->
+    <section class="border-b border-[#EEE7DC] py-8 bg-[#FDFBF9]">
+      <div class="container-main">
+        <p class="section-label">Основы</p>
+        <h2 class="section-title mb-2">Промпт, скилл и MCP — что это?</h2>
+        <p class="body-text-sm mb-6 max-w-2xl">
+          Три формата, которые помогут работать эффективнее. Проверить знания можно в разделе
+          <a href="learn.html" class="text-[#FF0508] font-medium hover:underline">Обучение</a> — пройдите тест и заработайте mops.
+        </p>
+        <div class="grid gap-5 sm:grid-cols-3 max-w-5xl">
+          <div class="rounded-xl border border-[#EEE7DC] bg-white p-5 flex gap-4 transition-all duration-300 hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-[#FF0508]" id="icon-prompt-intro"></div>
+            <div>
+              <h3 class="card-title mb-1">Промпт</h3>
+              <p class="body-text-sm">Текстовая инструкция для AI — описываете задачу, контекст и формат ответа.</p>
+            </div>
+          </div>
+          <div class="rounded-xl border border-[#EEE7DC] bg-white p-5 flex gap-4 transition-all duration-300 hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700" id="icon-skill-intro"></div>
+            <div>
+              <h3 class="card-title mb-1">Скилл</h3>
+              <p class="body-text-sm">Custom Mode или Rules-файл для Code Agent — расширяет возможности AI-ассистента.</p>
+            </div>
+          </div>
+          <div class="rounded-xl border border-[#EEE7DC] bg-white p-5 flex gap-4 transition-all duration-300 hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600" id="icon-mcp-intro"></div>
+            <div>
+              <h3 class="card-title mb-1">MCP-сервер</h3>
+              <p class="body-text-sm">Конфигурация для подключения внешних инструментов (Jira, Git, БД) к Code Agent.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters & Content -->
+    <div class="container-main py-8">
+      <!-- Tabs + Search + Sort -->
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
+        <div class="flex bg-[#FBF7F3] border border-[#EEE7DC] rounded-lg p-0.5 h-9">
+          <button onclick="setTab('all')" data-tab="all" class="tab-btn px-3 text-xs rounded-md transition-all duration-200">Все (<span id="count-all"></span>)</button>
+          <button onclick="setTab('prompt')" data-tab="prompt" class="tab-btn px-3 text-xs rounded-md transition-all duration-200">Промпты (<span id="count-prompt"></span>)</button>
+          <button onclick="setTab('skill')" data-tab="skill" class="tab-btn px-3 text-xs rounded-md transition-all duration-200">Скиллы (<span id="count-skill"></span>)</button>
+          <button onclick="setTab('mcp')" data-tab="mcp" class="tab-btn px-3 text-xs rounded-md transition-all duration-200">MCP (<span id="count-mcp"></span>)</button>
+        </div>
+        <div class="flex items-center gap-2">
+          <select id="sort-select" onchange="activeSort=this.value;renderLibrary()"
+            class="h-8 px-2.5 pr-7 text-xs bg-white border border-[#EEE7DC] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E1BD95] text-[#33373B] cursor-pointer appearance-none"
+            style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%235c5f63%22 stroke-width=%222%22><path d=%22m6 9 6 6 6-6%22/></svg>');background-repeat:no-repeat;background-position:right 0.5rem center;">
+            <option value="date-desc">Сначала новые</option>
+            <option value="date-asc">Сначала старые</option>
+            <option value="likes-desc">По популярности</option>
+            <option value="alpha-asc">По алфавиту</option>
+          </select>
+          <div class="relative">
+            <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#5c5f63]" id="icon-search-input"></span>
+            <input type="text" id="search-input" placeholder="Поиск..."
+              class="h-8 w-full sm:w-56 pl-8 pr-3 text-xs bg-white border border-[#EEE7DC] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E1BD95] placeholder:text-[#5c5f63]">
+          </div>
+        </div>
+      </div>
+
+      <!-- Active tag filter indicator -->
+      <div id="tag-filter-bar" class="mb-4 hidden">
+        <div class="inline-flex items-center gap-2 rounded-lg bg-[#33373B] text-white px-3 py-1.5 text-xs font-medium">
+          <span>Тег: <span id="tag-filter-label"></span></span>
+          <button onclick="clearTagFilter()" class="ml-1 hover:text-[#FE938E] transition-colors" title="Сбросить фильтр">&times;</button>
+        </div>
+      </div>
+
+      <!-- Product filters -->
+      <div class="flex items-center gap-2 mb-6 overflow-x-auto pb-1">
+        <span id="icon-sliders" class="shrink-0"></span>
+        <div class="flex gap-1.5 shrink-0" id="product-filters"></div>
+      </div>
+
+      <!-- Cards grid -->
+      <div id="library-grid" class="tab-content-animate"></div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    let activeTab = 'all';
+    let activeProduct = 'all';
+    let searchQuery = '';
+    let activeSort = 'date-desc';
+    let activeTagFilter = '';
+
+    const PRODUCT_FILTERS = [
+      { label: 'Все', value: 'all', dot: 'bg-[#33373B]' },
+      ...products.map(p => ({ label: p.name, value: p.name, dot: getProductDotClass(p.name) }))
+    ];
+
+    function setTab(tab) {
+      activeTab = tab;
+      renderLibrary();
+    }
+
+    function setProduct(product) {
+      activeProduct = product;
+      renderLibrary();
+    }
+
+    function filterByTag(tag) {
+      activeTagFilter = tag;
+      searchQuery = tag;
+      document.getElementById('search-input').value = tag;
+      renderLibrary();
+    }
+
+    function clearTagFilter() {
+      activeTagFilter = '';
+      searchQuery = '';
+      document.getElementById('search-input').value = '';
+      renderLibrary();
+    }
+
+    function sortItems(items, sortKey) {
+      const sorted = [...items];
+      switch (sortKey) {
+        case 'date-desc':
+          return sorted.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+        case 'date-asc':
+          return sorted.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+        case 'likes-desc':
+          return sorted.sort((a, b) => LikesStore.getEffective(b.id, b.likes) - LikesStore.getEffective(a.id, a.likes));
+        case 'alpha-asc':
+          return sorted.sort((a, b) => a.title.localeCompare(b.title, 'ru'));
+        default:
+          return sorted;
+      }
+    }
+
+    function renderLibrary() {
+      let filtered = filterMarketplaceItems(marketplaceItems, {
+        activeTab,
+        product: activeProduct,
+        search: searchQuery,
+      });
+
+      // Apply sorting
+      filtered = sortItems(filtered, activeSort);
+
+      // Update tag filter bar visibility
+      const tagBar = document.getElementById('tag-filter-bar');
+      if (activeTagFilter) {
+        tagBar.classList.remove('hidden');
+        document.getElementById('tag-filter-label').textContent = activeTagFilter;
+      } else {
+        tagBar.classList.add('hidden');
+      }
+
+      // Update tab styles
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        const isActive = btn.dataset.tab === activeTab;
+        btn.className = `tab-btn px-3 text-xs rounded-md transition-all duration-200 ${isActive ? 'bg-white shadow-sm font-medium text-[#33373B]' : 'text-[#5c5f63] hover:text-[#33373B]'}`;
+      });
+
+      // Update product filter styles — only show products that have items for the current tab
+      const relevantProducts = PRODUCT_FILTERS.filter(f => {
+        if (f.value === 'all') return true;
+        return marketplaceItems.some(item => {
+          const matchesProduct = item.product === f.value;
+          const matchesTab = activeTab === 'all' || item.type === activeTab;
+          return matchesProduct && matchesTab;
+        });
+      });
+      // Reset product filter if current selection has no items for this tab
+      if (activeProduct !== 'all' && !relevantProducts.some(f => f.value === activeProduct)) {
+        activeProduct = 'all';
+      }
+      document.getElementById('product-filters').innerHTML = relevantProducts.map(f => {
+        const isActive = activeProduct === f.value;
+        return `<button onclick="setProduct('${f.value}')"
+          class="cursor-pointer inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 badge-text transition-colors duration-200 ${isActive ? 'bg-[#33373B] text-white' : 'bg-[#FBF7F3] text-[#5c5f63] hover:bg-[#EEE7DC] hover:text-[#33373B]'}">
+          <div class="h-1.5 w-1.5 rounded-full ${isActive ? 'bg-white' : f.dot}"></div>
+          ${f.label}
+        </button>`;
+      }).join('');
+
+      // Render cards or empty state
+      const grid = document.getElementById('library-grid');
+      if (filtered.length > 0) {
+        grid.innerHTML = `<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${filtered.map(item => renderPromptCard(item)).join('')}</div>`;
+      } else {
+        grid.innerHTML = `
+          <div class="flex flex-col items-center justify-center rounded-lg border border-dashed border-[#EEE7DC] py-20">
+            ${icon('packageOpen', 'h-10 w-10 text-[#5c5f63]')}
+            <h3 class="mt-4 card-title">Ничего не найдено</h3>
+            <p class="mt-1 text-xs text-[#5c5f63]">Попробуйте изменить фильтры или поделитесь своим промптом</p>
+            <div class="mt-4">
+              <a href="submit.html" class="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors">
+                ${icon('plus', 'h-3 w-3')} Поделиться
+              </a>
+            </div>
+          </div>`;
+      }
+    }
+
+    function renderPromptCard(item) {
+      const liked = LikesStore.isLiked(item.id);
+      const likes = LikesStore.getEffective(item.id, item.likes);
+      const tags = getDisplayTags(item);
+
+      return `
+        <div class="group flex flex-col cursor-pointer rounded-2xl border border-[#EEE7DC] bg-white transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:scale-[1.02] hover:-translate-y-0.5 shadow-[0_4px_6px_rgba(0,0,0,0.05)]"
+             onclick="openPromptDetail(marketplaceItems.find(i=>i.id==='${item.id}'))" role="button" tabindex="0">
+          <div class="p-5 pb-2 space-y-2.5">
+            <div class="flex items-center gap-2">
+              <div class="h-1.5 w-1.5 rounded-full shrink-0 ${getProductDotClass(item.product)}"></div>
+              <span class="badge-text px-2 py-0.5 rounded-md ${getProductBadgeClass(item.product)}">${item.product}</span>
+              <span class="badge-text border px-2 py-0.5 rounded-md border-[#EEE7DC] text-[#5c5f63]">${item.type === 'prompt' ? 'Промпт' : item.type === 'mcp' ? 'MCP' : 'Скилл'}</span>
+            </div>
+            <h3 class="card-title leading-snug line-clamp-2 group-hover:text-[#FF0508] transition-colors duration-200">${item.title}</h3>
+            <p class="body-text-sm line-clamp-2">${item.description}</p>
+          </div>
+          <div class="px-5 pb-5 mt-auto flex flex-col gap-3 pt-0">
+            <div class="flex flex-wrap gap-1.5 overflow-hidden max-h-[2rem]">
+              ${tags.map(t => `<span onclick="event.stopPropagation();filterByTag('${t.replace(/'/g, "\\'")}')" class="inline-flex items-center rounded-md px-2 py-0.5 badge-text cursor-pointer transition-colors duration-200 hover:bg-[#33373B] hover:text-white ${activeTagFilter === t ? 'bg-[#33373B] text-white' : 'bg-[#FBF7F3] text-[#5c5f63]'}">${t}</span>`).join('')}
+            </div>
+            <div class="flex items-center justify-between border-t border-[#EEE7DC] pt-3" data-card-actions>
+              <span class="text-xs text-[#5c5f63] truncate mr-2 min-w-0">${item.author}</span>
+              <div class="flex items-center gap-1 shrink-0">
+                <button onclick="event.stopPropagation();copyToClipboard(marketplaceItems.find(i=>i.id==='${item.id}').content)" class="p-2 rounded-lg text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" title="Копировать">
+                  ${icon('copy', 'h-4 w-4')}
+                </button>
+                <button onclick="event.stopPropagation();LikesStore.toggle('${item.id}');renderLibrary()"
+                  class="flex items-center gap-1.5 px-2 py-1 rounded-lg text-sm font-medium transition-colors ${liked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}" title="Мне нравится">
+                  ${icon('heart', 'h-5 w-5')} ${likes}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('icon-prompt-intro').innerHTML = icon('messageSquare', 'h-5 w-5');
+      document.getElementById('icon-skill-intro').innerHTML = icon('wrench', 'h-5 w-5');
+      document.getElementById('icon-mcp-intro').innerHTML = icon('cable', 'h-5 w-5');
+      document.getElementById('icon-search-input').innerHTML = icon('search', 'h-3.5 w-3.5');
+      document.getElementById('icon-sliders').innerHTML = icon('slidersHorizontal', 'h-3 w-3 text-[#5c5f63]');
+
+      const promptCount = marketplaceItems.filter(i => i.type === 'prompt').length;
+      const skillCount = marketplaceItems.filter(i => i.type === 'skill').length;
+      const mcpCount = marketplaceItems.filter(i => i.type === 'mcp').length;
+      document.getElementById('lib-total').textContent = pluralize(marketplaceItems.length, 'материал', 'материала', 'материалов') + ' от коллег';
+      document.getElementById('count-all').textContent = marketplaceItems.length;
+      document.getElementById('count-prompt').textContent = promptCount;
+      document.getElementById('count-skill').textContent = skillCount;
+      document.getElementById('count-mcp').textContent = mcpCount;
+
+      document.getElementById('search-input').addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        // If user manually edits the search input, clear the tag filter state
+        if (activeTagFilter && e.target.value !== activeTagFilter) {
+          activeTagFilter = '';
+        }
+        renderLibrary();
+      });
+
+      renderLibrary();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+{
+  "mcpServers": {
+
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/workspace/moex-ai-hub",
+        "/workspace/docs",
+        "/workspace/configs"
+      ],
+      "env": {},
+      "alwaysAllow": [
+        "read_file",
+        "read_multiple_files",
+        "list_directory",
+        "search_files",
+        "get_file_info",
+        "list_allowed_directories"
+      ],
+      "disabled": false
+    },
+
+    "git": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-git",
+        "--repository",
+        "/workspace/moex-ai-hub"
+      ],
+      "env": {},
+      "alwaysAllow": [
+        "git_status",
+        "git_log",
+        "git_diff",
+        "git_diff_staged",
+        "git_show",
+        "git_list_branches"
+      ],
+      "disabled": false
+    },
+
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://moex_reader:${DB_PASSWORD}@localhost:5432/moex_ai_hub"
+      ],
+      "env": {
+        "DB_PASSWORD": ""
+      },
+      "alwaysAllow": [
+        "query"
+      ],
+      "disabled": true
+    },
+
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "env": {
+        "MEMORY_FILE_PATH": "/workspace/moex-ai-hub/.kilocode/memory.jsonl"
+      },
+      "alwaysAllow": [
+        "create_entities",
+        "create_relations",
+        "add_observations",
+        "read_graph",
+        "search_nodes",
+        "open_nodes"
+      ],
+      "disabled": false
+    },
+
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "env": {},
+      "alwaysAllow": [
+        "sequentialthinking"
+      ],
+      "disabled": false
+    },
+
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "env": {},
+      "alwaysAllow": [],
+      "disabled": true
+    },
+
+    "sqlite": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "/workspace/moex-ai-hub/data/local.db"
+      ],
+      "env": {},
+      "alwaysAllow": [
+        "read_query",
+        "list_tables",
+        "describe_table"
+      ],
+      "disabled": true
+    }
+  }
+}

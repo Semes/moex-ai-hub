@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOEX AI Hub — Обзор проекта для стейкхолдеров</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --bg-page: #0F1115;
+      --bg-card: #16181D;
+      --border: rgba(255,255,255,0.1);
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --accent: #FF0508;
+      --violet: #8b5cf6;
+      --slate: #64748b;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-page);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page { min-height: 100vh; padding: 2rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+    .brand { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+    .brand-block { width: 48px; height: 48px; background: var(--accent); border-radius: 12px; }
+    .brand-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+    .brand-text .accent { color: var(--accent); }
+    .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .section-title { font-size: 1.75rem; font-weight: 600; color: #fff; margin: 0 0 1rem; }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+    }
+    .card h3 { font-size: 1.125rem; font-weight: 600; color: #fff; margin: 0 0 0.5rem; }
+    .card p { font-size: 0.875rem; color: var(--text-muted); margin: 0; }
+    .bento { display: grid; gap: 1rem; }
+    .bento-2 { grid-template-columns: repeat(2, 1fr); }
+    .bento-3 { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 768px) {
+      .bento-2, .bento-3 { grid-template-columns: 1fr; }
+    }
+    .stat-big { font-size: 3rem; font-weight: 700; line-height: 1; color: #fff; }
+    .stat-label { font-size: 0.875rem; color: var(--text-muted); margin-top: 0.25rem; }
+    .pill { display: inline-block; background: rgba(255,255,255,0.05); color: #d1d5db; padding: 0.35rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.05); margin-right: 0.5rem; margin-bottom: 0.5rem; }
+    .product-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 0.5rem; }
+    .product-dot.gpt { background: var(--accent); }
+    .product-dot.insight { background: var(--violet); }
+    .product-dot.code { background: var(--slate); }
+    .divider { height: 1px; background: var(--border); margin: 2.5rem 0; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+    .footer-note { font-size: 0.75rem; color: #6b7280; margin-top: 2rem; }
+    /* TOC */
+    .toc-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 1.5rem; padding: 1.25rem 1.5rem; margin-bottom: 2rem; }
+    .toc-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .toc { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.35rem; }
+    .toc a { color: var(--text-muted); text-decoration: none; font-size: 0.875rem; }
+    .toc a:hover { color: #fff; }
+    /* Project structure */
+    .structure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 768px) { .structure-grid { grid-template-columns: 1fr; } }
+    .structure-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 1rem; padding: 1rem; }
+    .structure-card h4 { font-size: 0.8rem; font-weight: 600; color: #fff; margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .structure-card ul { margin: 0; padding-left: 1.25rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
+    .structure-card code { font-size: 0.75rem; background: rgba(255,255,255,0.06); padding: 0.1rem 0.35rem; border-radius: 4px; }
+    /* Anchor targets */
+    [id] { scroll-margin-top: 1rem; }
+    /* Print */
+    @media print {
+      body { background: #fff; color: #111; }
+      .page { max-width: none; }
+      .card, .toc-wrap, .structure-card { background: #f5f5f5; border-color: #ddd; }
+      .section-title, .card h3 { color: #111; }
+      .stat-big { color: #111; }
+      .brand-block { background: var(--accent); }
+      .brand-text .accent { color: var(--accent); }
+      .section-label, .toc-title { color: #555; }
+      .card p, .stat-label, .footer-note { color: #555; }
+      .toc a { color: #333; }
+      .divider { background: #ddd; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="brand">
+      <div class="brand-block"></div>
+      <span class="brand-text">MOEX <span class="accent">AI</span> Hub</span>
+    </div>
+
+    <p class="section-label">Обзор проекта</p>
+    <h1 class="section-title" style="font-size: 2.25rem; margin-bottom: 0.5rem;">Единая платформа AI-инструментов Московской биржи</h1>
+    <p style="color: var(--text-muted); max-width: 36rem; margin-bottom: 2rem;">
+      Промпты, скиллы и гайды для продуктивной работы. Внутренний маркетплейс AI-решений для сотрудников.
+    </p>
+
+    <nav class="toc-wrap" aria-label="Содержание">
+      <p class="toc-title">Содержание</p>
+      <ol class="toc">
+        <li><a href="#stats">Ключевые метрики</a></li>
+        <li><a href="#goal">Цель проекта</a></li>
+        <li><a href="#products">AI-продукты</a></li>
+        <li><a href="#sections">Разделы платформы</a></li>
+        <li><a href="#tech">Технологии</a></li>
+        <li><a href="#structure">Структура проекта</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ol>
+    </nav>
+
+    <div class="divider"></div>
+
+    <section id="stats">
+      <p class="section-label">Ключевые метрики</p>
+      <h2 class="section-title">Масштаб платформы</h2>
+      <div class="bento bento-3" style="margin-bottom: 2rem;">
+        <div class="card">
+          <p class="section-label">Промпты</p>
+          <p class="stat-big">105+</p>
+          <p class="stat-label">в библиотеке</p>
+        </div>
+        <div class="card">
+          <p class="section-label">Скиллы</p>
+          <p class="stat-big">32+</p>
+          <p class="stat-label">опубликовано</p>
+        </div>
+        <div class="card">
+          <p class="section-label">Сотрудников</p>
+          <p class="stat-big">2100+</p>
+          <p class="stat-label">используют AI</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="goal">
+      <p class="section-label">Цель</p>
+      <h2 class="section-title">Зачем нужен MOEX AI Hub</h2>
+      <div class="two-col" style="margin-bottom: 1rem;">
+        <div class="card">
+          <h3>Проблема</h3>
+          <p>AI выбран стратегическим направлением. Сотрудникам нужен единый доступ к промптам, скиллам и инструкциям без разрозненных источников.</p>
+        </div>
+        <div class="card">
+          <h3>Решение</h3>
+          <p>Внутренняя платформа: библиотека промптов и скиллов, обучение, лидерборд и возможность делиться своими материалами.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="products">
+      <p class="section-label">AI-продукты</p>
+      <h2 class="section-title">Интеграция с продуктами Московской биржи</h2>
+      <div class="bento bento-3">
+        <div class="card">
+          <span class="product-dot gpt"></span><h3>MOEX GPT</h3>
+          <p>Корпоративный AI-чат. Письма, отчёты, суммаризация, перевод. Библиотека готовых промптов.</p>
+          <p style="margin-top: 0.75rem;"><span class="pill">45 промптов</span><span class="pill">8 скиллов</span></p>
+        </div>
+        <div class="card">
+          <span class="product-dot insight"></span><h3>MOEX Insight</h3>
+          <p>AI-ассистент рабочего стола: анализ экрана, Outlook, резюме встреч, OCR.</p>
+          <p style="margin-top: 0.75rem;"><span class="pill">22 промпта</span></p>
+        </div>
+        <div class="card">
+          <span class="product-dot code"></span><h3>Code Agent</h3>
+          <p>Вайбкодинг в VS Code, скиллы для тестов, рефакторинга, работы с БД и Jira.</p>
+          <p style="margin-top: 0.75rem;"><span class="pill">38 промптов</span><span class="pill">24 скилла</span></p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="sections">
+      <p class="section-label">Разделы платформы</p>
+      <h2 class="section-title">Ключевые возможности</h2>
+      <div class="bento bento-2">
+        <div class="card">
+          <h3>Библиотека</h3>
+          <p>Промпты и скиллы с фильтрами по продукту (MOEX GPT, MOEX Insight, Code Agent), поиск, копирование в один клик.</p>
+        </div>
+        <div class="card">
+          <h3>Обучение</h3>
+          <p>Гайды по установке и настройке, AI-тест на знание терминов, начисление mops за прохождение.</p>
+        </div>
+        <div class="card">
+          <h3>Лидерборд</h3>
+          <p>Рейтинг активных пользователей по mops — геймификация и вовлечённость.</p>
+        </div>
+        <div class="card">
+          <h3>Подать материал</h3>
+          <p>Сотрудники могут предложить свой промпт или скилл в общую библиотеку.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="tech">
+      <p class="section-label">Технологии</p>
+      <h2 class="section-title">Стек и доставка</h2>
+      <div class="card" style="margin-bottom: 1rem;">
+        <p><strong>Frontend:</strong> Next.js 14+ (App Router), TypeScript, Tailwind CSS, Shadcn/UI, Lucide. Интерфейс на русском языке.</p>
+      </div>
+      <div class="card">
+        <p><strong>Backend:</strong> FastAPI, PostgreSQL, Alembic. API для авторизации, квизов, пользователей. Готовность к деплою (Docker).</p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="structure">
+      <p class="section-label">Структура проекта</p>
+      <h2 class="section-title">Как устроено приложение</h2>
+      <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">
+        Полноценное веб-приложение с фронтендом и бэкендом, готовое к развёртыванию.
+      </p>
+      <div class="structure-grid">
+        <div class="structure-card">
+          <h4>Маршруты (Frontend)</h4>
+          <ul>
+            <li><code>/</code> — главная (hero, продукты, новые материалы, квиз)</li>
+            <li><code>/library</code> — библиотека промптов и скиллов</li>
+            <li><code>/learn</code> — обучение, гайды, глоссарий, AI-тест</li>
+            <li><code>/leaderboard</code> — рейтинг по mops</li>
+            <li><code>/submit</code> — подать свой материал</li>
+          </ul>
+        </div>
+        <div class="structure-card">
+          <h4>Backend API</h4>
+          <ul>
+            <li><code>/api/auth</code> — авторизация</li>
+            <li><code>/api/users</code> — пользователи</li>
+            <li><code>/api/quiz</code> — квизы и ответы</li>
+            <li>PostgreSQL + Alembic (миграции)</li>
+            <li>Docker / docker-compose для деплоя</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="contacts">
+      <p class="section-label">Контакты</p>
+      <h2 class="section-title">Офис по развитию искусственного интеллекта</h2>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">
+        Вопросы по платформе и продуктам — через внутренние каналы Express и ответственных по направлению AI.
+      </p>
+    </section>
+
+    <p class="footer-note">
+      Документ подготовлен для стейкхолдеров. Актуальные метрики и даты уточняйте у команды проекта. MOEX AI Hub — внутренняя платформа Московской биржи.
+    </p>
+  </main>
+</body>
+</html>

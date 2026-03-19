@@ -1,0 +1,37 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    env_file:
+      - .env
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    depends_on:
+      - db
+    restart: always
+
+  frontend:
+    build:
+      context: ./static-site
+      dockerfile: Dockerfile.prod
+    ports:
+      - "${FRONTEND_PORT}:80"
+    depends_on:
+      - api
+    restart: always
+
+  db:
+    image: nexus-dev.tech.moex.com/moex-docker-static-hosted/postgres:16
+    environment:
+      POSTGRES_DB: moex_ai_hub
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:

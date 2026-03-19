@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOEX AI Hub — Офис по развитию ИИ</title>
+  <meta name="description" content="Единая платформа AI-инструментов, промптов и скиллов для сотрудников.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="antialiased bg-white text-[#33373B]">
+  <div id="site-header"></div>
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden border-b border-[#EEE7DC]">
+      <div class="absolute inset-0 bg-gradient-to-br from-white via-[#FBF7F3] to-[#F5F0EB]"></div>
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 animate-shimmer" style="background-image:url(/hero-bg.png)" aria-hidden="true"></div>
+      <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#FF0508]/[0.05] rounded-full blur-[120px] -translate-y-1/3 translate-x-1/4"></div>
+      <div class="absolute bottom-0 left-1/3 w-[400px] h-[400px] bg-violet-500/[0.03] rounded-full blur-[100px] translate-y-1/3"></div>
+
+      <div class="relative mx-auto max-w-7xl px-4 sm:px-6 pt-12 pb-14 md:pt-20 md:pb-20">
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center gap-2 rounded-full border border-[#EEE7DC] bg-white/80 backdrop-blur-sm px-3.5 py-1.5 mb-6 shadow-sm">
+            <span id="icon-zap-hero"></span>
+            <span class="text-xs font-medium text-[#5c5f63]">Офис по развитию искусственного интеллекта</span>
+          </div>
+          <h1 class="text-5xl font-bold tracking-tight text-[#33373B] sm:text-6xl leading-[1.1]">
+            MOEX<span class="text-[#FF0508]"> AI</span> Hub
+          </h1>
+          <p class="mt-5 text-lg leading-relaxed text-[#5c5f63] max-w-xl">
+            Единая платформа AI-инструментов. Промпты, скиллы и гайды для продуктивной работы.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a href="library.html" class="inline-flex items-center gap-2 h-11 px-5 rounded-lg bg-[#FF0508] text-sm font-semibold text-white hover:bg-[#d90407] shadow-sm transition-colors">
+              Библиотека промптов <span id="icon-arrow-hero"></span>
+            </a>
+            <a href="learn.html" class="inline-flex items-center h-11 px-5 rounded-lg border border-[#33373B]/20 text-sm font-semibold text-[#33373B] hover:bg-[#33373B] hover:text-white transition-colors">
+              Начать работу
+            </a>
+            <a href="learn.html" class="inline-flex items-center h-11 px-5 rounded-lg text-sm font-medium text-[#5c5f63] hover:text-[#33373B] hover:bg-[#EEE7DC]/50 transition-colors">
+              Я новичок, с чего начать?
+            </a>
+          </div>
+        </div>
+        <div id="hero-stats" class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl"></div>
+      </div>
+    </section>
+
+    <!-- News Banner -->
+    <section id="news-banner"></section>
+
+    <!-- Intro -->
+    <section class="py-14 border-b border-[#EEE7DC] bg-[#FDFBF9]">
+      <div class="container-main">
+        <p class="section-label">Первый раз здесь?</p>
+        <p class="body-text max-w-2xl mb-6">
+          Искусственный интеллект в Московской бирже активно развивается и стал одним из стратегических направлений компании.
+          Поэтому каждому сотруднику важно уметь пользоваться тем, что есть у нас — промптами, скиллами и AI-инструментами.
+        </p>
+        <a href="learn.html" class="inline-flex items-center gap-1.5 text-sm font-medium text-[#FF0508] hover:underline mt-4">Узнать, с чего начать <span id="icon-arrow-intro"></span></a>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section class="py-14 bg-gradient-to-b from-[#FBF7F3] to-[#F5F0EB] border-b border-[#EEE7DC]">
+      <div class="container-main">
+        <p class="section-label">AI-продукты</p>
+        <h2 class="section-title mb-10">
+          AI‑продукты Московской биржи
+        </h2>
+        <div id="products-grid" class="grid gap-6 md:grid-cols-2 lg:grid-cols-4 md:items-stretch"></div>
+      </div>
+    </section>
+
+    <!-- Latest Library -->
+    <section class="py-14 border-t border-[#EEE7DC] bg-[#FBF7F3]">
+      <div class="container-main">
+        <div class="flex flex-wrap items-end justify-between gap-2 mb-10">
+          <div>
+            <p class="section-label">Библиотека</p>
+            <h2 class="section-title">Новые промпты и скиллы</h2>
+          </div>
+          <a href="library.html" class="text-sm font-medium text-[#5c5f63] hover:text-[#33373B] inline-flex items-center gap-1.5 shrink-0">
+            Все материалы <span id="icon-arrow-library"></span>
+          </a>
+        </div>
+        <div id="latest-items" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"></div>
+      </div>
+    </section>
+
+    <!-- Community -->
+    <section class="py-14 bg-gradient-to-b from-[#FBF7F3] to-[#F5F0EB] border-t border-[#EEE7DC]">
+      <div class="container-main">
+        <p class="section-label">Сообщество</p>
+        <h2 class="section-title mb-1.5">Каналы в Express</h2>
+        <p class="page-subtitle mb-8">Присоединяйтесь к обсуждению, задавайте вопросы и делитесь опытом</p>
+        <div id="community-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Hero icons
+      document.getElementById('icon-zap-hero').innerHTML = icon('zap', 'h-3.5 w-3.5 text-[#FF0508]');
+      document.getElementById('icon-arrow-hero').innerHTML = icon('arrowRight', 'h-4 w-4');
+      document.getElementById('icon-arrow-library').innerHTML = icon('arrowRight', 'h-3.5 w-3.5');
+      document.getElementById('icon-arrow-intro').innerHTML = icon('arrowRight', 'h-3.5 w-3.5');
+
+      // Stats
+      const totalPrompts = marketplaceItems.filter(i => i.type === 'prompt').length;
+      const totalSkills = marketplaceItems.filter(i => i.type === 'skill').length;
+      const totalMcp = marketplaceItems.filter(i => i.type === 'mcp').length;
+      const stats = [
+        { value: totalPrompts + '+', desc: pluralize(totalPrompts, 'промпт', 'промпта', 'промптов').replace(/^\d+\s/, '') + ' в библиотеке' },
+        { value: totalSkills + '+', desc: pluralize(totalSkills, 'скилл', 'скилла', 'скиллов').replace(/^\d+\s/, '') + ' опубликовано' },
+        { value: STATS_EMPLOYEES, desc: 'сотрудников используют AI' },
+      ];
+      document.getElementById('hero-stats').innerHTML = stats.map((s, i) => `
+        <div class="animate-fade-in-up" style="animation-delay:${300 + i * 80}ms;animation-fill-mode:both">
+          <p class="text-3xl font-bold text-[#33373B]">${s.value}</p>
+          <p class="body-text-sm mt-0.5">${s.desc}</p>
+        </div>
+      `).join('');
+
+      // News
+      const currentNews = news[0];
+      if (currentNews) {
+        document.getElementById('news-banner').innerHTML = `
+          <div class="border-b border-[#2B2B2B]" style="background:#1F1F1F">
+            <div class="container-main py-3">
+              <a href="${currentNews.url}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group">
+                <div class="flex items-center gap-2 shrink-0">
+                  ${icon('megaphone', 'h-5 w-5 text-[#FF0508]')}
+                  <span class="badge-text font-bold px-2.5 py-1 rounded-sm" style="background:#FF0508;color:#fff">${currentNews.tag}</span>
+                </div>
+                <div class="marquee flex-1 text-sm" style="color:rgba(255,255,255,0.92)">
+                  <div class="marquee-track">
+                    <span class="marquee-item">${currentNews.summary}</span>
+                    <span class="marquee-item" aria-hidden="true">${currentNews.summary}</span>
+                  </div>
+                </div>
+                <span class="text-xs transition-colors hidden sm:inline-flex items-center gap-1" style="color:rgba(255,255,255,0.7)">
+                  Подробнее ${icon('arrowRight', 'h-3.5 w-3.5 inline-block group-hover:translate-x-0.5 transition-transform')}
+                </span>
+              </a>
+            </div>
+          </div>`;
+      }
+
+      // Products
+      const buttonIcons = { externalLink: 'externalLink', download: 'download', bookOpen: 'bookOpen', video: 'video' };
+      document.getElementById('products-grid').innerHTML = products.map((p, i) => `
+        <div class="group flex flex-col overflow-hidden rounded-xl border bg-white transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 ${p.borderClass} animate-fade-in-up"
+             style="animation-delay:${i * 100}ms;animation-fill-mode:both">
+          <div class="p-6 flex flex-col flex-1 min-h-0">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="relative h-14 w-14 shrink-0 rounded-xl overflow-hidden bg-[#FBF7F3]">
+                <img src="${p.logo}" alt="${p.name}" width="56" height="56" class="object-contain p-1.5">
+              </div>
+              <div class="min-w-0 flex-1">
+                <h3 class="card-title leading-tight">${p.name}</h3>
+                <p class="text-xs text-[#5c5f63] mt-0.5 leading-snug">${p.tagline}</p>
+              </div>
+            </div>
+            <p class="body-text-sm mb-4 line-clamp-3 min-h-[3.75rem]">${p.description}</p>
+            <ul class="space-y-1.5 mb-4 flex-1">
+              ${p.features.slice(0, 3).map(f => `<li class="flex items-start gap-2 body-text-sm">${icon('chevronRight', 'h-3.5 w-3.5 mt-0.5 shrink-0 text-[#5c5f63]')}<span class="leading-snug">${f}</span></li>`).join('')}
+            </ul>
+            <div class="flex flex-wrap gap-1.5 mb-4 min-h-[2.5rem] content-start">
+              ${p.useCases.map(uc => `<span class="badge-text px-2 py-0.5 rounded-md bg-[#FBF7F3] text-[#5c5f63] shrink-0">${uc}</span>`).join('')}
+            </div>
+            <div class="mt-auto pt-3 border-t border-[#EEE7DC] flex flex-col gap-2">
+              <div class="w-full flex items-center justify-center h-9 rounded-lg text-xs font-semibold tracking-wide ${p.bgClass} ${p.textClass}">${(() => {
+                const pCount = marketplaceItems.filter(i => i.product === p.name && i.type === 'prompt').length;
+                const sCount = marketplaceItems.filter(i => i.product === p.name && i.type === 'skill').length;
+                const mCount = marketplaceItems.filter(i => i.product === p.name && i.type === 'mcp').length;
+                let text = pluralize(pCount, 'промпт', 'промпта', 'промптов');
+                if (sCount > 0) text += '  ·  ' + pluralize(sCount, 'скилл', 'скилла', 'скиллов');
+                if (mCount > 0) text += '  ·  ' + pluralize(mCount, 'MCP', 'MCP', 'MCP');
+                return text;
+              })()}</div>
+              <a href="${p.url}" target="_blank" rel="noopener noreferrer"
+                 class="inline-flex items-center justify-center gap-1.5 w-full h-10 px-4 text-sm font-medium border rounded-lg transition-colors ${p.borderClass} hover:bg-[#33373B] hover:text-white hover:border-[#33373B]">
+                ${icon(buttonIcons[p.buttonIcon] || 'externalLink', 'h-3.5 w-3.5')} ${p.buttonLabel}
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Latest library items
+      const newest = getNewestItems(marketplaceItems, NEWEST_ITEMS_LIMIT);
+      document.getElementById('latest-items').innerHTML = newest.map(item => renderPromptCard(item)).join('');
+
+      // Community
+      document.getElementById('community-grid').innerHTML = communityChannels.map(ch => {
+        const logo = getProductLogo(ch.product);
+        return `
+          <a href="${ch.url}" target="_blank" rel="noopener noreferrer"
+             class="group flex items-center gap-3 rounded-xl border border-[#EEE7DC] bg-white p-4 transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg overflow-hidden bg-[#FBF7F3]">
+              <img src="${logo}" alt="${ch.title}" width="32" height="32" class="object-contain">
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="card-title leading-tight truncate">${ch.title}</p>
+              <p class="mt-0.5 text-xs text-[#5c5f63] leading-snug line-clamp-1">${ch.description}</p>
+            </div>
+          </a>`;
+      }).join('');
+    });
+
+    function renderPromptCard(item) {
+      const liked = LikesStore.isLiked(item.id);
+      const likes = LikesStore.getEffective(item.id, item.likes);
+      const tags = getDisplayTags(item);
+
+      return `
+        <div class="group flex flex-col cursor-pointer rounded-2xl border border-[#EEE7DC] bg-white transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:scale-[1.02] hover:-translate-y-0.5 shadow-[0_4px_6px_rgba(0,0,0,0.05)]"
+             onclick="openPromptDetail(marketplaceItems.find(i=>i.id==='${item.id}'))" role="button" tabindex="0">
+          <div class="p-5 pb-2 space-y-2.5">
+            <div class="flex items-center gap-2">
+              <div class="h-1.5 w-1.5 rounded-full shrink-0 ${getProductDotClass(item.product)}"></div>
+              <span class="badge-text px-2 py-0.5 rounded-md ${getProductBadgeClass(item.product)}">${item.product}</span>
+              <span class="badge-text border px-2 py-0.5 rounded-md border-[#EEE7DC] text-[#5c5f63]">${item.type === 'prompt' ? 'Промпт' : item.type === 'mcp' ? 'MCP' : 'Скилл'}</span>
+            </div>
+            <h3 class="card-title leading-snug line-clamp-2 group-hover:text-[#FF0508] transition-colors duration-200">${item.title}</h3>
+            <p class="body-text-sm line-clamp-2">${item.description}</p>
+          </div>
+          <div class="px-5 pb-5 mt-auto flex flex-col gap-3 pt-0">
+            <div class="flex flex-wrap gap-1.5 overflow-hidden max-h-[2rem]">
+              ${tags.map(t => `<span class="inline-flex items-center rounded-md bg-[#FBF7F3] px-2 py-0.5 badge-text text-[#5c5f63]">${t}</span>`).join('')}
+            </div>
+            <div class="flex items-center justify-between border-t border-[#EEE7DC] pt-3" data-card-actions>
+              <span class="text-xs text-[#5c5f63] truncate mr-2 min-w-0">${item.author}</span>
+              <div class="flex items-center gap-1 shrink-0">
+                <button onclick="event.stopPropagation();copyToClipboard(marketplaceItems.find(i=>i.id==='${item.id}').content)" class="p-2 rounded-lg text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" title="Копировать">
+                  ${icon('copy', 'h-4 w-4')}
+                </button>
+                <button onclick="event.stopPropagation();openPromptDetail(marketplaceItems.find(i=>i.id==='${item.id}'))" class="p-2 rounded-lg text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" title="Подробнее">
+                  ${icon('eye', 'h-4 w-4')}
+                </button>
+                <button onclick="event.stopPropagation();LikesStore.toggle('${item.id}');this.closest('[role=button]').outerHTML=renderPromptCard(marketplaceItems.find(i=>i.id==='${item.id}'))"
+                  class="flex items-center gap-1.5 px-2 py-1 rounded-lg text-sm font-medium transition-colors ${liked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}" title="Мне нравится">
+                  ${icon('heart', 'h-5 w-5')} ${likes}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }
+  </script>
+</body>
+</html>
