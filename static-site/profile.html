@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Личный кабинет — MOEX AI Hub</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -52,7 +54,7 @@
               <button onclick="copyApiKey()" class="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors">
                 <span id="icon-copy-key"></span> Копировать
               </button>
-              <button onclick="showToast('Обратитесь к администратору', 'error')" class="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-medium border border-[#EEE7DC] rounded-lg hover:bg-[#FBF7F3] transition-colors">
+              <button onclick="showToast('Функция будет доступна в рабочей версии')" class="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-medium border border-[#EEE7DC] rounded-lg hover:bg-[#FBF7F3] transition-colors">
                 Сгенерировать новый
               </button>
             </div>
@@ -61,6 +63,10 @@
                 Документация API <span id="icon-ext-link"></span>
               </a>
               <p class="text-xs text-[#5c5f63]">Используйте этот ключ для доступа к AI-моделям через API</p>
+              <p class="text-xs text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg mt-3 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Демо-режим: показан пример ключа. В рабочей версии здесь будет ваш персональный ключ.
+              </p>
             </div>
           </div>
         </div>
@@ -82,48 +88,6 @@
           </div>
         </div>
 
-        <hr class="border-[#EEE7DC]">
-
-        <!-- Section 4: Настройки -->
-        <div>
-          <p class="section-label">Предпочтения</p>
-          <h2 class="section-title mb-6">Настройки</h2>
-          <div class="space-y-5 max-w-xl">
-            <!-- Toggle: notifications -->
-            <div class="flex items-center justify-between p-4 rounded-xl border border-[#EEE7DC] bg-white">
-              <div>
-                <p class="text-sm font-semibold text-[#33373B]">Получать уведомления о новых материалах</p>
-                <p class="text-xs text-[#5c5f63] mt-0.5">Email-рассылка при появлении новых промптов и скиллов</p>
-              </div>
-              <label class="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
-                <input type="checkbox" checked class="sr-only peer" id="toggle-notifications">
-                <div class="w-11 h-6 bg-[#EEE7DC] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#E1BD95] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#EEE7DC] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FF0508]"></div>
-              </label>
-            </div>
-            <!-- Toggle: leaderboard -->
-            <div class="flex items-center justify-between p-4 rounded-xl border border-[#EEE7DC] bg-white">
-              <div>
-                <p class="text-sm font-semibold text-[#33373B]">Показывать мои материалы в лидерборде</p>
-                <p class="text-xs text-[#5c5f63] mt-0.5">Ваши промпты будут участвовать в рейтинге авторов</p>
-              </div>
-              <label class="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
-                <input type="checkbox" checked class="sr-only peer" id="toggle-leaderboard">
-                <div class="w-11 h-6 bg-[#EEE7DC] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#E1BD95] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#EEE7DC] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FF0508]"></div>
-              </label>
-            </div>
-            <!-- Select: default model -->
-            <div class="p-4 rounded-xl border border-[#EEE7DC] bg-white">
-              <label for="default-model" class="text-sm font-semibold text-[#33373B] block mb-2">Модель по умолчанию</label>
-              <select id="default-model" class="w-full h-9 px-3 text-sm border border-[#EEE7DC] rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#E1BD95] cursor-pointer">
-                <option value="qwen3-next">Qwen3-Next — Универсальная</option>
-                <option value="gpt-oss">GPT OSS — Креативные задачи</option>
-                <option value="qwen3-vl">Qwen3-VL — Анализ изображений</option>
-                <option value="qwen3-coder">Qwen3-Coder — Работа с кодом</option>
-                <option value="minimax-25">MiniMax-2.5 — Сложные задачи</option>
-              </select>
-            </div>
-          </div>
-        </div>
 
       </div>
     </div>

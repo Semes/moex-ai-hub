@@ -77,6 +77,21 @@ function openDialog(contentHtml) {
   // Focus the close button for keyboard accessibility
   const closeBtn = overlay.querySelector('.dialog-close');
   if (closeBtn) closeBtn.focus();
+  // Focus trap
+  overlay.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab') return;
+    const focusable = overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
   document.addEventListener('keydown', _dialogEscHandler);
 }
 
@@ -155,6 +170,7 @@ function _slugify(text) {
 function _getSkillExtension(content) {
   const trimmed = content.trim();
   if (trimmed.startsWith('{') || trimmed.startsWith('[')) return '.json';
+  if (/^customModes\s*:/m.test(trimmed) || /^slug\s*:/m.test(trimmed) || /roleDefinition\s*:/m.test(trimmed)) return '.yaml';
   return '.md';
 }
 
@@ -367,10 +383,10 @@ function renderFooter() {
           <div class="space-y-2">
             <p class="badge-text font-semibold text-[#5c5f63] uppercase tracking-wider">Продукты</p>
             <nav class="flex flex-col gap-1.5">
-              <span class="text-[#5c5f63]">MOEX GPT</span>
-              <span class="text-[#5c5f63]">MOEX Insight</span>
-              <span class="text-[#5c5f63]">Code Agent</span>
-              <span class="text-[#5c5f63]">Dion Agent</span>
+              <a href="library.html" class="text-[#5c5f63] hover:text-[#33373B] transition-colors">MOEX GPT</a>
+              <a href="library.html" class="text-[#5c5f63] hover:text-[#33373B] transition-colors">MOEX Insight</a>
+              <a href="library.html" class="text-[#5c5f63] hover:text-[#33373B] transition-colors">Code Agent</a>
+              <a href="library.html" class="text-[#5c5f63] hover:text-[#33373B] transition-colors">Dion Agent</a>
             </nav>
           </div>
           <div class="space-y-2">

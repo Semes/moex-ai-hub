@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" style="scroll-behavior: smooth; scroll-padding-top: 140px;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Обучение — MOEX AI Hub</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -24,11 +26,22 @@
       </div>
     </div>
 
+    <div class="border-b border-[#EEE7DC] bg-white/95 backdrop-blur-sm sticky top-[60px] sm:top-[80px] z-40">
+      <div class="container-main py-2.5 flex gap-6 overflow-x-auto scrollbar-hide">
+        <a href="#quick-start" class="text-xs font-medium text-[#5c5f63] hover:text-[#FF0508] whitespace-nowrap transition-colors">Быстрый старт</a>
+        <a href="#capabilities" class="text-xs font-medium text-[#5c5f63] hover:text-[#FF0508] whitespace-nowrap transition-colors">Возможности</a>
+        <a href="#guides" class="text-xs font-medium text-[#5c5f63] hover:text-[#FF0508] whitespace-nowrap transition-colors">Гайды</a>
+        <a href="#quiz" class="text-xs font-medium text-[#5c5f63] hover:text-[#FF0508] whitespace-nowrap transition-colors">Квиз</a>
+        <a href="#faq" class="text-xs font-medium text-[#5c5f63] hover:text-[#FF0508] whitespace-nowrap transition-colors">FAQ</a>
+        <a href="#glossary" class="text-xs font-medium text-[#5c5f63] hover:text-[#FF0508] whitespace-nowrap transition-colors">Глоссарий</a>
+      </div>
+    </div>
+
     <div class="container-main py-10">
       <div class="space-y-12">
 
         <!-- Onboarding: С чего начать? -->
-        <div>
+        <div id="quick-start">
           <p class="section-label">Быстрый старт</p>
           <h2 class="section-title mb-8">С чего начать?</h2>
           <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -59,7 +72,7 @@
         <hr class="border-[#EEE7DC]">
 
         <!-- Что умеют AI-продукты -->
-        <div>
+        <div id="capabilities">
           <p class="section-label">Возможности</p>
           <h2 class="section-title mb-4">Что умеют AI-продукты</h2>
           <div id="capabilities-grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 items-stretch"></div>
@@ -68,7 +81,7 @@
         <hr class="border-[#EEE7DC]">
 
         <!-- Guides -->
-        <div>
+        <div id="guides">
           <p class="section-label">Инструкции</p>
           <h2 class="section-title mb-5">Гайды на Confluence</h2>
           <div id="guides-grid" class="grid gap-3 sm:grid-cols-2"></div>
@@ -77,7 +90,7 @@
         <hr class="border-[#EEE7DC]">
 
         <!-- Quiz -->
-        <div>
+        <div id="quiz">
           <p class="section-label">Квиз</p>
           <h2 class="section-title mb-8">Проверьте свои знания</h2>
           <div id="quiz-container" class="max-w-3xl">
@@ -109,7 +122,7 @@
         <hr class="border-[#EEE7DC]">
 
         <!-- FAQ -->
-        <div>
+        <div id="faq">
           <p class="section-label">FAQ</p>
           <h2 class="section-title mb-8">Частые вопросы</h2>
           <div id="faq-accordion" class="max-w-3xl space-y-3"></div>
@@ -118,7 +131,7 @@
         <hr class="border-[#EEE7DC]">
 
         <!-- Glossary -->
-        <div>
+        <div id="glossary">
           <p class="section-label">Глоссарий</p>
           <h2 class="section-title mb-1.5">Термины AI-мира</h2>
           <p class="page-subtitle mb-5">Основные понятия для уверенной работы с инструментами</p>
