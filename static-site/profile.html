@@ -101,11 +101,11 @@
   <script>
     // ── Models data ──
     const llmModels = [
-      { name: 'Qwen3-Next', purpose: 'Универсальная — для любых задач', speed: 'Быстрая', quality: 'Высокое', speedColor: 'green' },
-      { name: 'GPT OSS', purpose: 'Креативные задачи — тексты, идеи', speed: 'Быстрая', quality: 'Высокое', speedColor: 'green' },
-      { name: 'Qwen3-VL', purpose: 'Анализ изображений и сканов', speed: 'Средняя', quality: 'Высокое', speedColor: 'yellow' },
-      { name: 'Qwen3-Coder', purpose: 'Работа с кодом', speed: 'Быстрая', quality: 'Отличное', speedColor: 'green' },
-      { name: 'MiniMax-2.5', purpose: 'Сложные задачи — глубокий анализ', speed: 'Медленная', quality: 'Отличное', speedColor: 'red' },
+      { name: 'MiniMax-2.5', alias: 'strong', purpose: 'Вайбкодинг сложных задач: архитектура, генерация с нуля, сложная логика', badge: 'Рекомендуемая', speed: 'Медленная', quality: 'Отличное', speedColor: 'red' },
+      { name: 'Qwen3-Coder', alias: 'coder', purpose: 'Вайбкодинг простых и средних задач: написание, отладка, рефакторинг', speed: 'Быстрая', quality: 'Отличное', speedColor: 'green' },
+      { name: 'GPT OSS', alias: 'tool_caller', purpose: 'Автоматизация и API-интеграции. Самая быстрая модель для вайбкодинга на базовом уровне', speed: 'Быстрая', quality: 'Высокое', speedColor: 'green' },
+      { name: 'Qwen3-VL', alias: 'vl', purpose: 'Визуальные задачи: анализ изображений, OCR, скриншоты, работа с браузером', speed: 'Средняя', quality: 'Высокое', speedColor: 'yellow' },
+      { name: 'Qwen3-Next', alias: 'fast', purpose: 'Текстовые задачи: черновики, обработка текста, быстрые ответы. Не подходит для вайбкодинга', speed: 'Быстрая', quality: 'Высокое', speedColor: 'green' },
     ];
 
     const speedStyles = {
@@ -157,7 +157,14 @@
         return `
           <div class="rounded-xl border border-[#EEE7DC] border-l-4 ${ss.border} bg-white p-5 transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 animate-fade-in-up"
                style="animation-delay:${i * 80}ms;animation-fill-mode:both">
-            <h3 class="text-base font-bold text-[#33373B] mb-1">${m.name}</h3>
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-base font-bold text-[#33373B]">${m.name}</h3>
+              ${m.badge ? '<span class="px-2 py-0.5 rounded-md text-xs font-medium bg-[#FF0508] text-white">' + m.badge + '</span>' : ''}
+            </div>
+            <div class="flex items-center gap-2 mb-3">
+              <code class="text-xs font-mono px-1.5 py-0.5 rounded bg-[#FBF7F3] border border-[#EEE7DC] text-[#5c5f63]">${m.alias}</code>
+              <span class="text-xs text-[#5c5f63]">— идентификатор модели</span>
+            </div>
             <p class="body-text-sm mb-4">${m.purpose}</p>
             <div class="flex flex-wrap gap-2">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${ss.badgeBg}">
