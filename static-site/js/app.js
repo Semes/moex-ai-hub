@@ -264,6 +264,7 @@ function renderHeader(currentPath) {
     { href: 'library.html', label: 'Библиотека', file: 'library.html' },
     { href: 'learn.html', label: 'Обучение', file: 'learn.html' },
     { href: 'leaderboard.html', label: 'Лидерборд', file: 'leaderboard.html' },
+    { href: 'profile.html', label: 'Личный кабинет', file: 'profile.html' },
   ];
 
   const pathname = window.location.pathname;

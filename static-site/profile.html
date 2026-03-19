@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Личный кабинет — MOEX AI Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="antialiased bg-white text-[#33373B]">
+  <div id="site-header"></div>
+
+  <main class="min-h-screen bg-white">
+    <!-- Header -->
+    <div class="border-b border-[#EEE7DC] bg-gradient-to-br from-[#FBF7F3] to-white">
+      <div class="container-main py-10">
+        <div class="flex items-center gap-2.5 mb-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FBF7F3] border border-[#EEE7DC]" id="icon-profile-header"></div>
+          <p class="section-label mb-0">Личный кабинет</p>
+        </div>
+        <h1 class="page-title">Ваш профиль</h1>
+        <p class="page-subtitle max-w-lg">Управление API-ключами и настройки AI-инструментов</p>
+      </div>
+    </div>
+
+    <div class="container-main py-10">
+      <div class="space-y-12">
+
+        <!-- Section 1: Доступные модели -->
+        <div>
+          <p class="section-label">Модели</p>
+          <h2 class="section-title mb-6">Доступные модели</h2>
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="models-grid"></div>
+        </div>
+
+        <hr class="border-[#EEE7DC]">
+
+        <!-- Section 2: API-ключ -->
+        <div>
+          <p class="section-label">Интеграция</p>
+          <h2 class="section-title mb-6">API-ключ</h2>
+          <div class="rounded-xl border border-[#EEE7DC] bg-white p-6 max-w-xl">
+            <p class="text-sm font-semibold text-[#33373B] mb-4">Ваш персональный API-ключ</p>
+            <div class="flex items-center gap-2 mb-4 p-3 bg-[#FBF7F3] rounded-lg border border-[#EEE7DC]">
+              <code id="api-key-display" class="flex-1 text-sm font-mono text-[#33373B] select-all">moex-ai-••••••••••••••••</code>
+              <button onclick="toggleApiKey()" id="api-key-toggle" class="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-medium border border-[#EEE7DC] rounded-lg hover:bg-[#EEE7DC]/50 transition-colors" title="Показать/скрыть">
+                <span id="icon-eye-toggle"></span> Показать
+              </button>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <button onclick="copyApiKey()" class="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors">
+                <span id="icon-copy-key"></span> Копировать
+              </button>
+              <button onclick="showToast('Обратитесь к администратору', 'error')" class="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-medium border border-[#EEE7DC] rounded-lg hover:bg-[#FBF7F3] transition-colors">
+                Сгенерировать новый
+              </button>
+            </div>
+            <div class="flex flex-col gap-2">
+              <a href="#confluence-api-moex-llms" class="text-sm font-medium text-[#FF0508] hover:underline inline-flex items-center gap-1.5">
+                Документация API <span id="icon-ext-link"></span>
+              </a>
+              <p class="text-xs text-[#5c5f63]">Используйте этот ключ для доступа к AI-моделям через API</p>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-[#EEE7DC]">
+
+        <!-- Section 3: Мои материалы -->
+        <div>
+          <p class="section-label">Контент</p>
+          <h2 class="section-title mb-6">Мои материалы</h2>
+          <div class="rounded-xl border border-[#EEE7DC] bg-[#FBF7F3] p-8 text-center max-w-xl">
+            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-white border border-[#EEE7DC] mx-auto mb-4">
+              <span id="icon-materials-empty"></span>
+            </div>
+            <p class="body-text-sm mb-5">Здесь будут отображаться ваши опубликованные промпты и скиллы</p>
+            <a href="library.html" class="inline-flex items-center gap-1.5 h-10 px-5 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors">
+              Перейти в библиотеку <span id="icon-arrow-materials"></span>
+            </a>
+          </div>
+        </div>
+
+        <hr class="border-[#EEE7DC]">
+
+        <!-- Section 4: Настройки -->
+        <div>
+          <p class="section-label">Предпочтения</p>
+          <h2 class="section-title mb-6">Настройки</h2>
+          <div class="space-y-5 max-w-xl">
+            <!-- Toggle: notifications -->
+            <div class="flex items-center justify-between p-4 rounded-xl border border-[#EEE7DC] bg-white">
+              <div>
+                <p class="text-sm font-semibold text-[#33373B]">Получать уведомления о новых материалах</p>
+                <p class="text-xs text-[#5c5f63] mt-0.5">Email-рассылка при появлении новых промптов и скиллов</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
+                <input type="checkbox" checked class="sr-only peer" id="toggle-notifications">
+                <div class="w-11 h-6 bg-[#EEE7DC] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#E1BD95] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#EEE7DC] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FF0508]"></div>
+              </label>
+            </div>
+            <!-- Toggle: leaderboard -->
+            <div class="flex items-center justify-between p-4 rounded-xl border border-[#EEE7DC] bg-white">
+              <div>
+                <p class="text-sm font-semibold text-[#33373B]">Показывать мои материалы в лидерборде</p>
+                <p class="text-xs text-[#5c5f63] mt-0.5">Ваши промпты будут участвовать в рейтинге авторов</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer shrink-0 ml-4">
+                <input type="checkbox" checked class="sr-only peer" id="toggle-leaderboard">
+                <div class="w-11 h-6 bg-[#EEE7DC] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#E1BD95] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#EEE7DC] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#FF0508]"></div>
+              </label>
+            </div>
+            <!-- Select: default model -->
+            <div class="p-4 rounded-xl border border-[#EEE7DC] bg-white">
+              <label for="default-model" class="text-sm font-semibold text-[#33373B] block mb-2">Модель по умолчанию</label>
+              <select id="default-model" class="w-full h-9 px-3 text-sm border border-[#EEE7DC] rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#E1BD95] cursor-pointer">
+                <option value="qwen3-next">Qwen3-Next — Универсальная</option>
+                <option value="gpt-oss">GPT OSS — Креативные задачи</option>
+                <option value="qwen3-vl">Qwen3-VL — Анализ изображений</option>
+                <option value="qwen3-coder">Qwen3-Coder — Работа с кодом</option>
+                <option value="minimax-25">MiniMax-2.5 — Сложные задачи</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // ── Models data ──
+    const llmModels = [
+      { name: 'Qwen3-Next', purpose: 'Универсальная — для любых задач', speed: 'Быстрая', quality: 'Высокое', speedColor: 'green' },
+      { name: 'GPT OSS', purpose: 'Креативные задачи — тексты, идеи', speed: 'Быстрая', quality: 'Высокое', speedColor: 'green' },
+      { name: 'Qwen3-VL', purpose: 'Анализ изображений и сканов', speed: 'Средняя', quality: 'Высокое', speedColor: 'yellow' },
+      { name: 'Qwen3-Coder', purpose: 'Работа с кодом', speed: 'Быстрая', quality: 'Отличное', speedColor: 'green' },
+      { name: 'MiniMax-2.5', purpose: 'Сложные задачи — глубокий анализ', speed: 'Медленная', quality: 'Отличное', speedColor: 'red' },
+    ];
+
+    const speedStyles = {
+      green: { border: 'border-l-emerald-500', badgeBg: 'bg-emerald-50 text-emerald-700', label: 'Быстрая' },
+      yellow: { border: 'border-l-amber-400', badgeBg: 'bg-amber-50 text-amber-700', label: 'Средняя' },
+      red: { border: 'border-l-red-400', badgeBg: 'bg-red-50 text-red-700', label: 'Медленная' },
+    };
+
+    const qualityStyles = {
+      'Высокое': 'bg-blue-50 text-blue-700',
+      'Отличное': 'bg-violet-50 text-violet-700',
+    };
+
+    // ── API key state ──
+    let apiKeyVisible = false;
+    const MOCK_API_KEY = 'moex-ai-k7f2x9m4p1q8w3e6';
+
+    function toggleApiKey() {
+      apiKeyVisible = !apiKeyVisible;
+      const display = document.getElementById('api-key-display');
+      const btn = document.getElementById('api-key-toggle');
+      if (apiKeyVisible) {
+        display.textContent = MOCK_API_KEY;
+        btn.innerHTML = icon('eye', 'h-3.5 w-3.5') + ' Скрыть';
+      } else {
+        display.textContent = 'moex-ai-••••••••••••••••';
+        btn.innerHTML = icon('eye', 'h-3.5 w-3.5') + ' Показать';
+      }
+    }
+
+    function copyApiKey() {
+      copyToClipboard(MOCK_API_KEY);
+    }
+
+    // ── DOMContentLoaded ──
+    document.addEventListener('DOMContentLoaded', () => {
+      // Icons
+      document.getElementById('icon-profile-header').innerHTML = icon('user', 'h-5 w-5 text-[#5c5f63]');
+      document.getElementById('icon-eye-toggle').innerHTML = icon('eye', 'h-3.5 w-3.5');
+      document.getElementById('icon-copy-key').innerHTML = icon('copy', 'h-3.5 w-3.5');
+      document.getElementById('icon-ext-link').innerHTML = icon('externalLink', 'h-3.5 w-3.5');
+      document.getElementById('icon-materials-empty').innerHTML = icon('fileText', 'h-5 w-5 text-[#5c5f63]');
+      document.getElementById('icon-arrow-materials').innerHTML = icon('arrowRight', 'h-4 w-4');
+
+      // Render models grid
+      document.getElementById('models-grid').innerHTML = llmModels.map((m, i) => {
+        const ss = speedStyles[m.speedColor];
+        const qs = qualityStyles[m.quality] || 'bg-gray-50 text-gray-700';
+        return `
+          <div class="rounded-xl border border-[#EEE7DC] border-l-4 ${ss.border} bg-white p-5 transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 animate-fade-in-up"
+               style="animation-delay:${i * 80}ms;animation-fill-mode:both">
+            <h3 class="text-base font-bold text-[#33373B] mb-1">${m.name}</h3>
+            <p class="body-text-sm mb-4">${m.purpose}</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${ss.badgeBg}">
+                ${icon('zap', 'h-3 w-3')} ${m.speed}
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${qs}">
+                ${icon('star', 'h-3 w-3')} ${m.quality}
+              </span>
+            </div>
+          </div>`;
+      }).join('');
+    });
+  </script>
+</body>
+</html>
