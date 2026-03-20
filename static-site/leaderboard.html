@@ -22,7 +22,7 @@
           <p class="section-label mb-0">Лидерборд</p>
         </div>
         <h1 class="page-title">Лучшие контрибьюторы</h1>
-        <p class="page-subtitle max-w-lg">Сотрудники, которые делают AI доступнее для всех. Делитесь промптами и скиллами — зарабатывайте mops и признание коллег.</p>
+        <p class="page-subtitle max-w-lg">Сотрудники, которые делают AI доступнее для всех. Делитесь промптами и скиллами — получите признание коллег.</p>
       </div>
     </div>
 
@@ -98,8 +98,8 @@
                     ${rankIcon}
                   </div>
                 </div>
-                <p class="card-title truncate">${user.name}</p>
-                <p class="text-xs text-[#5c5f63] mb-3 truncate">${user.department}</p>
+                <p class="card-title">${user.name}</p>
+                <p class="text-xs text-[#5c5f63] mb-3">${user.department}</p>
                 <div class="flex items-center justify-center gap-4 text-xs">
                   <div>
                     <p class="text-base font-bold text-[#33373B]">${user.promptsShared + user.skillsShared}</p>
@@ -124,8 +124,8 @@
                   <span class="w-7 text-center text-sm font-bold text-[#5c5f63]">${user.rank}</span>
                   <div class="h-10 w-10 rounded-full bg-[#FBF7F3] flex items-center justify-center text-xs font-bold text-[#5c5f63]">${user.avatar}</div>
                   <div class="flex-1 min-w-0">
-                    <p class="card-title truncate">${user.name}</p>
-                    <p class="text-xs text-[#5c5f63] truncate">${user.department}</p>
+                    <p class="card-title">${user.name}</p>
+                    <p class="text-xs text-[#5c5f63]">${user.department}</p>
                   </div>
                   <div class="flex items-center gap-5 text-sm text-[#5c5f63] shrink-0">
                     <span class="flex items-center gap-1.5" title="Промпты">${icon('fileText', 'h-3.5 w-3.5')} ${user.promptsShared}</span>
@@ -149,7 +149,7 @@
                 <img src="${getProductLogo(item.product)}" alt="${item.product}" width="22" height="22" class="object-contain">
               </div>
               <div class="min-w-0 flex-1">
-                <p class="card-title leading-snug truncate">${item.title}</p>
+                <p class="card-title leading-snug">${item.title}</p>
                 <div class="mt-0.5 flex items-center gap-2">
                   <span class="badge-text px-1.5 py-0 rounded ${getProductBadgeClass(item.product)}">${item.product}</span>
                   <span class="flex items-center gap-0.5 text-xs text-[#FF0508]">${icon('heart', 'h-3 w-3')} ${getLikes(item)}</span>

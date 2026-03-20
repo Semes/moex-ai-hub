@@ -30,7 +30,7 @@
         <h2 class="section-title mb-2">Промпт, скилл и MCP — что это?</h2>
         <p class="body-text-sm mb-6 max-w-2xl">
           Три формата, которые помогут работать эффективнее. Проверить знания можно в разделе
-          <a href="learn.html" class="text-[#FF0508] font-medium hover:underline">Обучение</a> — пройдите тест и заработайте mops.
+          <a href="learn.html" class="text-[#FF0508] font-medium hover:underline">Обучение</a> — пройдите тест и проверьте свои знания.
         </p>
         <div class="grid gap-5 sm:grid-cols-3 max-w-5xl">
           <div class="rounded-xl border border-[#EEE7DC] bg-white p-5 flex gap-4 transition-all duration-300 hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5">
@@ -241,15 +241,15 @@
               <span class="badge-text px-2 py-0.5 rounded-md ${getProductBadgeClass(item.product)}">${item.product}</span>
               <span class="badge-text border px-2 py-0.5 rounded-md border-[#EEE7DC] text-[#5c5f63]">${item.type === 'prompt' ? 'Промпт' : item.type === 'mcp' ? 'MCP' : 'Скилл'}</span>
             </div>
-            <h3 class="card-title leading-snug line-clamp-2 group-hover:text-[#FF0508] transition-colors duration-200">${item.title}</h3>
-            <p class="body-text-sm line-clamp-2">${item.description}</p>
+            <h3 class="card-title leading-snug group-hover:text-[#FF0508] transition-colors duration-200">${item.title}</h3>
+            <p class="body-text-sm">${item.description}</p>
           </div>
           <div class="px-5 pb-5 mt-auto flex flex-col gap-3 pt-0">
             <div class="flex flex-wrap gap-1.5 overflow-hidden max-h-[2rem]">
               ${tags.map(t => `<span onclick="event.stopPropagation();filterByTag('${t.replace(/'/g, "\\'")}')" class="inline-flex items-center rounded-md px-2 py-0.5 badge-text cursor-pointer transition-colors duration-200 hover:bg-[#33373B] hover:text-white ${activeTagFilter === t ? 'bg-[#33373B] text-white' : 'bg-[#FBF7F3] text-[#5c5f63]'}">${t}</span>`).join('')}
             </div>
             <div class="flex items-center justify-between border-t border-[#EEE7DC] pt-3" data-card-actions>
-              <span class="text-xs text-[#5c5f63] truncate mr-2 min-w-0">${item.author}</span>
+              <span class="text-xs text-[#5c5f63] mr-2 min-w-0">${item.author}</span>
               <div class="flex items-center gap-1 shrink-0">
                 <button onclick="event.stopPropagation();copyToClipboard(marketplaceItems.find(i=>i.id==='${item.id}').content)" class="p-2 rounded-lg text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" title="Копировать">
                   ${icon('copy', 'h-4 w-4')}

@@ -33,6 +33,7 @@
         <div>
           <p class="section-label">Модели</p>
           <h2 class="section-title mb-6">Доступные модели</h2>
+          <p class="body-text-sm text-[#5c5f63] mb-4">Используйте алиас модели при работе с API. Например: <code class="text-xs bg-[#f1f5f9] px-1.5 py-0.5 rounded font-mono">model: "strong"</code></p>
           <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="models-grid"></div>
         </div>
 
@@ -101,23 +102,12 @@
   <script>
     // ── Models data ──
     const llmModels = [
-      { name: 'MiniMax-2.5', alias: 'strong', purpose: 'Вайбкодинг сложных задач: архитектура, генерация с нуля, сложная логика', badge: 'Рекомендуемая', speed: 'Медленная', quality: 'Отличное', speedColor: 'red' },
-      { name: 'Qwen3-Coder', alias: 'coder', purpose: 'Вайбкодинг простых и средних задач: написание, отладка, рефакторинг', speed: 'Быстрая', quality: 'Отличное', speedColor: 'green' },
-      { name: 'GPT OSS', alias: 'tool_caller', purpose: 'Автоматизация и API-интеграции. Самая быстрая модель для вайбкодинга на базовом уровне', speed: 'Быстрая', quality: 'Высокое', speedColor: 'green' },
-      { name: 'Qwen3-VL', alias: 'vl', purpose: 'Визуальные задачи: анализ изображений, OCR, скриншоты, работа с браузером', speed: 'Средняя', quality: 'Высокое', speedColor: 'yellow' },
-      { name: 'Qwen3-Next', alias: 'fast', purpose: 'Текстовые задачи: черновики, обработка текста, быстрые ответы. Не подходит для вайбкодинга', speed: 'Быстрая', quality: 'Высокое', speedColor: 'green' },
+      { name: 'MiniMax-2.5', alias: 'strong', purpose: 'Вайбкодинг сложных задач: архитектура, генерация с нуля, сложная логика. Рекомендуемая модель', recommended: true, borderColor: 'border-l-red-400' },
+      { name: 'Qwen3-Coder', alias: 'coder', purpose: 'Вайбкодинг простых и средних задач: написание, отладка, рефакторинг. Быстрее strong, но для менее сложных сценариев', borderColor: 'border-l-blue-400' },
+      { name: 'GPT OSS', alias: 'tool_caller', purpose: 'Автоматизация и API-интеграции. Самая быстрая модель для вайбкодинга на базовом уровне', borderColor: 'border-l-amber-400' },
+      { name: 'Qwen3-VL', alias: 'vl', purpose: 'Визуальные задачи: анализ изображений, OCR, скриншоты, работа с браузером', borderColor: 'border-l-violet-400' },
+      { name: 'Qwen3-Next', alias: 'fast', purpose: 'Текстовые задачи: черновики, обработка текста, быстрые ответы. Не подходит для вайбкодинга', borderColor: 'border-l-emerald-500' },
     ];
-
-    const speedStyles = {
-      green: { border: 'border-l-emerald-500', badgeBg: 'bg-emerald-50 text-emerald-700', label: 'Быстрая' },
-      yellow: { border: 'border-l-amber-400', badgeBg: 'bg-amber-50 text-amber-700', label: 'Средняя' },
-      red: { border: 'border-l-red-400', badgeBg: 'bg-red-50 text-red-700', label: 'Медленная' },
-    };
-
-    const qualityStyles = {
-      'Высокое': 'bg-blue-50 text-blue-700',
-      'Отличное': 'bg-violet-50 text-violet-700',
-    };
 
     // ── API key state ──
     let apiKeyVisible = false;
@@ -152,28 +142,15 @@
 
       // Render models grid
       document.getElementById('models-grid').innerHTML = llmModels.map((m, i) => {
-        const ss = speedStyles[m.speedColor];
-        const qs = qualityStyles[m.quality] || 'bg-gray-50 text-gray-700';
         return `
-          <div class="rounded-xl border border-[#EEE7DC] border-l-4 ${ss.border} bg-white p-5 transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 animate-fade-in-up"
+          <div class="rounded-xl border border-[#EEE7DC] border-l-4 ${m.borderColor} bg-white p-5 transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 animate-fade-in-up"
                style="animation-delay:${i * 80}ms;animation-fill-mode:both">
-            <div class="flex items-center gap-2 mb-1">
+            <div class="flex items-center gap-2 mb-2">
               <h3 class="text-base font-bold text-[#33373B]">${m.name}</h3>
-              ${m.badge ? '<span class="px-2 py-0.5 rounded-md text-xs font-medium bg-[#FF0508] text-white">' + m.badge + '</span>' : ''}
+              <code style="font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px;">${m.alias}</code>
+              ${m.recommended ? '<span class="px-2 py-0.5 rounded-md text-xs font-medium bg-emerald-50 text-emerald-700">Рекомендуемая</span>' : ''}
             </div>
-            <div class="flex items-center gap-2 mb-3">
-              <code class="text-xs font-mono px-1.5 py-0.5 rounded bg-[#FBF7F3] border border-[#EEE7DC] text-[#5c5f63]">${m.alias}</code>
-              <span class="text-xs text-[#5c5f63]">— идентификатор модели</span>
-            </div>
-            <p class="body-text-sm mb-4">${m.purpose}</p>
-            <div class="flex flex-wrap gap-2">
-              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${ss.badgeBg}">
-                ${icon('zap', 'h-3 w-3')} ${m.speed}
-              </span>
-              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${qs}">
-                ${icon('star', 'h-3 w-3')} ${m.quality}
-              </span>
-            </div>
+            <p class="body-text-sm">${m.purpose}</p>
           </div>`;
       }).join('');
     });
