@@ -99,7 +99,7 @@
                     ${rankIcon}
                   </div>
                 </div>
-                <p class="card-title">${user.name}</p>
+                <p class="card-title"><a href="library.html?author=${encodeURIComponent(user.name)}" class="hover:text-[#FF0508] transition-colors">${user.name}</a></p>
                 <p class="text-xs text-[#5c5f63] mb-3">${user.department}</p>
                 <div class="flex items-center justify-center gap-4 text-xs">
                   <div>
@@ -125,7 +125,7 @@
                   <span class="w-7 text-center text-sm font-bold text-[#5c5f63]">${user.rank}</span>
                   <div class="h-10 w-10 rounded-full bg-[#FBF7F3] flex items-center justify-center text-xs font-bold text-[#5c5f63]">${user.avatar}</div>
                   <div class="flex-1 min-w-0">
-                    <p class="card-title">${user.name}</p>
+                    <p class="card-title"><a href="library.html?author=${encodeURIComponent(user.name)}" class="hover:text-[#FF0508] transition-colors">${user.name}</a></p>
                     <p class="text-xs text-[#5c5f63]">${user.department}</p>
                   </div>
                   <div class="flex items-center gap-5 text-sm text-[#5c5f63] shrink-0">

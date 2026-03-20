@@ -93,6 +93,14 @@
         </div>
       </div>
 
+      <!-- Active author filter indicator -->
+      <div id="author-filter-bar" class="mb-4 hidden">
+        <div class="inline-flex items-center gap-2 rounded-lg bg-[#33373B] text-white px-3 py-1.5 text-xs font-medium">
+          <span>Материалы автора: <span id="author-filter-label"></span></span>
+          <button onclick="clearAuthorFilter()" class="ml-1 hover:text-[#FE938E] transition-colors" title="Сбросить фильтр">&times;</button>
+        </div>
+      </div>
+
       <!-- Product filters -->
       <div class="flex items-center gap-2 mb-6 overflow-x-auto pb-1">
         <span id="icon-sliders" class="shrink-0"></span>
@@ -115,6 +123,7 @@
     let searchQuery = '';
     let activeSort = 'date-desc';
     let activeTagFilter = '';
+    let activeAuthorFilter = '';
 
     const PRODUCT_FILTERS = [
       { label: 'Все', value: 'all', dot: 'bg-[#33373B]' },
@@ -145,6 +154,15 @@
       renderLibrary();
     }
 
+    function clearAuthorFilter() {
+      activeAuthorFilter = '';
+      // Remove the author param from URL without reload
+      const url = new URL(window.location);
+      url.searchParams.delete('author');
+      window.history.replaceState({}, '', url);
+      renderLibrary();
+    }
+
     function sortItems(items, sortKey) {
       const sorted = [...items];
       switch (sortKey) {
@@ -168,6 +186,11 @@
         search: searchQuery,
       });
 
+      // Apply author filter
+      if (activeAuthorFilter) {
+        filtered = filtered.filter(item => item.author === activeAuthorFilter);
+      }
+
       // Apply sorting
       filtered = sortItems(filtered, activeSort);
 
@@ -178,6 +201,15 @@
         document.getElementById('tag-filter-label').textContent = activeTagFilter;
       } else {
         tagBar.classList.add('hidden');
+      }
+
+      // Update author filter bar visibility
+      const authorBar = document.getElementById('author-filter-bar');
+      if (activeAuthorFilter) {
+        authorBar.classList.remove('hidden');
+        document.getElementById('author-filter-label').textContent = activeAuthorFilter;
+      } else {
+        authorBar.classList.add('hidden');
       }
 
       // Update tab styles
@@ -253,6 +285,13 @@
         }
         renderLibrary();
       });
+
+      // Parse author URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const authorParam = urlParams.get('author');
+      if (authorParam) {
+        activeAuthorFilter = authorParam;
+      }
 
       // Re-render library when likes change from modal
       // (body overflow is hidden while modal is open, so no scroll jump)

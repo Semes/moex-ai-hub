@@ -326,7 +326,7 @@ function openPromptDetail(item) {
     </div>
     <div class="flex items-center justify-between border-t border-[#EEE7DC] pt-4 flex-wrap gap-3">
       <div class="flex items-center gap-4 text-xs text-[#5c5f63]">
-        <span>${item.author}</span>
+        <a href="library.html?author=${encodeURIComponent(item.author)}" onclick="closeDialog()" class="hover:text-[#FF0508] transition-colors">${item.author}</a>
         <span class="flex items-center gap-1">${icon('calendar', 'w-3 h-3')} ${new Date(item.createdAt).toLocaleDateString('ru-RU')}</span>
       </div>
       <div class="flex items-center gap-2">
@@ -517,7 +517,7 @@ function renderPromptCard(item, options = {}) {
               ${tagsHtml}
             </div>
             <div class="flex items-center justify-between border-t border-[#EEE7DC] pt-3" data-card-actions>
-              <span class="text-xs text-[#5c5f63] mr-2 min-w-0">${item.author}</span>
+              <a href="library.html?author=${encodeURIComponent(item.author)}" onclick="event.stopPropagation()" class="text-xs text-[#5c5f63] mr-2 min-w-0 hover:text-[#FF0508] transition-colors">${item.author}</a>
               <div class="flex items-center gap-1 shrink-0">
                 <button onclick="event.stopPropagation();copyToClipboard(marketplaceItems.find(i=>i.id==='${item.id}').content)" class="p-2 rounded-lg text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" title="Копировать">
                   ${icon('copy', 'h-4 w-4')}
