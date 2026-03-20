@@ -220,10 +220,11 @@ function openPromptDetail(item) {
   // Render content: prompts as pre on dark bg, MCP markdown rendered, skills as pre
   let contentBlock;
   const trimmedContent = (item.content || '').trim();
+  const copyCodeBtn = `<button onclick="event.stopPropagation();copyToClipboard(\`${item.content.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$')}\`)" class="absolute top-3 right-3 p-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white/50 hover:text-white transition-colors" title="Копировать">${icon('copy','w-4 h-4')}</button>`;
   if (item.type === 'prompt') {
-    // Prompts: dark background, monospace, plain text
     contentBlock = `
-      <div class="rounded-lg border border-[#EEE7DC] bg-[#1e1e2e] p-4 mb-4 overflow-x-auto">
+      <div class="relative rounded-lg border border-[#EEE7DC] bg-[#1e1e2e] p-4 mb-4 overflow-x-auto">
+        ${copyCodeBtn}
         <pre class="whitespace-pre-wrap text-xs font-mono leading-relaxed text-[#cdd6f4]">${escapeHtml(item.content)}</pre>
       </div>`;
   } else if (item.type === 'mcp' && !trimmedContent.startsWith('{') && !trimmedContent.startsWith('[')) {
@@ -236,7 +237,8 @@ function openPromptDetail(item) {
   } else {
     // Skills and MCP with JSON: dark background, code
     contentBlock = `
-      <div class="rounded-lg border border-[#EEE7DC] bg-[#1e1e2e] p-4 mb-4 overflow-x-auto">
+      <div class="relative rounded-lg border border-[#EEE7DC] bg-[#1e1e2e] p-4 mb-4 overflow-x-auto">
+        ${copyCodeBtn}
         <pre class="whitespace-pre-wrap text-xs font-mono leading-relaxed text-[#cdd6f4]">${escapeHtml(item.content)}</pre>
       </div>`;
   }

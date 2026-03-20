@@ -139,20 +139,20 @@
       const currentNews = news[0];
       if (currentNews) {
         document.getElementById('news-banner').innerHTML = `
-          <div class="border-b border-[#EEE7DC]" style="background:#FBF7F3">
+          <div class="border-b border-[#2B2B2B]" style="background:#1F1F1F">
             <div class="container-main py-3">
               <a href="${currentNews.url}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group">
                 <div class="flex items-center gap-2 shrink-0">
                   ${icon('megaphone', 'h-5 w-5 text-[#FF0508]')}
                   <span class="badge-text font-bold px-2.5 py-1 rounded-md bg-[#FF0508] text-white">${currentNews.tag}</span>
                 </div>
-                <div class="marquee flex-1 text-sm text-[#33373B]">
+                <div class="marquee flex-1 text-sm" style="color:rgba(255,255,255,0.9)">
                   <div class="marquee-track">
                     <span class="marquee-item">${currentNews.summary}</span>
                     <span class="marquee-item" aria-hidden="true">${currentNews.summary}</span>
                   </div>
                 </div>
-                <span class="text-xs transition-colors hidden sm:inline-flex items-center gap-1 text-[#5c5f63]">
+                <span class="text-xs transition-colors hidden sm:inline-flex items-center gap-1" style="color:rgba(255,255,255,0.6)">
                   Подробнее ${icon('arrowRight', 'h-3.5 w-3.5 inline-block group-hover:translate-x-0.5 transition-transform')}
                 </span>
               </a>
