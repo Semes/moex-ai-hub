@@ -26,9 +26,7 @@ services:
     environment:
       POSTGRES_DB: moex_agent_hub
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "${DB_PORT}:5432"
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always

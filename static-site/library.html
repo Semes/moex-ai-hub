@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Библиотека — MOEX Agent Hub</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="js/marked.min.js"></script>
 </head>
 <body class="antialiased bg-white text-[#33373B]">
   <div id="site-header"></div>
@@ -211,7 +209,7 @@
       // Render cards or empty state
       const grid = document.getElementById('library-grid');
       if (filtered.length > 0) {
-        grid.innerHTML = `<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${filtered.map(item => renderPromptCard(item)).join('')}</div>`;
+        grid.innerHTML = `<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${filtered.map(item => renderPromptCard(item, { clickableTags: true })).join('')}</div>`;
       } else {
         grid.innerHTML = `
           <div class="flex flex-col items-center justify-center rounded-lg border border-dashed border-[#EEE7DC] py-20">
@@ -227,42 +225,7 @@
       }
     }
 
-    function renderPromptCard(item) {
-      const liked = LikesStore.isLiked(item.id);
-      const likes = LikesStore.getEffective(item.id, item.likes);
-      const tags = getDisplayTags(item);
-
-      return `
-        <div class="group flex flex-col cursor-pointer rounded-2xl border border-[#EEE7DC] bg-white transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:scale-[1.02] hover:-translate-y-0.5 shadow-[0_4px_6px_rgba(0,0,0,0.05)]"
-             onclick="openPromptDetail(marketplaceItems.find(i=>i.id==='${item.id}'))" role="button" tabindex="0">
-          <div class="p-5 pb-2 space-y-2.5">
-            <div class="flex items-center gap-2">
-              <div class="h-1.5 w-1.5 rounded-full shrink-0 ${getProductDotClass(item.product)}"></div>
-              <span class="badge-text px-2 py-0.5 rounded-md ${getProductBadgeClass(item.product)}">${item.product}</span>
-              <span class="badge-text border px-2 py-0.5 rounded-md border-[#EEE7DC] text-[#5c5f63]">${item.type === 'prompt' ? 'Промпт' : item.type === 'mcp' ? 'MCP' : 'Скилл'}</span>
-            </div>
-            <h3 class="card-title leading-snug group-hover:text-[#FF0508] transition-colors duration-200">${item.title}</h3>
-            <p class="body-text-sm">${item.description}</p>
-          </div>
-          <div class="px-5 pb-5 mt-auto flex flex-col gap-3 pt-0">
-            <div class="flex flex-wrap gap-1.5 overflow-hidden max-h-[2rem]">
-              ${tags.map(t => `<span onclick="event.stopPropagation();filterByTag('${t.replace(/'/g, "\\'")}')" class="inline-flex items-center rounded-md px-2 py-0.5 badge-text cursor-pointer transition-colors duration-200 hover:bg-[#33373B] hover:text-white ${activeTagFilter === t ? 'bg-[#33373B] text-white' : 'bg-[#FBF7F3] text-[#5c5f63]'}">${t}</span>`).join('')}
-            </div>
-            <div class="flex items-center justify-between border-t border-[#EEE7DC] pt-3" data-card-actions>
-              <span class="text-xs text-[#5c5f63] mr-2 min-w-0">${item.author}</span>
-              <div class="flex items-center gap-1 shrink-0">
-                <button onclick="event.stopPropagation();copyToClipboard(marketplaceItems.find(i=>i.id==='${item.id}').content)" class="p-2 rounded-lg text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" title="Копировать">
-                  ${icon('copy', 'h-4 w-4')}
-                </button>
-                <button onclick="event.stopPropagation();LikesStore.toggle('${item.id}');toggleCardLike(this,'${item.id}',${item.likes})"
-                  class="flex items-center gap-1.5 px-2 py-1 rounded-lg text-sm font-medium transition-colors ${liked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}" title="Мне нравится">
-                  ${icon('heart', 'h-5 w-5')} ${likes}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>`;
-    }
+    // renderPromptCard is now defined in app.js
 
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('icon-prompt-intro').innerHTML = icon('messageSquare', 'h-5 w-5');

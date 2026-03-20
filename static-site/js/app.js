@@ -483,7 +483,57 @@ function renderFooter() {
   </footer>`;
 }
 
-// ——— 14. Page init ———
+// ——— 14. Render prompt card (shared between index.html and library.html) ———
+function renderPromptCard(item, options = {}) {
+  const { clickableTags = false, showEyeButton = false } = options;
+  const liked = LikesStore.isLiked(item.id);
+  const likes = LikesStore.getEffective(item.id, item.likes);
+  const tags = getDisplayTags(item);
+
+  const tagsHtml = clickableTags
+    ? tags.map(t => `<span onclick="event.stopPropagation();filterByTag('${t.replace(/'/g, "\\'")}')" class="inline-flex items-center rounded-md px-2 py-0.5 badge-text cursor-pointer transition-colors duration-200 hover:bg-[#33373B] hover:text-white ${typeof activeTagFilter !== 'undefined' && activeTagFilter === t ? 'bg-[#33373B] text-white' : 'bg-[#FBF7F3] text-[#5c5f63]'}">${t}</span>`).join('')
+    : tags.map(t => `<span class="inline-flex items-center rounded-md bg-[#FBF7F3] px-2 py-0.5 badge-text text-[#5c5f63]">${t}</span>`).join('');
+
+  const eyeBtn = showEyeButton
+    ? `<button onclick="event.stopPropagation();openPromptDetail(marketplaceItems.find(i=>i.id==='${item.id}'))" class="p-2 rounded-lg text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" title="Подробнее">
+                  ${icon('eye', 'h-4 w-4')}
+                </button>`
+    : '';
+
+  return `
+        <div class="group flex flex-col cursor-pointer rounded-2xl border border-[#EEE7DC] bg-white transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:scale-[1.02] hover:-translate-y-0.5 shadow-[0_4px_6px_rgba(0,0,0,0.05)]"
+             onclick="openPromptDetail(marketplaceItems.find(i=>i.id==='${item.id}'))" role="button" tabindex="0">
+          <div class="p-5 pb-2 space-y-2.5">
+            <div class="flex items-center gap-2">
+              <div class="h-1.5 w-1.5 rounded-full shrink-0 ${getProductDotClass(item.product)}"></div>
+              <span class="badge-text px-2 py-0.5 rounded-md ${getProductBadgeClass(item.product)}">${item.product}</span>
+              <span class="badge-text border px-2 py-0.5 rounded-md border-[#EEE7DC] text-[#5c5f63]">${item.type === 'prompt' ? 'Промпт' : item.type === 'mcp' ? 'MCP' : 'Скилл'}</span>
+            </div>
+            <h3 class="card-title leading-snug group-hover:text-[#FF0508] transition-colors duration-200">${item.title}</h3>
+            <p class="body-text-sm">${item.description}</p>
+          </div>
+          <div class="px-5 pb-5 mt-auto flex flex-col gap-3 pt-0">
+            <div class="flex flex-wrap gap-1.5 overflow-hidden max-h-[2rem]">
+              ${tagsHtml}
+            </div>
+            <div class="flex items-center justify-between border-t border-[#EEE7DC] pt-3" data-card-actions>
+              <span class="text-xs text-[#5c5f63] mr-2 min-w-0">${item.author}</span>
+              <div class="flex items-center gap-1 shrink-0">
+                <button onclick="event.stopPropagation();copyToClipboard(marketplaceItems.find(i=>i.id==='${item.id}').content)" class="p-2 rounded-lg text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" title="Копировать">
+                  ${icon('copy', 'h-4 w-4')}
+                </button>
+                ${eyeBtn}
+                <button onclick="event.stopPropagation();LikesStore.toggle('${item.id}');toggleCardLike(this,'${item.id}',${item.likes})"
+                  class="flex items-center gap-1.5 px-2 py-1 rounded-lg text-sm font-medium transition-colors ${liked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}" title="Мне нравится">
+                  ${icon('heart', 'h-5 w-5')} ${likes}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+}
+
+// ——— 15. Page init ———
 function initPage() {
   const currentPath = window.location.pathname;
   const headerEl = document.getElementById('site-header');

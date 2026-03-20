@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Лидерборд — MOEX Agent Hub</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="js/marked.min.js"></script>
 </head>
 <body class="antialiased bg-white text-[#33373B]">
   <div id="site-header"></div>
@@ -35,7 +33,7 @@
         </div>
 
         <!-- Right: Top prompts -->
-        <div class="lg:col-span-2 space-y-5">
+        <div id="popular-sidebar" class="lg:col-span-2 space-y-5">
           <div class="flex items-center justify-between gap-2 flex-wrap">
             <div class="flex items-center gap-2">
               <span id="icon-star-header"></span>
@@ -75,16 +73,17 @@
         document.getElementById('top-three').innerHTML = '';
         document.getElementById('rest-list').innerHTML = `
           <div class="text-center py-16">
-            <div class="mx-auto w-16 h-16 rounded-2xl bg-[#FBF7F3] flex items-center justify-center mb-4">
-              ${icon('trophy', 'h-7 w-7 text-amber-500')}
-            </div>
-            <h3 class="card-title mb-2">Лидерборд пока пуст</h3>
-            <p class="body-text-sm max-w-md mx-auto mb-6">Предложите свой промпт или скилл — и станьте первым в рейтинге!</p>
-            <a href="submit.html" class="inline-flex items-center gap-1.5 h-10 px-5 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors">
-              Предложить промпт
+            <div class="flex justify-center mb-4">${icon('trophy', 'h-12 w-12 text-[#EEE7DC]')}</div>
+            <h3 class="section-title mb-2">Лидерборд пока пуст</h3>
+            <p class="body-text-sm text-[#5c5f63] mb-6">Станьте первым автором! Опубликуйте промпт или скилл и получите признание коллег.</p>
+            <a href="submit.html" class="inline-flex items-center gap-1.5 h-10 px-5 rounded-lg bg-[#FF0508] text-sm font-semibold text-white hover:bg-[#d90407] transition-colors">
+              ${icon('plus', 'w-4 h-4')} Предложить материал
             </a>
           </div>`;
+        document.getElementById('popular-sidebar').style.display = 'none';
+        return;
       } else {
+        document.getElementById('popular-sidebar').style.display = '';
         // Top 3
         document.getElementById('top-three').innerHTML = topThree.map(user => {
           const cfg = rankConfig[user.rank];

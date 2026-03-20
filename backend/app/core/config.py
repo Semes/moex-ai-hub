@@ -4,7 +4,8 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
     DATABASE_URL: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/moex_agent_hub"
-    CORS_ORIGINS: str = "*"
+    # Override in .env for production: CORS_ORIGINS=https://agent-hub.moex.com
+    CORS_ORIGINS: str = "http://localhost:80,http://localhost:3000"
 
     KEYCLOAK_BASE_URL: str = "https://keycloak.example.com"
     KEYCLOAK_REALM: str = "moex"
