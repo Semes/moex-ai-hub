@@ -102,8 +102,8 @@
                 <p class="text-xs text-[#5c5f63] mb-3">${user.department}</p>
                 <div class="flex items-center justify-center gap-4 text-xs">
                   <div>
-                    <p class="text-base font-bold text-[#33373B]">${user.promptsShared + user.skillsShared}</p>
-                    <p class="badge-text text-[#5c5f63]">${pluralize(user.promptsShared + user.skillsShared, 'публикация', 'публикации', 'публикаций').replace(/^\d+\s/, '')}</p>
+                    <p class="text-base font-bold text-[#33373B]">${user.promptsShared + user.skillsShared + (user.mcpShared || 0)}</p>
+                    <p class="badge-text text-[#5c5f63]">${pluralize(user.promptsShared + user.skillsShared + (user.mcpShared || 0), 'публикация', 'публикации', 'публикаций').replace(/^\d+\s/, '')}</p>
                   </div>
                   <div class="w-px h-6 bg-[#EEE7DC]"></div>
                   <div>
@@ -130,6 +130,7 @@
                   <div class="flex items-center gap-5 text-sm text-[#5c5f63] shrink-0">
                     <span class="flex items-center gap-1.5" title="Промпты">${icon('fileText', 'h-3.5 w-3.5')} ${user.promptsShared}</span>
                     <span class="flex items-center gap-1.5" title="Скиллы">${icon('wrench', 'h-3.5 w-3.5')} ${user.skillsShared}</span>
+                    ${(user.mcpShared || 0) > 0 ? `<span class="flex items-center gap-1.5" title="MCP">${icon('cable', 'h-3.5 w-3.5')} ${user.mcpShared}</span>` : ''}
                     <span class="flex items-center gap-1.5 text-[#FF0508]" title="Лайки">${icon('heart', 'h-3.5 w-3.5')} ${user.totalLikes}</span>
                   </div>
                 </div>

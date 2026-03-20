@@ -220,7 +220,7 @@ function openPromptDetail(item) {
   // Render content: prompts as pre on dark bg, MCP markdown rendered, skills as pre
   let contentBlock;
   const trimmedContent = (item.content || '').trim();
-  const copyCodeBtn = `<button onclick="event.stopPropagation();copyToClipboard(\`${item.content.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$')}\`)" class="absolute top-3 right-3 p-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white/50 hover:text-white transition-colors" title="Копировать">${icon('copy','w-4 h-4')}</button>`;
+  const copyCodeBtn = `<button onclick="event.stopPropagation();copyToClipboard(marketplaceItems.find(i=>i.id==='${item.id}').content)" class="absolute top-3 right-3 p-1.5 rounded-md bg-white/10 hover:bg-white/20 text-white/50 hover:text-white transition-colors" title="Копировать">${icon('copy','w-4 h-4')}</button>`;
   if (item.type === 'prompt') {
     contentBlock = `
       <div class="relative rounded-lg border border-[#EEE7DC] bg-[#1e1e2e] p-4 mb-4 overflow-x-auto">

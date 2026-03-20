@@ -648,7 +648,7 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
       ## Output Format
       Always structure your review as:
 
-      \\\`\\\`\\\`
+      \`\`\`
       # Code Review Report
 
       ## Summary
@@ -670,7 +670,7 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
 
       ## Recommendations
       - ...
-      \\\`\\\`\\\`
+      \`\`\`
 
       ## Rules
       - NEVER say "looks good" without reading every changed file.
@@ -755,7 +755,7 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
 
       Always produce a structured debugging report:
 
-      \\\`\\\`\\\`
+      \`\`\`
       # Debugging Report
 
       ## Problem Statement
@@ -779,7 +779,7 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
 
       ## Prevention
       [What could prevent this class of bug in the future?]
-      \\\`\\\`\\\`
+      \`\`\`
 
       ## Rules
       - NEVER propose a fix in Phase 1. Investigation first.
@@ -899,12 +899,12 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
 
       ## Output Format
       When reporting TDD progress, use:
-      \\\`\\\`\\\`
+      \`\`\`
       ## TDD Cycle [N]
       RED:   [test name] — [expected failure reason]
       GREEN: [what minimal code was written]
       REFACTOR: [what was cleaned up, or "none needed"]
-      \\\`\\\`\\\`
+      \`\`\`
 
     groups:
       - read
@@ -999,7 +999,7 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
     customInstructions: |
       ## Security Audit Report Format
 
-      \\\`\\\`\\\`
+      \`\`\`
       # Security Audit Report
       **Date**: [date]
       **Scope**: [what was audited]
@@ -1030,7 +1030,7 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
 
       ## Recommendations
       [Prioritized list of improvements]
-      \\\`\\\`\\\`
+      \`\`\`
 
       ## MOEX-Specific Security Rules
       - Financial calculations MUST use Decimal types, never floating point.
@@ -1134,7 +1134,7 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
 
       ## Output Format for Design Proposal
 
-      \\\`\\\`\\\`
+      \`\`\`
       # Design: [Feature Name]
 
       ## Problem Statement
@@ -1160,7 +1160,7 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
 
       ## Open Questions
       [Anything still unclear]
-      \\\`\\\`\\\`
+      \`\`\`
 
       ## Anti-Patterns to Avoid
       - "This is too simple to need a design" — It is not.
@@ -1239,7 +1239,7 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
     customInstructions: |
       ## Plan Document Format
 
-      \\\`\\\`\\\`
+      \`\`\`
       # Implementation Plan: [Feature Name]
 
       ## Goal
@@ -1265,19 +1265,19 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
       **Goal**: ...
       **Files**: ...
       **Test**:
-      \\\`\\\`\\\`[language]
+      \`\`\`[language]
       [exact test code]
-      \\\`\\\`\\\`
+      \`\`\`
       **Implementation**:
-      \\\`\\\`\\\`[language]
+      \`\`\`[language]
       [exact implementation code]
-      \\\`\\\`\\\`
-      **Verify**: \\\`[command]\\\` — expect [output]
-      **Commit**: \\\`[message]\\\`
+      \`\`\`
+      **Verify**: \`[command]\` — expect [output]
+      **Commit**: \`[message]\`
 
       ### Task 2: [Name]
       ...
-      \\\`\\\`\\\`
+      \`\`\`
 
       ## Rules
       - NEVER create a plan without a File Map.
@@ -1363,25 +1363,25 @@ Severity: 🔴 critical | 🟡 warning | 🔵 info
 
       Every completion statement must include:
 
-      \\\`\\\`\\\`
+      \`\`\`
       ## Verification
 
       ### What was verified
       [Specific claim being made]
 
       ### Command run
-      \\\`\\\`\\\`
+      \`\`\`
       [exact command]
-      \\\`\\\`\\\`
+      \`\`\`
 
       ### Output
-      \\\`\\\`\\\`
+      \`\`\`
       [full output, not truncated]
-      \\\`\\\`\\\`
+      \`\`\`
 
       ### Result
       [PASS/FAIL with specific evidence from output]
-      \\\`\\\`\\\`
+      \`\`\`
 
       ## Rules
 
@@ -1810,59 +1810,59 @@ logs/*.log
 
 - Следовать PEP 8 для стиля кода
 - Максимальная длина строки: 100 символов
-- Использовать \\\`black\\\` для автоформатирования, \\\`ruff\\\` для линтинга
+- Использовать \`black\` для автоформатирования, \`ruff\` для линтинга
 - Импорты группировать: stdlib, third-party, local; разделять пустой строкой
-- Использовать абсолютные импорты (\\\`from app.core.config import settings\\\`)
+- Использовать абсолютные импорты (\`from app.core.config import settings\`)
 
 ### Именование
 
-- Переменные и функции: \\\`snake_case\\\`
-- Классы: \\\`PascalCase\\\`
-- Константы: \\\`UPPER_SNAKE_CASE\\\`
-- Приватные атрибуты: \\\`_leading_underscore\\\`
-- Имена должны быть описательными: \\\`user_count\\\` вместо \\\`uc\\\`, \\\`calculate_portfolio_risk\\\` вместо \\\`calc\\\`
+- Переменные и функции: \`snake_case\`
+- Классы: \`PascalCase\`
+- Константы: \`UPPER_SNAKE_CASE\`
+- Приватные атрибуты: \`_leading_underscore\`
+- Имена должны быть описательными: \`user_count\` вместо \`uc\`, \`calculate_portfolio_risk\` вместо \`calc\`
 
 ### Типизация
 
 - Все функции должны иметь аннотации типов для аргументов и возвращаемого значения
-- Использовать \\\`Optional[T]\\\` / \\\`T | None\\\` (Python 3.10+) для nullable-значений
+- Использовать \`Optional[T]\` / \`T | None\` (Python 3.10+) для nullable-значений
 - Pydantic-модели для валидации входных данных API
-- Использовать \\\`TypedDict\\\` или \\\`dataclass\\\` для внутренних структур
+- Использовать \`TypedDict\` или \`dataclass\` для внутренних структур
 
 ### Обработка ошибок
 
-- Не использовать голые \\\`except:\\\` -- всегда указывать конкретный тип исключения
+- Не использовать голые \`except:\` -- всегда указывать конкретный тип исключения
 - Кастомные исключения наследовать от базового класса проекта
-- FastAPI-эндпоинты: возвращать \\\`HTTPException\\\` с правильным status code
-- Логировать ошибки с контекстом: \\\`logger.error("Failed to process trade", extra={"trade_id": tid})\\\`
+- FastAPI-эндпоинты: возвращать \`HTTPException\` с правильным status code
+- Логировать ошибки с контекстом: \`logger.error("Failed to process trade", extra={"trade_id": tid})\`
 
 ### Асинхронность
 
-- Использовать \\\`async/await\\\` для I/O-операций (БД, HTTP, файлы)
+- Использовать \`async/await\` для I/O-операций (БД, HTTP, файлы)
 - Не блокировать event loop синхронными вызовами
-- Для CPU-bound задач использовать \\\`run_in_executor\\\`
+- Для CPU-bound задач использовать \`run_in_executor\`
 
 ## JavaScript (Frontend)
 
 ### Стиль и форматирование
 
 - Использовать ES6+ синтаксис
-- \\\`const\\\` по умолчанию, \\\`let\\\` когда необходима мутация, никогда \\\`var\\\`
+- \`const\` по умолчанию, \`let\` когда необходима мутация, никогда \`var\`
 - Стрелочные функции для callback и анонимных функций
 - Template literals вместо конкатенации строк
-- Использовать \\\`prettier\\\` для форматирования
+- Использовать \`prettier\` для форматирования
 
 ### Именование
 
-- Переменные и функции: \\\`camelCase\\\`
-- Классы и компоненты: \\\`PascalCase\\\`
-- Константы: \\\`UPPER_SNAKE_CASE\\\`
-- CSS-классы: \\\`kebab-case\\\`
-- Файлы компонентов: \\\`PascalCase.js\\\`
+- Переменные и функции: \`camelCase\`
+- Классы и компоненты: \`PascalCase\`
+- Константы: \`UPPER_SNAKE_CASE\`
+- CSS-классы: \`kebab-case\`
+- Файлы компонентов: \`PascalCase.js\`
 
 ### Обработка ошибок
 
-- Всегда обрабатывать promise rejection (\\\`.catch()\\\` или \\\`try/catch\\\` с \\\`async/await\\\`)
+- Всегда обрабатывать promise rejection (\`.catch()\` или \`try/catch\` с \`async/await\`)
 - Показывать пользователю понятные сообщения об ошибках
 - Логировать технические детали в консоль
 
@@ -1877,15 +1877,15 @@ logs/*.log
 
 - Docstrings для всех публичных функций, классов и модулей (Google-стиль)
 - Комментарии объясняют ЗАЧЕМ, а не ЧТО
-- TODO-комментарии должны содержать имя автора и номер задачи: \\\`# TODO(ivanov): MOEX-1234 -- добавить кэширование\\\`
+- TODO-комментарии должны содержать имя автора и номер задачи: \`# TODO(ivanov): MOEX-1234 -- добавить кэширование\`
 - Не оставлять закомментированный код -- удалять или выносить в отдельную ветку
 
 ## Git и коммиты
 
-- Формат коммитов: Conventional Commits (\\\`feat:\\\`, \\\`fix:\\\`, \\\`refactor:\\\`, \\\`docs:\\\`, \\\`test:\\\`, \\\`chore:\\\`)
+- Формат коммитов: Conventional Commits (\`feat:\`, \`fix:\`, \`refactor:\`, \`docs:\`, \`test:\`, \`chore:\`)
 - Один коммит -- одно логическое изменение
 - Тело коммита (если нужно) объясняет причину изменения
-- Ветки: \\\`feature/MOEX-xxx-short-description\\\`, \\\`fix/MOEX-xxx-description\\\``,
+- Ветки: \`feature/MOEX-xxx-short-description\`, \`fix/MOEX-xxx-description\``,
     tags: ["Правила", "Python", "JavaScript"],
     product: "Code Agent",
     author: "MOEX AI Team",
@@ -1908,12 +1908,12 @@ logs/*.log
 ### 1. Никогда не хранить секреты в коде
 
 - ЗАПРЕЩЕНО: хардкод паролей, API-ключей, токенов, connection strings
-- ОБЯЗАТЕЛЬНО: использовать переменные окружения (\\\`os.getenv\\\`, \\\`.env\\\` файлы)
-- Файл \\\`.env\\\` НИКОГДА не попадает в git (проверить \\\`.gitignore\\\`)
+- ОБЯЗАТЕЛЬНО: использовать переменные окружения (\`os.getenv\`, \`.env\` файлы)
+- Файл \`.env\` НИКОГДА не попадает в git (проверить \`.gitignore\`)
 - Для продакшена: использовать Vault, AWS Secrets Manager или аналог
 - При обнаружении секрета в коде: немедленно уведомить команду безопасности
 
-\\\`\\\`\\\`python
+\`\`\`python
 # ЗАПРЕЩЕНО
 DB_PASSWORD = "super_secret_123"
 API_KEY = "sk-1234567890abcdef"
@@ -1921,7 +1921,7 @@ API_KEY = "sk-1234567890abcdef"
 # ПРАВИЛЬНО
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 API_KEY = settings.api_key  # через Pydantic Settings
-\\\`\\\`\\\`
+\`\`\`
 
 ### 2. Валидация всех входных данных
 
@@ -1935,15 +1935,15 @@ API_KEY = settings.api_key  # через Pydantic Settings
 
 - ТОЛЬКО параметризованные запросы (SQLAlchemy ORM / prepared statements)
 - ЗАПРЕЩЕНО: f-строки и конкатенация для формирования SQL
-- Для raw SQL: использовать \\\`text()\\\` с параметрами
+- Для raw SQL: использовать \`text()\` с параметрами
 
-\\\`\\\`\\\`python
+\`\`\`python
 # ЗАПРЕЩЕНО
 query = f"SELECT * FROM users WHERE id = {user_id}"
 
 # ПРАВИЛЬНО
 query = select(User).where(User.id == user_id)
-\\\`\\\`\\\`
+\`\`\`
 
 ### 4. Аутентификация и авторизация
 
@@ -1956,24 +1956,24 @@ query = select(User).where(User.id == user_id)
 ### 5. Безопасность зависимостей
 
 - Фиксировать версии зависимостей (requirements.txt с точными версиями)
-- Регулярно проверять уязвимости: \\\`pip audit\\\`, \\\`npm audit\\\`
+- Регулярно проверять уязвимости: \`pip audit\`, \`npm audit\`
 - Не устанавливать пакеты из недоверенных источников
 - Проверять лицензии на совместимость
 
 ## Правила для API
 
 - HTTPS обязателен для всех внешних запросов
-- CORS: явно указывать разрешённые домены (не \\\`*\\\` в продакшене)
+- CORS: явно указывать разрешённые домены (не \`*\` в продакшене)
 - Content-Type: проверять и устанавливать корректные заголовки
 - Не раскрывать внутренние ошибки пользователю (stack traces, SQL-ошибки)
-- Стандартизировать коды ошибок: \\\`{"error": "code", "message": "human-readable"}\\\`
+- Стандартизировать коды ошибок: \`{"error": "code", "message": "human-readable"}\`
 
 ## Правила для данных
 
 - PII (персональные данные) шифровать при хранении
 - Логировать доступ к чувствительным данным для аудита
 - Минимальные привилегии: каждый сервис получает доступ только к нужным данным
-- Маскировать чувствительные данные в логах: \\\`user_email: a***@moex.com\\\`
+- Маскировать чувствительные данные в логах: \`user_email: a***@moex.com\`
 - Backup: проверить, что резервные копии тоже защищены
 
 ## Правила для AI-агента
@@ -1989,7 +1989,7 @@ query = select(User).where(User.id == user_id)
 - [ ] Все секреты вынесены в переменные окружения
 - [ ] Входные данные валидируются на всех эндпоинтах
 - [ ] SQL-запросы параметризованы
-- [ ] CORS настроен корректно (не \\\`*\\\`)
+- [ ] CORS настроен корректно (не \`*\`)
 - [ ] Rate limiting включён
 - [ ] Логирование безопасности настроено
 - [ ] Зависимости проверены на уязвимости
@@ -2046,11 +2046,11 @@ AI-агент должен проходить этот чеклист перед
 
 ## 4. Обработка ошибок
 
-- [ ] Все исключения обработаны (нет голых \\\`except:\\\`)
+- [ ] Все исключения обработаны (нет голых \`except:\`)
 - [ ] HTTP-ответы используют правильные статус-коды
 - [ ] Ошибки логируются с достаточным контекстом
 - [ ] Пользователь получает понятное сообщение об ошибке
-- [ ] Нет подавления ошибок (\\\`pass\\\` в except-блоке)
+- [ ] Нет подавления ошибок (\`pass\` в except-блоке)
 
 ## 5. Производительность
 
@@ -2120,10 +2120,10 @@ AI-агент должен проходить этот чеклист перед
 
 ### Именование
 
-- Ресурсы -- существительные во множественном числе: \\\`/users\\\`, \\\`/trades\\\`, \\\`/portfolios\\\`
-- Иерархия через вложенность: \\\`/users/{id}/submissions\\\`
-- Версионирование в URL: \\\`/api/v1/users\\\`
-- Только lowercase, слова разделять дефисами: \\\`/market-data\\\`, \\\`/trade-history\\\`
+- Ресурсы -- существительные во множественном числе: \`/users\`, \`/trades\`, \`/portfolios\`
+- Иерархия через вложенность: \`/users/{id}/submissions\`
+- Версионирование в URL: \`/api/v1/users\`
+- Только lowercase, слова разделять дефисами: \`/market-data\`, \`/trade-history\`
 
 ### HTTP-методы
 
@@ -2147,30 +2147,30 @@ AI-агент должен проходить этот чеклист перед
 
 ### Успешные
 
-- \\\`200 OK\\\` -- стандартный успешный ответ
-- \\\`201 Created\\\` -- ресурс создан (POST)
-- \\\`204 No Content\\\` -- успех без тела (DELETE, PUT)
+- \`200 OK\` -- стандартный успешный ответ
+- \`201 Created\` -- ресурс создан (POST)
+- \`204 No Content\` -- успех без тела (DELETE, PUT)
 
 ### Клиентские ошибки
 
-- \\\`400 Bad Request\\\` -- невалидные входные данные
-- \\\`401 Unauthorized\\\` -- не аутентифицирован
-- \\\`403 Forbidden\\\` -- нет прав доступа
-- \\\`404 Not Found\\\` -- ресурс не найден
-- \\\`409 Conflict\\\` -- конфликт состояния
-- \\\`422 Unprocessable Entity\\\` -- валидация не пройдена
-- \\\`429 Too Many Requests\\\` -- rate limit превышен
+- \`400 Bad Request\` -- невалидные входные данные
+- \`401 Unauthorized\` -- не аутентифицирован
+- \`403 Forbidden\` -- нет прав доступа
+- \`404 Not Found\` -- ресурс не найден
+- \`409 Conflict\` -- конфликт состояния
+- \`422 Unprocessable Entity\` -- валидация не пройдена
+- \`429 Too Many Requests\` -- rate limit превышен
 
 ### Серверные ошибки
 
-- \\\`500 Internal Server Error\\\` -- непредвиденная ошибка
-- \\\`503 Service Unavailable\\\` -- сервис временно недоступен
+- \`500 Internal Server Error\` -- непредвиденная ошибка
+- \`503 Service Unavailable\` -- сервис временно недоступен
 
 ## Формат ответа
 
 ### Успешный ответ (единичный ресурс)
 
-\\\`\\\`\\\`json
+\`\`\`json
 {
   "id": "uuid-string",
   "type": "user",
@@ -2178,11 +2178,11 @@ AI-агент должен проходить этот чеклист перед
   "created_at": "2026-03-18T10:30:00Z",
   "updated_at": "2026-03-18T10:30:00Z"
 }
-\\\`\\\`\\\`
+\`\`\`
 
 ### Успешный ответ (коллекция)
 
-\\\`\\\`\\\`json
+\`\`\`json
 {
   "data": [ ... ],
   "pagination": {
@@ -2192,11 +2192,11 @@ AI-агент должен проходить этот чеклист перед
     "total_pages": 8
   }
 }
-\\\`\\\`\\\`
+\`\`\`
 
 ### Ответ об ошибке
 
-\\\`\\\`\\\`json
+\`\`\`json
 {
   "error": {
     "code": "VALIDATION_ERROR",
@@ -2209,42 +2209,42 @@ AI-агент должен проходить этот чеклист перед
     ]
   }
 }
-\\\`\\\`\\\`
+\`\`\`
 
 ## Пагинация
 
-- Offset-based: \\\`?page=2&per_page=20\\\` (по умолчанию для MOEX AI Hub)
-- Cursor-based: \\\`?cursor=abc123&limit=20\\\` (для real-time данных)
-- Значения по умолчанию: \\\`page=1\\\`, \\\`per_page=20\\\`
-- Максимум на страницу: \\\`per_page <= 100\\\`
+- Offset-based: \`?page=2&per_page=20\` (по умолчанию для MOEX AI Hub)
+- Cursor-based: \`?cursor=abc123&limit=20\` (для real-time данных)
+- Значения по умолчанию: \`page=1\`, \`per_page=20\`
+- Максимум на страницу: \`per_page <= 100\`
 - Всегда возвращать метаданные пагинации
 
 ## Фильтрация и сортировка
 
-- Фильтрация через query params: \\\`?status=active&role=admin\\\`
-- Поиск: \\\`?q=search_term\\\` или \\\`?search=search_term\\\`
-- Сортировка: \\\`?sort=created_at&order=desc\\\`
-- Множественная сортировка: \\\`?sort=status,-created_at\\\` (минус = desc)
+- Фильтрация через query params: \`?status=active&role=admin\`
+- Поиск: \`?q=search_term\` или \`?search=search_term\`
+- Сортировка: \`?sort=created_at&order=desc\`
+- Множественная сортировка: \`?sort=status,-created_at\` (минус = desc)
 
 ## Безопасность API
 
-- Аутентификация: Bearer JWT в заголовке \\\`Authorization\\\`
-- Rate limiting: возвращать заголовки \\\`X-RateLimit-Limit\\\`, \\\`X-RateLimit-Remaining\\\`
+- Аутентификация: Bearer JWT в заголовке \`Authorization\`
+- Rate limiting: возвращать заголовки \`X-RateLimit-Limit\`, \`X-RateLimit-Remaining\`
 - CORS: явный whitelist доменов
 - Не передавать чувствительные данные в URL (query params логируются)
 - Валидация Content-Type на всех POST/PUT/PATCH запросах
-- Request ID: генерировать \\\`X-Request-Id\\\` для трассировки
+- Request ID: генерировать \`X-Request-Id\` для трассировки
 
 ## FastAPI-специфичные правила
 
-- Использовать \\\`APIRouter\\\` для группировки эндпоинтов
+- Использовать \`APIRouter\` для группировки эндпоинтов
 - Pydantic-модели для request/response (не dict)
 - Dependency Injection для аутентификации и общих зависимостей
-- \\\`response_model\\\` на каждом эндпоинте для документации
+- \`response_model\` на каждом эндпоинте для документации
 - Tags для группировки в Swagger UI
-- \\\`summary\\\` и \\\`description\\\` для каждого эндпоинта
+- \`summary\` и \`description\` для каждого эндпоинта
 
-\\\`\\\`\\\`python
+\`\`\`python
 @router.get(
     "/users/{user_id}",
     response_model=UserResponse,
@@ -2258,7 +2258,7 @@ async def get_user(
     current_user: User = Depends(get_current_user),
 ) -> UserResponse:
     ...
-\\\`\\\`\\\``,
+\`\`\``,
     tags: ["Правила", "API", "REST"],
     product: "Code Agent",
     author: "MOEX AI Team",
@@ -2287,98 +2287,98 @@ async def get_user(
 
 ### Таблицы
 
-- Множественное число, snake_case: \\\`users\\\`, \\\`trade_histories\\\`, \\\`quiz_submissions\\\`
-- Таблицы связей: \\\`user_roles\\\`, \\\`content_tags\\\` (алфавитный порядок сущностей)
+- Множественное число, snake_case: \`users\`, \`trade_histories\`, \`quiz_submissions\`
+- Таблицы связей: \`user_roles\`, \`content_tags\` (алфавитный порядок сущностей)
 - Запрещено: начинать с подчёркивания, использовать зарезервированные слова SQL
 
 ### Колонки
 
-- snake_case: \\\`first_name\\\`, \\\`created_at\\\`, \\\`is_active\\\`
-- Primary key: \\\`id\\\` (UUID или BIGINT)
-- Foreign key: \\\`{referenced_table_singular}_id\\\` (например, \\\`user_id\\\`, \\\`quiz_id\\\`)
-- Булевые: префикс \\\`is_\\\` или \\\`has_\\\` (\\\`is_active\\\`, \\\`has_subscription\\\`)
-- Даты: суффикс \\\`_at\\\` (\\\`created_at\\\`, \\\`updated_at\\\`, \\\`deleted_at\\\`)
+- snake_case: \`first_name\`, \`created_at\`, \`is_active\`
+- Primary key: \`id\` (UUID или BIGINT)
+- Foreign key: \`{referenced_table_singular}_id\` (например, \`user_id\`, \`quiz_id\`)
+- Булевые: префикс \`is_\` или \`has_\` (\`is_active\`, \`has_subscription\`)
+- Даты: суффикс \`_at\` (\`created_at\`, \`updated_at\`, \`deleted_at\`)
 
 ### Индексы
 
-- \\\`idx_{table}_{columns}\\\` -- обычный индекс
-- \\\`uq_{table}_{columns}\\\` -- уникальный индекс
-- \\\`pk_{table}\\\` -- primary key
-- \\\`fk_{table}_{referenced_table}\\\` -- foreign key
+- \`idx_{table}_{columns}\` -- обычный индекс
+- \`uq_{table}_{columns}\` -- уникальный индекс
+- \`pk_{table}\` -- primary key
+- \`fk_{table}_{referenced_table}\` -- foreign key
 
 ## Типы данных
 
 | Данные | Тип PostgreSQL | Комментарий |
 |--------|---------------|-------------|
-| ID | \\\`UUID\\\` или \\\`BIGINT\\\` | UUID для распределённых систем |
-| Строки до 255 | \\\`VARCHAR(n)\\\` | С ограничением длины |
-| Длинный текст | \\\`TEXT\\\` | Без ограничения |
-| Целые числа | \\\`INTEGER\\\` / \\\`BIGINT\\\` | BIGINT для финансовых ID |
-| Деньги | \\\`NUMERIC(precision, scale)\\\` | НИКОГДА \\\`FLOAT\\\` / \\\`REAL\\\` для денег |
-| Дата/время | \\\`TIMESTAMPTZ\\\` | Всегда с timezone |
-| Булевы | \\\`BOOLEAN\\\` | Не INTEGER |
-| JSON-данные | \\\`JSONB\\\` | Не \\\`JSON\\\` (JSONB индексируется) |
-| Перечисления | \\\`VARCHAR\\\` + CHECK или ENUM | ENUM для фиксированных значений |
+| ID | \`UUID\` или \`BIGINT\` | UUID для распределённых систем |
+| Строки до 255 | \`VARCHAR(n)\` | С ограничением длины |
+| Длинный текст | \`TEXT\` | Без ограничения |
+| Целые числа | \`INTEGER\` / \`BIGINT\` | BIGINT для финансовых ID |
+| Деньги | \`NUMERIC(precision, scale)\` | НИКОГДА \`FLOAT\` / \`REAL\` для денег |
+| Дата/время | \`TIMESTAMPTZ\` | Всегда с timezone |
+| Булевы | \`BOOLEAN\` | Не INTEGER |
+| JSON-данные | \`JSONB\` | Не \`JSON\` (JSONB индексируется) |
+| Перечисления | \`VARCHAR\` + CHECK или ENUM | ENUM для фиксированных значений |
 
 ### Критическое правило для финансовых данных
 
-\\\`\\\`\\\`sql
+\`\`\`sql
 -- ЗАПРЕЩЕНО: потеря точности
 price FLOAT  -- НИКОГДА для денег!
 
 -- ПРАВИЛЬНО: точное представление
 price NUMERIC(18, 8)  -- 18 знаков всего, 8 после запятой
-\\\`\\\`\\\`
+\`\`\`
 
 ## Проектирование схемы
 
 ### Обязательные колонки для каждой таблицы
 
-\\\`\\\`\\\`sql
+\`\`\`sql
 id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
-\\\`\\\`\\\`
+\`\`\`
 
 ### Soft Delete
 
-- Использовать \\\`deleted_at TIMESTAMPTZ\\\` вместо физического удаления
-- Добавлять partial index: \\\`CREATE INDEX ... WHERE deleted_at IS NULL\\\`
+- Использовать \`deleted_at TIMESTAMPTZ\` вместо физического удаления
+- Добавлять partial index: \`CREATE INDEX ... WHERE deleted_at IS NULL\`
 - Все запросы по умолчанию фильтруют удалённые записи
 
 ### Foreign Keys
 
 - ОБЯЗАТЕЛЬНЫ для связей между таблицами
-- Указывать \\\`ON DELETE\\\` действие: \\\`CASCADE\\\`, \\\`SET NULL\\\`, \\\`RESTRICT\\\`
-- Для финансовых данных: \\\`ON DELETE RESTRICT\\\` (никогда CASCADE)
+- Указывать \`ON DELETE\` действие: \`CASCADE\`, \`SET NULL\`, \`RESTRICT\`
+- Для финансовых данных: \`ON DELETE RESTRICT\` (никогда CASCADE)
 
 ### Constraints
 
-- \\\`NOT NULL\\\` по умолчанию (nullable только когда осознанно нужно)
-- \\\`CHECK\\\` для валидации на уровне БД (\\\`CHECK (age >= 0)\\\`)
-- \\\`UNIQUE\\\` для бизнес-ключей (email, username)
+- \`NOT NULL\` по умолчанию (nullable только когда осознанно нужно)
+- \`CHECK\` для валидации на уровне БД (\`CHECK (age >= 0)\`)
+- \`UNIQUE\` для бизнес-ключей (email, username)
 
 ## Запросы
 
 ### Правила
 
-- ЗАПРЕЩЕНО: \\\`SELECT *\\\` -- всегда перечислять нужные колонки
+- ЗАПРЕЩЕНО: \`SELECT *\` -- всегда перечислять нужные колонки
 - ЗАПРЕЩЕНО: f-строки и конкатенация в SQL (SQL Injection!)
-- Использовать \\\`EXPLAIN ANALYZE\\\` для проверки тяжёлых запросов
-- Пагинация обязательна для коллекций (\\\`LIMIT\\\` + \\\`OFFSET\\\` или cursor)
-- \\\`COUNT(*)\\\` с \\\`LIMIT\\\` для больших таблиц
+- Использовать \`EXPLAIN ANALYZE\` для проверки тяжёлых запросов
+- Пагинация обязательна для коллекций (\`LIMIT\` + \`OFFSET\` или cursor)
+- \`COUNT(*)\` с \`LIMIT\` для больших таблиц
 
 ### Индексация
 
-- Индексы на все колонки в \\\`WHERE\\\`, \\\`JOIN\\\`, \\\`ORDER BY\\\`
-- Partial indexes для частых фильтров: \\\`WHERE is_active = true\\\`
+- Индексы на все колонки в \`WHERE\`, \`JOIN\`, \`ORDER BY\`
+- Partial indexes для частых фильтров: \`WHERE is_active = true\`
 - Composite indexes: порядок колонок по селективности (от высокой к низкой)
 - Не создавать избыточные индексы (покрываемые другими)
 - Мониторить неиспользуемые индексы
 
 ### N+1 Problem
 
-\\\`\\\`\\\`python
+\`\`\`python
 # ЗАПРЕЩЕНО: N+1 запросов
 users = await session.execute(select(User))
 for user in users:
@@ -2389,21 +2389,21 @@ for user in users:
 # ПРАВИЛЬНО: eager loading
 query = select(User).options(selectinload(User.submissions))
 users = await session.execute(query)
-\\\`\\\`\\\`
+\`\`\`
 
 ## Миграции (Alembic)
 
 ### Правила
 
 - Одна миграция -- одно логическое изменение
-- Каждая миграция должна иметь \\\`upgrade()\\\` и \\\`downgrade()\\\`
+- Каждая миграция должна иметь \`upgrade()\` и \`downgrade()\`
 - Тестировать миграции на копии продакшен-данных
 - НИКОГДА не редактировать уже применённые миграции
-- Описательные имена: \\\`0004_add_portfolio_risk_score.py\\\`
+- Описательные имена: \`0004_add_portfolio_risk_score.py\`
 
 ### Безопасные миграции
 
-- Добавление колонки: \\\`ADD COLUMN ... DEFAULT NULL\\\` (не блокирует таблицу)
+- Добавление колонки: \`ADD COLUMN ... DEFAULT NULL\` (не блокирует таблицу)
 - Добавление NOT NULL: сначала добавить nullable, заполнить, потом SET NOT NULL
 - Удаление колонки: сначала убрать из кода, потом удалить в следующей миграции
 - Переименование: создать новую, скопировать, удалить старую (в 3 миграциях)
@@ -2411,14 +2411,14 @@ users = await session.execute(query)
 ## Производительность
 
 - Connection pooling: использовать PgBouncer или SQLAlchemy pool
-- \\\`pool_size\\\`: 5-20 соединений для типичного сервиса
-- \\\`VACUUM ANALYZE\\\` регулярно (не \\\`VACUUM FULL\\\` в продакшене)
-- Мониторить \\\`pg_stat_statements\\\` для медленных запросов
+- \`pool_size\`: 5-20 соединений для типичного сервиса
+- \`VACUUM ANALYZE\` регулярно (не \`VACUUM FULL\` в продакшене)
+- Мониторить \`pg_stat_statements\` для медленных запросов
 - Для больших выборок: cursor-based пагинация вместо OFFSET
 
 ## Бэкапы и восстановление
 
-- Автоматические ежедневные бэкапы через \\\`pg_dump\\\` или WAL archiving
+- Автоматические ежедневные бэкапы через \`pg_dump\` или WAL archiving
 - Тестировать восстановление из бэкапа минимум раз в месяц
 - Point-in-time recovery (PITR) для критичных данных
 - Бэкапы шифровать и хранить в отдельном хранилище`,
@@ -2448,7 +2448,7 @@ users = await session.execute(query)
 
 ## Пирамида тестирования
 
-\\\`\\\`\\\`
+\`\`\`
         /\\
        /  \\        E2E (5%)
       /----\\       Минимум сценариев
@@ -2458,20 +2458,20 @@ users = await session.execute(query)
   /------------\\
  /              \\  Unit (70%)
 /________________\\ Бизнес-логика, утилиты, валидация
-\\\`\\\`\\\`
+\`\`\`
 
 ## Unit-тесты
 
 ### Правила
 
-- Фреймворк: \\\`pytest\\\`
-- Каждый модуль в \\\`app/\\\` имеет соответствующий тест в \\\`tests/unit/\\\`
-- Структура тестов отражает структуру кода: \\\`app/core/security.py\\\` -> \\\`tests/unit/core/test_security.py\\\`
+- Фреймворк: \`pytest\`
+- Каждый модуль в \`app/\` имеет соответствующий тест в \`tests/unit/\`
+- Структура тестов отражает структуру кода: \`app/core/security.py\` -> \`tests/unit/core/test_security.py\`
 - Один тестовый файл -- один тестируемый модуль
 
 ### Именование
 
-\\\`\\\`\\\`python
+\`\`\`python
 # Формат: test_{что_делаем}_{при_каких_условиях}_{ожидаемый_результат}
 def test_calculate_risk_with_empty_portfolio_returns_zero():
     ...
@@ -2481,11 +2481,11 @@ def test_create_user_with_duplicate_email_raises_conflict():
 
 def test_validate_trade_with_negative_amount_returns_validation_error():
     ...
-\\\`\\\`\\\`
+\`\`\`
 
 ### Структура теста (AAA -- Arrange, Act, Assert)
 
-\\\`\\\`\\\`python
+\`\`\`python
 def test_hash_password_produces_valid_bcrypt_hash():
     # Arrange
     plain_password = "secure_password_123"
@@ -2496,7 +2496,7 @@ def test_hash_password_produces_valid_bcrypt_hash():
     # Assert
     assert hashed != plain_password
     assert verify_password(plain_password, hashed) is True
-\\\`\\\`\\\`
+\`\`\`
 
 ### Что тестировать
 
@@ -2512,11 +2512,11 @@ def test_hash_password_produces_valid_bcrypt_hash():
 - Тестируют взаимодействие компонентов (API + DB, сервис + внешний API)
 - Используют тестовую базу данных (не продакшен!)
 - Каждый тест работает в своей транзакции (откат после теста)
-- Файлы в \\\`tests/integration/\\\`
+- Файлы в \`tests/integration/\`
 
 ### API-тесты (FastAPI)
 
-\\\`\\\`\\\`python
+\`\`\`python
 @pytest.mark.asyncio
 async def test_create_user_returns_201(async_client: AsyncClient):
     # Arrange
@@ -2530,18 +2530,18 @@ async def test_create_user_returns_201(async_client: AsyncClient):
     data = response.json()
     assert data["email"] == user_data["email"]
     assert "id" in data
-\\\`\\\`\\\`
+\`\`\`
 
 ## Fixtures и тестовые данные
 
 ### Правила
 
-- Fixtures в \\\`conftest.py\\\` (общие) или в тестовом файле (специфичные)
+- Fixtures в \`conftest.py\` (общие) или в тестовом файле (специфичные)
 - Factory-паттерн для создания тестовых объектов
 - НИКОГДА не использовать реальные данные пользователей
 - НИКОГДА не использовать реальные credentials в тестах
 
-\\\`\\\`\\\`python
+\`\`\`python
 @pytest.fixture
 def sample_user() -> dict:
     return {
@@ -2556,11 +2556,11 @@ async def db_user(session: AsyncSession, sample_user: dict) -> User:
     session.add(user)
     await session.commit()
     return user
-\\\`\\\`\\\`
+\`\`\`
 
 ## Моки и стабы
 
-- \\\`unittest.mock\\\` или \\\`pytest-mock\\\` для мокирования зависимостей
+- \`unittest.mock\` или \`pytest-mock\` для мокирования зависимостей
 - Мокировать: внешние API, email-сервисы, файловую систему
 - НЕ мокировать: бизнес-логику (тестировать как есть)
 - Для БД: использовать тестовую БД, не моки
@@ -2569,13 +2569,13 @@ async def db_user(session: AsyncSession, sample_user: dict) -> User:
 
 - Минимальное покрытие: 80% для нового кода
 - Критичная бизнес-логика: 95%+ покрытие
-- Инструмент: \\\`pytest-cov\\\`
+- Инструмент: \`pytest-cov\`
 - В CI: проверка покрытия автоматическая, PR блокируется при снижении
 
 ## AI-агент: правила генерации тестов
 
 1. При создании нового модуля -- ВСЕГДА создавать тестовый файл
-2. Тесты должны быть осмысленными (не просто \\\`assert True\\\`)
+2. Тесты должны быть осмысленными (не просто \`assert True\`)
 3. Покрывать минимум: happy path + 2 error cases
 4. Не генерировать тесты, которые тестируют фреймворк (pytest, FastAPI)
 5. Использовать fixtures, не дублировать setup в каждом тесте`,
@@ -2632,8 +2632,10 @@ function buildLeaderboard(items, getLikes) {
   const byAuthor = new Map();
   for (const item of items) {
     if (item.author === 'MOEX AI Team') continue;
-    const c = byAuthor.get(item.author) || { promptsShared: 0, skillsShared: 0, totalLikes: 0 };
-    if (item.type === 'prompt') c.promptsShared++; else c.skillsShared++;
+    const c = byAuthor.get(item.author) || { promptsShared: 0, skillsShared: 0, mcpShared: 0, totalLikes: 0 };
+    if (item.type === 'prompt') c.promptsShared++;
+    else if (item.type === 'mcp') c.mcpShared++;
+    else c.skillsShared++;
     c.totalLikes += getLikes(item);
     byAuthor.set(item.author, c);
   }
