@@ -13,20 +13,20 @@
 <body class="antialiased bg-white text-[#33373B]">
   <div id="site-header"></div>
 
-  <main class="min-h-screen bg-white">
-    <!-- Header -->
-    <div class="border-b border-[#EEE7DC] bg-gradient-to-br from-[#FBF7F3] to-white">
-      <div class="container-main py-10">
-        <div class="flex items-center gap-2.5 mb-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FBF7F3] border border-[#EEE7DC]" id="icon-grad-cap"></div>
-          <p class="section-label mb-0">Обучение</p>
-        </div>
-        <h1 class="page-title">Гайды и глоссарий</h1>
-        <p class="page-subtitle max-w-lg">Ресурсы для работы с AI-инструментами Биржи — от установки до продвинутых техник</p>
+  <!-- Page Header (non-sticky, scrolls away) -->
+  <div class="border-b border-[#EEE7DC] bg-gradient-to-br from-[#FBF7F3] to-white">
+    <div class="container-main py-10">
+      <div class="flex items-center gap-2.5 mb-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FBF7F3] border border-[#EEE7DC]" id="icon-grad-cap"></div>
+        <p class="section-label mb-0">Обучение</p>
       </div>
+      <h1 class="page-title">Гайды и глоссарий</h1>
+      <p class="page-subtitle max-w-lg">Ресурсы для работы с AI-инструментами Биржи — от установки до продвинутых техник</p>
     </div>
+  </div>
 
-    <div class="border-b border-[#EEE7DC] bg-white sticky top-[80px] z-40">
+  <!-- Section Nav (sticky, sticks under header) -->
+  <div class="border-b border-[#EEE7DC] bg-white/95 backdrop-blur-sm sticky top-0 z-40" style="top:80px">
       <div class="container-main py-3 flex gap-6 overflow-x-auto" style="-ms-overflow-style:none;scrollbar-width:none;">
         <a href="#quick-start" class="text-xs font-medium text-[#5c5f63] hover:text-[#FF0508] whitespace-nowrap transition-colors">Быстрый старт</a>
         <a href="#capabilities" class="text-xs font-medium text-[#5c5f63] hover:text-[#FF0508] whitespace-nowrap transition-colors">Возможности</a>
@@ -37,6 +37,7 @@
       </div>
     </div>
 
+  <main class="min-h-screen bg-white">
     <div class="container-main py-10">
       <div class="space-y-12">
 
