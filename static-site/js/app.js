@@ -332,12 +332,12 @@ function renderHeader(currentPath) {
     <div class="mx-auto flex h-[80px] max-w-7xl items-center justify-between px-4 sm:px-6">
       <a href="index.html" class="flex flex-col justify-center">
         <span class="text-lg font-bold tracking-tight text-[#33373B] leading-tight">MOEX <span class="text-[#FF0508]">AI</span> Hub</span>
-        <span class="badge-text text-[#5c5f63] leading-tight">Powered by ★ MOEX AI Team</span>
+        <span class="badge-text text-[#5c5f63] leading-tight">Офис по развитию ИИ</span>
       </a>
       <nav class="hidden md:flex items-center gap-1">${desktopNav}</nav>
       <div class="hidden md:flex items-center">
         <a href="submit.html" class="inline-flex items-center gap-1.5 h-10 px-4 rounded-lg bg-[#FF0508] text-sm font-semibold text-white hover:bg-[#d90407] shadow-sm transition-colors">
-          ${icon('plus', 'w-4 h-4')} Предложить промпт
+          ${icon('plus', 'w-4 h-4')} Предложить материал
         </a>
       </div>
       <button onclick="openMobileMenu()" id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-[#FBF7F3]" aria-label="Меню" aria-expanded="false">
@@ -357,7 +357,7 @@ function renderHeader(currentPath) {
         ${mobileNav}
         <hr class="border-[#EEE7DC] my-2">
         <a href="submit.html" onclick="closeMobileMenu()" class="mx-3 inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-lg bg-[#FF0508] text-sm font-semibold text-white hover:bg-[#d90407]">
-          ${icon('plus', 'w-3.5 h-3.5')} Предложить промпт
+          ${icon('plus', 'w-3.5 h-3.5')} Предложить материал
         </a>
       </nav>
     </div>
@@ -395,7 +395,7 @@ function renderFooter() {
       <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
         <div class="space-y-2">
           <span class="text-sm font-bold text-[#33373B] block">MOEX <span class="text-[#FF0508]">AI</span> Hub</span>
-          <span class="badge-text text-[#5c5f63]">Powered by ★ MOEX AI Team</span>
+          <span class="badge-text text-[#5c5f63]">Офис по развитию ИИ</span>
           <p class="max-w-xs text-xs leading-relaxed text-[#5c5f63]">Единая платформа AI-инструментов.</p>
         </div>
         <div class="flex gap-12 text-xs">

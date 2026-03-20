@@ -61,7 +61,10 @@
           Искусственный интеллект в Московской бирже активно развивается и стал одним из стратегических направлений компании.
           Поэтому каждому сотруднику важно уметь пользоваться тем, что есть у нас — промптами, скиллами и AI-инструментами.
         </p>
-        <a href="learn.html" class="inline-flex items-center gap-1.5 text-sm font-medium text-[#FF0508] hover:underline mt-4">Узнать, с чего начать <span id="icon-arrow-intro"></span></a>
+        <a href="learn.html" class="inline-flex items-center gap-2 h-11 px-6 rounded-lg text-sm font-semibold border border-[#33373B] text-[#33373B] hover:bg-[#33373B] hover:text-white transition-colors mt-2">
+          Узнать, с чего начать
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </a>
       </div>
     </section>
 
@@ -136,20 +139,20 @@
       const currentNews = news[0];
       if (currentNews) {
         document.getElementById('news-banner').innerHTML = `
-          <div class="border-b border-[#2B2B2B]" style="background:#1F1F1F">
+          <div class="border-b border-[#EEE7DC]" style="background:#FBF7F3">
             <div class="container-main py-3">
               <a href="${currentNews.url}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group">
                 <div class="flex items-center gap-2 shrink-0">
                   ${icon('megaphone', 'h-5 w-5 text-[#FF0508]')}
-                  <span class="badge-text font-bold px-2.5 py-1 rounded-sm" style="background:#FF0508;color:#fff">${currentNews.tag}</span>
+                  <span class="badge-text font-bold px-2.5 py-1 rounded-md bg-[#FF0508] text-white">${currentNews.tag}</span>
                 </div>
-                <div class="marquee flex-1 text-sm" style="color:rgba(255,255,255,0.92)">
+                <div class="marquee flex-1 text-sm text-[#33373B]">
                   <div class="marquee-track">
                     <span class="marquee-item">${currentNews.summary}</span>
                     <span class="marquee-item" aria-hidden="true">${currentNews.summary}</span>
                   </div>
                 </div>
-                <span class="text-xs transition-colors hidden sm:inline-flex items-center gap-1" style="color:rgba(255,255,255,0.7)">
+                <span class="text-xs transition-colors hidden sm:inline-flex items-center gap-1 text-[#5c5f63]">
                   Подробнее ${icon('arrowRight', 'h-3.5 w-3.5 inline-block group-hover:translate-x-0.5 transition-transform')}
                 </span>
               </a>
