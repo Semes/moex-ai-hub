@@ -538,7 +538,13 @@ function initPage() {
   const currentPath = window.location.pathname;
   const headerEl = document.getElementById('site-header');
   const footerEl = document.getElementById('site-footer');
-  if (headerEl) headerEl.innerHTML = renderHeader(currentPath);
+  if (headerEl) {
+    headerEl.innerHTML = renderHeader(currentPath);
+    // Make the wrapper sticky so header stays fixed on scroll
+    headerEl.style.position = 'sticky';
+    headerEl.style.top = '0';
+    headerEl.style.zIndex = '50';
+  }
   if (footerEl) footerEl.innerHTML = renderFooter();
 }
 
