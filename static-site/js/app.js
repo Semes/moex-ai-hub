@@ -1,12 +1,12 @@
 /**
- * MOEX AI Hub — shared application logic for static HTML site.
+ * MOEX Agent Hub — shared application logic for static HTML site.
  * Plain JavaScript, no modules. Requires icons.js for icon().
  */
 
 // ——— 1. Likes System (localStorage) ———
 const LikesStore = {
-  _key: 'moex-ai-hub-likes',
-  _liked: new Set(JSON.parse(localStorage.getItem('moex-ai-hub-likes') || '[]')),
+  _key: 'moex-agent-hub-likes',
+  _liked: new Set(JSON.parse(localStorage.getItem('moex-agent-hub-likes') || '[]')),
   _listeners: [],
 
   isLiked(id) {
@@ -29,7 +29,58 @@ const LikesStore = {
   },
 };
 
-// ——— 2. Toast notifications ———
+// ——— 2. User Settings (from backend API) ———
+const UserSettings = {
+  _settings: null,
+  _loaded: false,
+
+  async load() {
+    if (this._loaded) return this._settings;
+    try {
+      // Try to get auth token from sessionStorage (set by Keycloak redirect)
+      const token = sessionStorage.getItem('auth_token');
+      if (!token) { this._loaded = true; return null; }
+
+      const res = await fetch('/api/v1/me/settings', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error(res.status);
+      this._settings = await res.json();
+      this._loaded = true;
+      return this._settings;
+    } catch (e) {
+      console.warn('Settings unavailable (static mode):', e.message);
+      this._loaded = true;
+      return null;
+    }
+  },
+
+  isProductEnabled(productId) {
+    if (!this._settings) return true; // static mode = everything visible
+    return this._settings.products[productId] !== false;
+  },
+
+  isModelEnabled(modelAlias) {
+    if (!this._settings) return true;
+    return this._settings.models[modelAlias] !== false;
+  },
+
+  getApiKey() {
+    return this._settings?.api_key || null;
+  },
+
+  isAdmin() {
+    // Check from sessionStorage token payload
+    try {
+      const token = sessionStorage.getItem('auth_token');
+      if (!token) return false;
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return (payload.realm_access?.roles || []).includes('admin');
+    } catch { return false; }
+  }
+};
+
+// ——— 3. Toast notifications ———
 function showToast(message, type = 'success') {
   let container = document.getElementById('toast-container');
   if (!container) {
@@ -49,7 +100,7 @@ function showToast(message, type = 'success') {
   }, 2500);
 }
 
-// ——— 3. Clipboard copy ———
+// ——— 4. Clipboard copy ———
 async function copyToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
@@ -59,7 +110,7 @@ async function copyToClipboard(text) {
   }
 }
 
-// ——— 4. Dialog/Modal system ———
+// ——— 5. Dialog/Modal system ———
 function openDialog(contentHtml) {
   closeDialog();
   const overlay = document.createElement('div');
@@ -108,17 +159,17 @@ function _dialogEscHandler(e) {
   if (e.key === 'Escape') closeDialog();
 }
 
-// ——— 5. HTML escape utility ———
+// ——— 6. HTML escape utility ———
 function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
 }
 
-// ——— 6. Display tags helper ———
+// ——— 7. Display tags helper ———
 // getDisplayTags is defined in data.js (returns up to 4 tags for cards)
 
-// ——— 7. Installation steps helper (skills only) ———
+// ——— 8. Installation steps helper (skills only) ———
 function getInstallationSteps(item) {
   const content = (item.content || '').trim();
   let steps = [];
@@ -161,7 +212,7 @@ function getInstallationSteps(item) {
     </div>`).join('');
 }
 
-// ——— 8. Modal like toggle (in-place update, no re-render) ———
+// ——— 9. Modal like toggle (in-place update, no re-render) ———
 function toggleModalLike(id, baseLikes) {
   LikesStore.toggle(id);
   const btn = document.getElementById('modal-like-btn');
@@ -172,7 +223,7 @@ function toggleModalLike(id, baseLikes) {
   btn.className = `cursor-pointer inline-flex items-center gap-2 min-h-[44px] px-3 py-2 text-sm font-medium rounded-lg transition-colors ${isLiked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}`;
 }
 
-// ——— 8b. Card like toggle (in-place update, no card re-render) ———
+// ——— 9b. Card like toggle (in-place update, no card re-render) ———
 function toggleCardLike(btn, id, baseLikes) {
   const isLiked = LikesStore.isLiked(id);
   const count = LikesStore.getEffective(id, baseLikes);
@@ -180,7 +231,7 @@ function toggleCardLike(btn, id, baseLikes) {
   btn.className = `flex items-center gap-1.5 px-2 py-1 rounded-lg text-sm font-medium transition-colors ${isLiked ? 'text-[#FF0508] bg-red-50' : 'text-[#5c5f63] hover:text-[#FF0508] hover:bg-[#FBF7F3]'}`;
 }
 
-// ——— 9. Prompt Detail Dialog ———
+// ——— 10. Prompt Detail Dialog ———
 function _slugify(text) {
   const ru = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'};
   return text.toLowerCase().replace(/[а-яё]/g, c => ru[c] || c).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
@@ -294,7 +345,7 @@ function openPromptDetail(item) {
   openDialog(html);
 }
 
-// ——— 9. Render header ———
+// ——— 11. Render header ———
 function renderHeader(currentPath) {
   const navLinks = [
     { href: 'index.html', label: 'Главная', file: 'index.html', isHome: true },
@@ -303,6 +354,11 @@ function renderHeader(currentPath) {
     { href: 'leaderboard.html', label: 'Лидерборд', file: 'leaderboard.html' },
     { href: 'profile.html', label: 'Личный кабинет', file: 'profile.html' },
   ];
+
+  // Conditionally add admin link for users with admin role
+  if (UserSettings.isAdmin()) {
+    navLinks.push({ href: 'admin.html', label: 'Админка', file: 'admin.html' });
+  }
 
   const pathname = window.location.pathname;
   const page = pathname.split('/').pop() || '';
@@ -333,7 +389,7 @@ function renderHeader(currentPath) {
   <header class="sticky top-0 z-50 w-full border-b border-[#EEE7DC] bg-white/90 backdrop-blur-lg">
     <div class="mx-auto flex h-[80px] max-w-7xl items-center justify-between px-4 sm:px-6">
       <a href="index.html" class="flex flex-col justify-center">
-        <span class="text-lg font-bold tracking-tight text-[#33373B] leading-tight">MOEX <span class="text-[#FF0508]">AI</span> Hub</span>
+        <span class="text-lg font-bold tracking-tight text-[#33373B] leading-tight">MOEX <span class="text-[#FF0508]">Agent</span> Hub</span>
         <span class="badge-text text-[#5c5f63] leading-tight">Офис по развитию ИИ</span>
       </a>
       <nav class="hidden md:flex items-center gap-1">${desktopNav}</nav>
@@ -366,7 +422,7 @@ function renderHeader(currentPath) {
   </template>`;
 }
 
-// ——— 10. Mobile menu ———
+// ——— 12. Mobile menu ———
 function openMobileMenu() {
   const tpl = document.getElementById('mobile-menu-template');
   if (!tpl) return;
@@ -389,14 +445,14 @@ function closeMobileMenu() {
   if (btn) btn.setAttribute('aria-expanded', 'false');
 }
 
-// ——— 11. Render footer ———
+// ——— 13. Render footer ———
 function renderFooter() {
   return `
   <footer class="border-t border-[#EEE7DC] bg-[#FBF7F3]">
     <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
         <div class="space-y-2">
-          <span class="text-sm font-bold text-[#33373B] block">MOEX <span class="text-[#FF0508]">AI</span> Hub</span>
+          <span class="text-sm font-bold text-[#33373B] block">MOEX <span class="text-[#FF0508]">Agent</span> Hub</span>
           <span class="badge-text text-[#5c5f63]">Офис по развитию ИИ</span>
           <p class="max-w-xs text-xs leading-relaxed text-[#5c5f63]">Единая платформа AI-инструментов.</p>
         </div>
@@ -427,7 +483,7 @@ function renderFooter() {
   </footer>`;
 }
 
-// ——— 12. Page init ———
+// ——— 14. Page init ———
 function initPage() {
   const currentPath = window.location.pathname;
   const headerEl = document.getElementById('site-header');
@@ -438,7 +494,7 @@ function initPage() {
 
 document.addEventListener('DOMContentLoaded', initPage);
 
-// ——— 13. Accessibility: keyboard activation for role="button" elements ———
+// ——— 15. Accessibility: keyboard activation for role="button" elements ———
 document.addEventListener('keydown', (e) => {
   if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[role="button"]')) {
     e.preventDefault();

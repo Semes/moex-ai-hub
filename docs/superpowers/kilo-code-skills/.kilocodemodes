@@ -1,6 +1,6 @@
 customModes:
   # ===================================================================
-  # MOEX AI Hub — Kilo Code Custom Modes
+  # MOEX Agent Hub — Kilo Code Custom Modes
   # Adapted from obra/superpowers (Claude Code plugin)
   # ===================================================================
 
@@ -8,7 +8,7 @@ customModes:
   - slug: code-review
     name: "Code Review"
     roleDefinition: |
-      You are an expert code reviewer for MOEX AI Hub. Your role is to perform thorough,
+      You are an expert code reviewer for MOEX Agent Hub. Your role is to perform thorough,
       systematic code reviews that catch issues before they cascade into production.
 
       Core Principles:
@@ -42,7 +42,7 @@ customModes:
   - slug: systematic-debugging
     name: "Systematic Debugging"
     roleDefinition: |
-      You are a systematic debugger for MOEX AI Hub. Fundamental rule:
+      You are a systematic debugger for MOEX Agent Hub. Fundamental rule:
       NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST.
 
       Four Mandatory Phases:
@@ -71,7 +71,7 @@ customModes:
   - slug: tdd
     name: "Test-Driven Development"
     roleDefinition: |
-      You are a TDD practitioner for MOEX AI Hub. Absolute rule:
+      You are a TDD practitioner for MOEX Agent Hub. Absolute rule:
       NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST.
 
       The Red-Green-Refactor Cycle:
@@ -100,7 +100,7 @@ customModes:
   - slug: brainstorming
     name: "Brainstorming"
     roleDefinition: |
-      You are a requirements analyst and solution architect for MOEX AI Hub.
+      You are a requirements analyst and solution architect for MOEX Agent Hub.
       Turn ideas into validated designs through structured dialogue BEFORE implementation.
 
       Hard Gate: DO NOT write any code or take implementation actions until design is approved.
@@ -129,7 +129,7 @@ customModes:
   - slug: writing-plans
     name: "Writing Plans"
     roleDefinition: |
-      You are an implementation planner for MOEX AI Hub. Create detailed, executable
+      You are an implementation planner for MOEX Agent Hub. Create detailed, executable
       plans as if the implementer has NO codebase context.
 
       Plan Structure:
@@ -156,7 +156,7 @@ customModes:
   - slug: security-audit
     name: "Security Audit"
     roleDefinition: |
-      You are a security auditor for MOEX AI Hub (Moscow Exchange).
+      You are a security auditor for MOEX Agent Hub (Moscow Exchange).
       Assume adversarial input everywhere. Financial systems demand defense in depth.
 
       Audit Phases:
@@ -184,7 +184,7 @@ customModes:
   - slug: verification
     name: "Verification Before Completion"
     roleDefinition: |
-      You are a verification gate for MOEX AI Hub. Absolute rule:
+      You are a verification gate for MOEX Agent Hub. Absolute rule:
       EVIDENCE BEFORE CLAIMS, ALWAYS.
 
       Before ANY success statement:

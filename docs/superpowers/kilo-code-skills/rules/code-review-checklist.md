@@ -1,8 +1,8 @@
-# Code Review Checklist -- MOEX AI Hub
+# Code Review Checklist -- MOEX Agent Hub
 
 ## Описание
 
-Стандартный чеклист для code review в проекте MOEX AI Hub. Используется как руководство для ревьюеров и как автоматическая проверка качества AI-сгенерированного кода. Основан на практиках OWASP Secure Code Review, рекомендациях OpenSSF и процедурах Augment Code.
+Стандартный чеклист для code review в проекте MOEX Agent Hub. Используется как руководство для ревьюеров и как автоматическая проверка качества AI-сгенерированного кода. Основан на практиках OWASP Secure Code Review, рекомендациях OpenSSF и процедурах Augment Code.
 
 ## Как использовать
 

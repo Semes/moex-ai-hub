@@ -1,4 +1,4 @@
-# MOEX AI Hub Backend
+# MOEX Agent Hub Backend
 
 ## Local development
 1. Create `.env` from `.env.example` in the repo root.

@@ -1,8 +1,8 @@
-# API Design Rules -- MOEX AI Hub
+# API Design Rules -- MOEX Agent Hub
 
 ## Описание
 
-Правила проектирования REST API для MOEX AI Hub. Обеспечивают консистентность, безопасность и удобство интеграции. Основаны на Microsoft REST API Guidelines, OpenAPI Specification и практиках финансовых API.
+Правила проектирования REST API для MOEX Agent Hub. Обеспечивают консистентность, безопасность и удобство интеграции. Основаны на Microsoft REST API Guidelines, OpenAPI Specification и практиках финансовых API.
 
 ## Общие принципы
 
@@ -108,7 +108,7 @@
 
 ## Пагинация
 
-- Offset-based: `?page=2&per_page=20` (по умолчанию для MOEX AI Hub)
+- Offset-based: `?page=2&per_page=20` (по умолчанию для MOEX Agent Hub)
 - Cursor-based: `?cursor=abc123&limit=20` (для real-time данных)
 - Значения по умолчанию: `page=1`, `per_page=20`
 - Максимум на страницу: `per_page <= 100`

@@ -1,4 +1,4 @@
-# MOEX AI Hub — Expected File Tree
+# MOEX Agent Hub — Expected File Tree
 
 Reference for recreation. The generated project should follow this structure (under a new root or existing repo).
 

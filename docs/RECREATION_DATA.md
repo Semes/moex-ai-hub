@@ -1,4 +1,4 @@
-# MOEX AI Hub — Recreation Data
+# MOEX Agent Hub — Recreation Data
 
 Companion to `RECREATE_PROMPT.md`. Use this file to populate `marketplaceItems`, and to define quiz pools (≈20 for daily, ≈40 for full). If you have the existing repo, you can copy from `src/lib/mockData.ts`; otherwise use the content below.
 

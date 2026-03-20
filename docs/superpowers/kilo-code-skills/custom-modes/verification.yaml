@@ -2,7 +2,7 @@ customModes:
   - slug: verification
     name: "Verification Before Completion"
     roleDefinition: |
-      You are a verification gate for MOEX AI Hub. Your absolute rule:
+      You are a verification gate for MOEX Agent Hub. Your absolute rule:
       EVIDENCE BEFORE CLAIMS, ALWAYS.
 
       Claiming work is complete without verification is dishonesty, not efficiency.

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Личный кабинет — MOEX AI Hub</title>
+  <title>Личный кабинет — MOEX Agent Hub</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,6 +27,11 @@
     </div>
 
     <div class="container-main py-10">
+      <!-- Demo mode notice (shown when API is unavailable) -->
+      <div id="demo-notice" class="bg-amber-50 border border-amber-200 rounded-lg px-4 py-2 mb-6 text-sm text-amber-700" style="display:none">
+        Демо-режим: данные отображаются для примера. В рабочей версии здесь будут ваши персональные настройки.
+      </div>
+
       <div class="space-y-12">
 
         <!-- Section 1: Доступные модели -->
@@ -37,10 +42,10 @@
           <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="models-grid"></div>
         </div>
 
-        <hr class="border-[#EEE7DC]">
+        <hr class="border-[#EEE7DC]" id="api-section-divider">
 
         <!-- Section 2: API-ключ -->
-        <div>
+        <div id="api-section">
           <p class="section-label">Интеграция</p>
           <h2 class="section-title mb-6">API-ключ</h2>
           <div class="rounded-xl border border-[#EEE7DC] bg-white p-6 max-w-xl">
@@ -75,7 +80,7 @@
         <hr class="border-[#EEE7DC]">
 
         <!-- Section 3: Мои материалы -->
-        <div>
+        <div id="materials-section">
           <p class="section-label">Контент</p>
           <h2 class="section-title mb-6">Мои материалы</h2>
           <div class="rounded-xl border border-[#EEE7DC] bg-[#FBF7F3] p-8 text-center max-w-xl">
@@ -111,37 +116,33 @@
 
     // ── API key state ──
     let apiKeyVisible = false;
-    const MOCK_API_KEY = 'moex-ai-k7f2x9m4p1q8w3e6';
+    let activeApiKey = 'moex-ai-k7f2x9m4p1q8w3e6'; // overridden by real key when available
+
+    function maskKey(key) {
+      if (!key || key.length <= 10) return 'moex-ai-••••••••••••••••';
+      return key.substring(0, 8) + '••••••••••••••••';
+    }
 
     function toggleApiKey() {
       apiKeyVisible = !apiKeyVisible;
       const display = document.getElementById('api-key-display');
       const btn = document.getElementById('api-key-toggle');
       if (apiKeyVisible) {
-        display.textContent = MOCK_API_KEY;
+        display.textContent = activeApiKey;
         btn.innerHTML = icon('eye', 'h-3.5 w-3.5') + ' Скрыть';
       } else {
-        display.textContent = 'moex-ai-••••••••••••••••';
+        display.textContent = maskKey(activeApiKey);
         btn.innerHTML = icon('eye', 'h-3.5 w-3.5') + ' Показать';
       }
     }
 
     function copyApiKey() {
-      copyToClipboard(MOCK_API_KEY);
+      copyToClipboard(activeApiKey);
     }
 
-    // ── DOMContentLoaded ──
-    document.addEventListener('DOMContentLoaded', () => {
-      // Icons
-      document.getElementById('icon-profile-header').innerHTML = icon('user', 'h-5 w-5 text-[#5c5f63]');
-      document.getElementById('icon-eye-toggle').innerHTML = icon('eye', 'h-3.5 w-3.5');
-      document.getElementById('icon-copy-key').innerHTML = icon('copy', 'h-3.5 w-3.5');
-      document.getElementById('icon-ext-link').innerHTML = icon('externalLink', 'h-3.5 w-3.5');
-      document.getElementById('icon-materials-empty').innerHTML = icon('fileText', 'h-5 w-5 text-[#5c5f63]');
-      document.getElementById('icon-arrow-materials').innerHTML = icon('arrowRight', 'h-4 w-4');
-
-      // Render models grid
-      document.getElementById('models-grid').innerHTML = llmModels.map((m, i) => {
+    // ── Render helpers ──
+    function renderModels(models) {
+      document.getElementById('models-grid').innerHTML = models.map((m, i) => {
         return `
           <div class="rounded-xl border border-[#EEE7DC] border-l-4 ${m.borderColor} bg-white p-5 transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 animate-fade-in-up"
                style="animation-delay:${i * 80}ms;animation-fill-mode:both">
@@ -153,6 +154,79 @@
             <p class="body-text-sm">${m.purpose}</p>
           </div>`;
       }).join('');
+    }
+
+    function renderMaterials(settings) {
+      const container = document.getElementById('materials-section');
+      const contentDiv = container.querySelector('.rounded-xl');
+
+      if (settings && settings.keycloak_sub) {
+        const myItems = marketplaceItems.filter(i => i.author_sub === settings.keycloak_sub);
+        const count = myItems.length;
+
+        if (count > 0) {
+          contentDiv.innerHTML = `
+            <div class="flex items-center justify-center h-12 w-12 rounded-full bg-emerald-50 border border-emerald-200 mx-auto mb-4">
+              ${icon('fileText', 'h-5 w-5 text-emerald-600')}
+            </div>
+            <p class="text-sm font-semibold text-[#33373B] mb-1">Опубликовано материалов: ${count}</p>
+            <p class="body-text-sm mb-5">Ваши промпты и скиллы доступны в общей библиотеке</p>
+            <a href="library.html" class="inline-flex items-center gap-1.5 h-10 px-5 text-sm font-medium bg-[#33373B] text-white rounded-lg hover:bg-[#FF0508] transition-colors">
+              Перейти в библиотеку ${icon('arrowRight', 'h-4 w-4')}
+            </a>`;
+        }
+        // count === 0 keeps the default empty-state HTML
+      }
+      // no settings = keep default empty-state HTML (demo mode)
+    }
+
+    // ── DOMContentLoaded ──
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Icons
+      document.getElementById('icon-profile-header').innerHTML = icon('user', 'h-5 w-5 text-[#5c5f63]');
+      document.getElementById('icon-eye-toggle').innerHTML = icon('eye', 'h-3.5 w-3.5');
+      document.getElementById('icon-copy-key').innerHTML = icon('copy', 'h-3.5 w-3.5');
+      document.getElementById('icon-ext-link').innerHTML = icon('externalLink', 'h-3.5 w-3.5');
+      document.getElementById('icon-materials-empty').innerHTML = icon('fileText', 'h-5 w-5 text-[#5c5f63]');
+      document.getElementById('icon-arrow-materials').innerHTML = icon('arrowRight', 'h-4 w-4');
+
+      // Load user settings from API
+      const settings = await UserSettings.load();
+
+      // ── Models: filter by access ──
+      const visibleModels = settings
+        ? llmModels.filter(m => settings.models[m.alias] !== false)
+        : llmModels; // static mode = show all
+      renderModels(visibleModels);
+
+      // ── API key: use real key when available ──
+      const apiKeyDemoNotice = document.querySelector('#api-section .text-amber-600');
+      if (settings) {
+        const realKey = settings.api_key;
+        if (realKey) {
+          activeApiKey = realKey;
+          document.getElementById('api-key-display').textContent = maskKey(realKey);
+        } else {
+          document.getElementById('api-key-display').textContent = 'Ключ будет доступен после авторизации';
+        }
+        // Hide per-section demo notice since we have real data
+        if (apiKeyDemoNotice) apiKeyDemoNotice.style.display = 'none';
+
+        // Respect show_api_key setting
+        if (settings.show_api_key === false) {
+          document.getElementById('api-section').style.display = 'none';
+          const divider = document.getElementById('api-section-divider');
+          if (divider) divider.style.display = 'none';
+        }
+      }
+
+      // ── Materials: show user's published items ──
+      renderMaterials(settings);
+
+      // ── Demo mode banner ──
+      if (!settings) {
+        document.getElementById('demo-notice').style.display = '';
+      }
     });
   </script>
 </body>

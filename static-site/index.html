@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MOEX AI Hub — Офис по развитию ИИ</title>
+  <title>MOEX Agent Hub — Офис по развитию ИИ</title>
   <meta name="description" content="Единая платформа AI-инструментов, промптов и скиллов для сотрудников.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,14 +29,14 @@
             <span class="text-xs font-medium text-[#5c5f63]">Офис по развитию искусственного интеллекта</span>
           </div>
           <h1 class="text-5xl font-bold tracking-tight text-[#33373B] sm:text-6xl leading-[1.1]">
-            MOEX<span class="text-[#FF0508]"> AI</span> Hub
+            MOEX<span class="text-[#FF0508]"> Agent</span> Hub
           </h1>
           <p class="mt-5 text-lg leading-relaxed text-[#5c5f63] max-w-xl">
             Единая платформа AI-инструментов. Промпты, скиллы и гайды для продуктивной работы.
           </p>
           <div class="mt-8 flex flex-wrap items-center gap-3">
             <a href="library.html" class="inline-flex items-center gap-2 h-11 px-5 rounded-lg bg-[#FF0508] text-sm font-semibold text-white hover:bg-[#d90407] shadow-sm transition-colors">
-              AI-библиотека <span id="icon-arrow-hero"></span>
+              Agent-библиотека <span id="icon-arrow-hero"></span>
             </a>
             <a href="learn.html" class="inline-flex items-center h-11 px-5 rounded-lg border border-[#33373B]/20 text-sm font-semibold text-[#33373B] hover:bg-[#33373B] hover:text-white transition-colors">
               Начать работу
@@ -163,7 +163,7 @@
       // Products
       const buttonIcons = { externalLink: 'externalLink', download: 'download', bookOpen: 'bookOpen', video: 'video' };
       document.getElementById('products-grid').innerHTML = products.map((p, i) => `
-        <div class="group flex flex-col overflow-hidden rounded-xl border bg-white transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 ${p.borderClass} animate-fade-in-up"
+        <div data-product-id="${p.id}" class="group flex flex-col overflow-hidden rounded-xl border bg-white transition-all duration-300 ease-out hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 ${p.borderClass} animate-fade-in-up"
              style="animation-delay:${i * 100}ms;animation-fill-mode:both">
           <div class="p-6 flex flex-col flex-1 min-h-0">
             <div class="flex items-center gap-4 mb-4">
@@ -200,6 +200,33 @@
           </div>
         </div>
       `).join('');
+
+      // Apply product visibility from backend settings
+      UserSettings.load().then(settings => {
+        if (!settings) return; // static mode — everything visible
+        const productMap = {
+          'moex-gpt': 'moex_gpt',
+          'moex-insight': 'moex_insight',
+          'code-agent': 'code_agent',
+          'dion-agent': 'dion_agent'
+        };
+        products.forEach(p => {
+          const settingsKey = productMap[p.id];
+          if (settingsKey && settings.products[settingsKey] === false) {
+            const card = document.querySelector(`[data-product-id="${p.id}"]`);
+            if (card) {
+              card.style.opacity = '0.4';
+              card.style.pointerEvents = 'none';
+              // Add "Пока недоступно" badge
+              const badge = document.createElement('div');
+              badge.className = 'absolute top-3 right-3 text-xs font-medium px-2 py-1 rounded-md bg-gray-100 text-gray-500';
+              badge.textContent = 'Пока недоступно';
+              card.style.position = 'relative';
+              card.appendChild(badge);
+            }
+          }
+        });
+      });
 
       // Latest library items
       function renderLatestItems() {

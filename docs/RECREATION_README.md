@@ -1,6 +1,6 @@
-# Recreating MOEX AI Hub from Scratch
+# Recreating MOEX Agent Hub from Scratch
 
-This folder contains everything needed to reproduce the MOEX AI Hub project in a single run with an AI coding assistant (Cursor, Kilo Code, etc.).
+This folder contains everything needed to reproduce the MOEX Agent Hub project in a single run with an AI coding assistant (Cursor, Kilo Code, etc.).
 
 ## Files
 

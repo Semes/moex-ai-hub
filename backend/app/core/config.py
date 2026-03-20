@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
-    DATABASE_URL: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/moex_ai_hub"
+    DATABASE_URL: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/moex_agent_hub"
     CORS_ORIGINS: str = "*"
 
     KEYCLOAK_BASE_URL: str = "https://keycloak.example.com"

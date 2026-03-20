@@ -21,3 +21,10 @@ async def get_token_data(
     if credentials is None or not credentials.credentials:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing token")
     return await introspect_token(credentials.credentials)
+
+
+def require_admin(token_data: dict) -> None:
+    """Raise 403 unless the token carries the 'admin' realm role."""
+    roles = token_data.get("realm_access", {}).get("roles", [])
+    if "admin" not in roles:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin role required")

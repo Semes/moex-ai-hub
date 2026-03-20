@@ -1,4 +1,4 @@
-# MCP-серверы для MOEX AI Hub -- Руководство
+# MCP-серверы для MOEX Agent Hub -- Руководство
 
 **Дата:** 2026-03-18
 **Контекст:** Air-gapped deployment, Kilo Code, STDIO транспорт
@@ -62,7 +62,7 @@ npm install -g modelcontextprotocol-server-filesystem-*.tgz
     "args": [
       "-y",
       "@modelcontextprotocol/server-filesystem",
-      "/workspace/moex-ai-hub",
+      "/workspace/moex-agent-hub",
       "/workspace/docs",
       "/workspace/configs"
     ],
@@ -137,7 +137,7 @@ pip install mcp-server-git
     "args": [
       "mcp-server-git",
       "--repository",
-      "/workspace/moex-ai-hub"
+      "/workspace/moex-agent-hub"
     ],
     "env": {},
     "alwaysAllow": [
@@ -163,7 +163,7 @@ pip install mcp-server-git
       "-m",
       "mcp_server_git",
       "--repository",
-      "/workspace/moex-ai-hub"
+      "/workspace/moex-agent-hub"
     ]
   }
 }
@@ -216,7 +216,7 @@ npm install -g modelcontextprotocol-server-postgres-*.tgz
     "args": [
       "-y",
       "@modelcontextprotocol/server-postgres",
-      "postgresql://moex_reader:${DB_PASSWORD}@localhost:5432/moex_ai_hub"
+      "postgresql://moex_reader:${DB_PASSWORD}@localhost:5432/moex_agent_hub"
     ],
     "env": {
       "DB_PASSWORD": ""
@@ -288,7 +288,7 @@ npm install -g modelcontextprotocol-server-memory-*.tgz
       "@modelcontextprotocol/server-memory"
     ],
     "env": {
-      "MEMORY_FILE_PATH": "/workspace/moex-ai-hub/.kilocode/memory.jsonl"
+      "MEMORY_FILE_PATH": "/workspace/moex-agent-hub/.kilocode/memory.jsonl"
     },
     "alwaysAllow": [
       "create_entities",
@@ -434,7 +434,7 @@ npx playwright install chromium --with-deps
 ### Почему актуален для MOEX
 
 - Тестирование внутренних веб-интерфейсов (админки торговых систем)
-- Автоматизация UI-тестов для MOEX AI Hub
+- Автоматизация UI-тестов для MOEX Agent Hub
 - Скриншоты для документации
 - Отключен по умолчанию -- включать только при необходимости
 
@@ -478,7 +478,7 @@ npm install -g modelcontextprotocol-server-sqlite-*.tgz
     "args": [
       "-y",
       "@modelcontextprotocol/server-sqlite",
-      "/workspace/moex-ai-hub/data/local.db"
+      "/workspace/moex-agent-hub/data/local.db"
     ],
     "env": {},
     "alwaysAllow": [
@@ -549,14 +549,14 @@ for pkg in *.tgz; do npm install -g "$pkg"; done
 pip install --no-index --find-links=./python-packages/ mcp-server-git
 
 # 3. Скопировать .kilocode/mcp.json в проект
-cp mcp.json /workspace/moex-ai-hub/.kilocode/mcp.json
+cp mcp.json /workspace/moex-agent-hub/.kilocode/mcp.json
 ```
 
 ### Настройка путей
 
 В `.kilocode/mcp.json` заменить placeholder-пути на реальные:
 
-- `/workspace/moex-ai-hub` -- путь к проекту
+- `/workspace/moex-agent-hub` -- путь к проекту
 - `/workspace/docs` -- путь к документации
 - `/workspace/configs` -- путь к конфигурациям
 - Строку подключения PostgreSQL -- на реальную

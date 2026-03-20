@@ -1,18 +1,18 @@
-# MOEX AI Hub — Single Prompt for Full Recreation
+# MOEX Agent Hub — Single Prompt for Full Recreation
 
-Use this entire document as **one prompt** in Cursor, Kilo Code, or any AI coding assistant to reproduce the MOEX AI Hub project from scratch. Copy everything below the line into a new chat and request implementation in one run.
+Use this entire document as **one prompt** in Cursor, Kilo Code, or any AI coding assistant to reproduce the MOEX Agent Hub project from scratch. Copy everything below the line into a new chat and request implementation in one run.
 
 ---
 
 ## Task
 
-Build the full **MOEX AI Hub** application and populate it with the **exact prompts, skills, and quiz questions** specified in this prompt and in the companion file `docs/RECREATION_DATA.md`. One run should produce a runnable codebase that matches the current project.
+Build the full **MOEX Agent Hub** application and populate it with the **exact prompts, skills, and quiz questions** specified in this prompt and in the companion file `docs/RECREATION_DATA.md`. One run should produce a runnable codebase that matches the current project.
 
 ---
 
 ## 1. What the Product Is
 
-MOEX AI Hub is the internal **Enterprise AI Marketplace** for Moscow Exchange (ПАО Московская Биржа). It provides:
+MOEX Agent Hub is the internal **Enterprise AI Marketplace** for Moscow Exchange (ПАО Московская Биржа). It provides:
 
 - **Library** of prompts and skills (search, filters by product and type)
 - **Guides** and **glossary** (learning)
@@ -55,7 +55,7 @@ All user-facing text must be in **Russian**. UX follows “Apple meets Enterpris
 
 ## 4. Repository Structure
 
-- **Routes:** `src/app/layout.tsx` (metadata title “MOEX AI Hub — Офис по развитию ИИ”, `lang="ru"`, LikesProvider → TestSectionShell → Toaster), `page.tsx`, `library/page.tsx`, `learn/page.tsx`, `submit/page.tsx`, `leaderboard/page.tsx`, `not-found.tsx`.
+- **Routes:** `src/app/layout.tsx` (metadata title “MOEX Agent Hub — Офис по развитию ИИ”, `lang="ru"`, LikesProvider → TestSectionShell → Toaster), `page.tsx`, `library/page.tsx`, `learn/page.tsx`, `submit/page.tsx`, `leaderboard/page.tsx`, `not-found.tsx`.
 - **Test area:** Route group `(moex-ux-test)`, base path `/moex-hub-new-ux-ui-test`; index page lists style slugs; test routes render **without** main header/footer (TestSectionShell checks pathname and skips header/footer for these paths).
 - **Components:** `site-header.tsx`, `site-footer.tsx`, `prompt-card.tsx`, `prompt-detail-dialog.tsx`, `ai-quiz.tsx`, `ui/*` (Shadcn only), `moex-ux-test/test-section-shell.tsx`.
 - **Lib:** `utils.ts` (cn with clsx + tailwind-merge), `constants.ts`, `types.ts`, `mockData.ts`, `libraryUtils.ts`, `logoPaths.ts`.
@@ -81,7 +81,7 @@ See `docs/RECREATION_DATA.md` for question lists or templates to reach 20 easy a
 
 ## 7. Pages and Components (Behaviour)
 
-**Home:** Hero (MOEX AI Hub title, CTA to library and learn), stats row (prompt count, skill count from library, “2100+ Сотрудников”), optional news strip, “Первый раз здесь?” intro, three product cards (MOEX GPT, MOEX Insight, Code Agent), “Новые промпты и скиллы” (e.g. 4 newest items, click opens detail dialog), one AI quiz block (5 questions), “Каналы в Express” links.
+**Home:** Hero (MOEX Agent Hub title, CTA to library and learn), stats row (prompt count, skill count from library, “2100+ Сотрудников”), optional news strip, “Первый раз здесь?” intro, three product cards (MOEX GPT, MOEX Insight, Code Agent), “Новые промпты и скиллы” (e.g. 4 newest items, click opens detail dialog), one AI quiz block (5 questions), “Каналы в Express” links.
 
 **Library:** Header with total count, intro “Промпт и скилл — что это?” with two explanation cards, tabs Все | Промпты | Скиллы (with counts), search input, product filter pills (Все, MOEX GPT, MOEX Insight, Code Agent), client-side filtering, grid of PromptCards, empty state “Ничего не найдено” + link to Submit. Clicking a card opens PromptDetailDialog.
 

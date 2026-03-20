@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Администрирование — MOEX Agent Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="antialiased bg-white text-[#33373B]">
+  <div id="site-header"></div>
+
+  <main class="min-h-screen bg-white">
+    <div id="admin-content">
+      <!-- Header -->
+      <div class="border-b border-[#EEE7DC] bg-gradient-to-br from-[#FBF7F3] to-white">
+        <div class="container-main py-10">
+          <div class="flex items-center gap-2.5 mb-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FBF7F3] border border-[#EEE7DC]" id="icon-admin-header"></div>
+            <p class="section-label mb-0">Администрирование</p>
+          </div>
+          <h1 class="page-title">Управление пользователями</h1>
+          <p class="page-subtitle max-w-lg" id="users-count-subtitle">Загрузка...</p>
+        </div>
+      </div>
+
+      <div class="container-main py-10">
+        <!-- Search bar -->
+        <div class="mb-6">
+          <div class="relative max-w-md">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#5c5f63]" id="icon-search-input"></span>
+            <input type="text" id="search-input" placeholder="Поиск по email или имени..."
+              class="w-full h-11 pl-10 pr-4 rounded-xl border border-[#EEE7DC] bg-white text-sm text-[#33373B] placeholder-[#b5b7ba] focus:outline-none focus:ring-2 focus:ring-[#E1BD95] focus:border-transparent transition-all">
+          </div>
+        </div>
+
+        <!-- Users table -->
+        <div class="rounded-xl border border-[#EEE7DC] overflow-hidden mb-6">
+          <!-- Table header -->
+          <div class="hidden sm:grid sm:grid-cols-[1fr_1fr_auto_auto_auto_auto] items-center gap-4 px-5 py-3 bg-[#FBF7F3] border-b border-[#EEE7DC]">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="select-all-checkbox" class="h-4 w-4 rounded border-[#EEE7DC] accent-[#FF0508] cursor-pointer">
+              <span class="badge-text font-semibold text-[#5c5f63] uppercase tracking-wider">Email</span>
+            </div>
+            <span class="badge-text font-semibold text-[#5c5f63] uppercase tracking-wider">Имя</span>
+            <span class="badge-text font-semibold text-[#5c5f63] uppercase tracking-wider w-28 text-center">Продукты</span>
+            <span class="badge-text font-semibold text-[#5c5f63] uppercase tracking-wider w-20 text-center">Модели</span>
+            <span class="badge-text font-semibold text-[#5c5f63] uppercase tracking-wider w-32 text-center">Последний вход</span>
+            <span class="badge-text font-semibold text-[#5c5f63] uppercase tracking-wider w-24 text-center">Действия</span>
+          </div>
+          <!-- Table body -->
+          <div id="users-table-body" class="divide-y divide-[#EEE7DC]">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Batch actions bar -->
+        <div id="batch-bar" class="hidden sticky bottom-4 mx-auto max-w-2xl rounded-xl border border-[#EEE7DC] bg-white shadow-[0_12px_28px_rgba(0,0,0,0.12)] px-5 py-3 animate-fade-in-up">
+          <div class="flex items-center justify-between gap-4 flex-wrap">
+            <div class="flex items-center gap-3">
+              <span class="text-sm font-semibold text-[#33373B]" id="batch-count">Выбрано: 0</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="relative">
+                <button onclick="toggleTemplateDropdown()" class="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-medium border border-[#EEE7DC] rounded-lg hover:bg-[#FBF7F3] transition-colors">
+                  Применить шаблон <span id="icon-chevron-batch"></span>
+                </button>
+                <div id="template-dropdown" class="hidden absolute bottom-full mb-2 right-0 w-56 rounded-xl border border-[#EEE7DC] bg-white shadow-[0_12px_28px_rgba(0,0,0,0.12)] overflow-hidden z-10">
+                  <button onclick="applyTemplate('full')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-[#FBF7F3] transition-colors">
+                    <span class="font-medium text-[#33373B]">Полный доступ</span>
+                    <span class="block text-xs text-[#5c5f63]">Все продукты, все модели</span>
+                  </button>
+                  <button onclick="applyTemplate('basic')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-[#FBF7F3] transition-colors border-t border-[#EEE7DC]">
+                    <span class="font-medium text-[#33373B]">Базовый</span>
+                    <span class="block text-xs text-[#5c5f63]">GPT + Dion, strong + fast</span>
+                  </button>
+                  <button onclick="applyTemplate('developer')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-[#FBF7F3] transition-colors border-t border-[#EEE7DC]">
+                    <span class="font-medium text-[#33373B]">Разработчик</span>
+                    <span class="block text-xs text-[#5c5f63]">Все продукты, все модели</span>
+                  </button>
+                  <button onclick="applyTemplate('nsd')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-[#FBF7F3] transition-colors border-t border-[#EEE7DC]">
+                    <span class="font-medium text-[#33373B]">NSD</span>
+                    <span class="block text-xs text-[#5c5f63]">GPT + Dion, без Insight/Code</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <!-- User settings modal -->
+  <div id="user-modal-overlay" class="hidden fixed inset-0 bg-black/50 z-[100] flex items-center justify-center" onclick="if(event.target===this)closeUserModal()">
+    <div class="bg-white rounded-xl border border-[#EEE7DC] max-w-lg w-[calc(100%-2rem)] max-h-[85vh] overflow-y-auto p-6 animate-fade-in-up relative">
+      <button onclick="closeUserModal()" class="absolute top-4 right-4 p-1 rounded-md text-[#5c5f63] hover:text-[#33373B] hover:bg-[#FBF7F3] transition-colors" aria-label="Закрыть" id="modal-close-btn"></button>
+
+      <div class="mb-6">
+        <p class="text-sm font-semibold text-[#33373B]" id="modal-user-name"></p>
+        <p class="text-xs text-[#5c5f63]" id="modal-user-email"></p>
+      </div>
+
+      <!-- Products section -->
+      <div class="mb-6">
+        <p class="section-label">Продукты</p>
+        <div class="space-y-3 mt-3" id="modal-products"></div>
+      </div>
+
+      <hr class="border-[#EEE7DC] mb-6">
+
+      <!-- Models section -->
+      <div class="mb-6">
+        <p class="section-label">Модели</p>
+        <div class="space-y-3 mt-3" id="modal-models"></div>
+      </div>
+
+      <hr class="border-[#EEE7DC] mb-6">
+
+      <!-- API section -->
+      <div class="mb-6">
+        <p class="section-label">API</p>
+        <div class="mt-3 space-y-3">
+          <div class="flex items-center gap-2 p-3 bg-[#FBF7F3] rounded-lg border border-[#EEE7DC]">
+            <code id="modal-api-key" class="flex-1 text-sm font-mono text-[#33373B] select-all break-all"></code>
+          </div>
+          <button onclick="regenerateApiKey()" class="inline-flex items-center gap-1.5 h-9 px-4 text-sm font-medium border border-[#EEE7DC] rounded-lg hover:bg-[#FBF7F3] transition-colors">
+            <span id="icon-regenerate"></span> Сгенерировать новый
+          </button>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-[#5c5f63]">Показывать API-ключ пользователю</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="modal-show-api-key" class="sr-only peer" checked>
+              <div class="w-9 h-5 bg-gray-200 peer-focus:ring-2 peer-focus:ring-[#E1BD95] rounded-full peer peer-checked:bg-[#FF0508] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex items-center gap-3 pt-4 border-t border-[#EEE7DC]">
+        <button onclick="saveUserSettings()" class="inline-flex items-center gap-1.5 h-10 px-5 text-sm font-semibold bg-[#FF0508] text-white rounded-lg hover:bg-[#d90407] transition-colors">
+          Сохранить
+        </button>
+        <button onclick="closeUserModal()" class="inline-flex items-center gap-1.5 h-10 px-5 text-sm font-medium border border-[#EEE7DC] rounded-lg hover:bg-[#FBF7F3] transition-colors">
+          Отмена
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // ── Product & model definitions ──
+    const ADMIN_PRODUCTS = [
+      { key: 'moex_gpt', name: 'MOEX GPT', style: 'MOEX GPT' },
+      { key: 'moex_insight', name: 'MOEX Insight', style: 'MOEX Insight' },
+      { key: 'code_agent', name: 'Code Agent', style: 'Code Agent' },
+      { key: 'dion_agent', name: 'Dion Agent', style: 'Dion Agent' },
+    ];
+
+    const ADMIN_MODELS = [
+      { key: 'strong', name: 'MiniMax-2.5', alias: 'strong' },
+      { key: 'coder', name: 'Qwen3-Coder', alias: 'coder' },
+      { key: 'tool_caller', name: 'GPT OSS', alias: 'tool_caller' },
+      { key: 'vl', name: 'Qwen3-VL', alias: 'vl' },
+      { key: 'fast', name: 'Qwen3-Next', alias: 'fast' },
+    ];
+
+    // ── Batch templates ──
+    const TEMPLATES = {
+      full: {
+        products: { moex_gpt: true, moex_insight: true, code_agent: true, dion_agent: true },
+        models: { strong: true, coder: true, tool_caller: true, vl: true, fast: true },
+      },
+      basic: {
+        products: { moex_gpt: true, moex_insight: false, code_agent: false, dion_agent: true },
+        models: { strong: true, coder: false, tool_caller: false, vl: false, fast: true },
+      },
+      developer: {
+        products: { moex_gpt: true, moex_insight: true, code_agent: true, dion_agent: true },
+        models: { strong: true, coder: true, tool_caller: true, vl: true, fast: true },
+      },
+      nsd: {
+        products: { moex_gpt: true, moex_insight: false, code_agent: false, dion_agent: true },
+        models: { strong: true, coder: false, tool_caller: true, vl: false, fast: true },
+      },
+    };
+
+    // ── Mock data ──
+    const MOCK_USERS = [
+      { keycloak_sub: 'user-1', email: 'ivanov@moex.com', full_name: 'Иван Иванов', products: {moex_gpt: true, moex_insight: true, code_agent: true, dion_agent: true}, models: {strong: true, coder: true, tool_caller: true, vl: true, fast: true}, api_key: 'moex-agent-demo-1', show_api_key: true, last_login_at: '2026-03-20T10:30:00Z', product_count: 4 },
+      { keycloak_sub: 'user-2', email: 'petrova@nsd.ru', full_name: 'Мария Петрова', products: {moex_gpt: true, moex_insight: false, code_agent: false, dion_agent: true}, models: {strong: true, coder: false, tool_caller: true, vl: false, fast: true}, api_key: 'moex-agent-demo-2', show_api_key: true, last_login_at: '2026-03-19T14:15:00Z', product_count: 2 },
+      { keycloak_sub: 'user-3', email: 'sidorov@moex.com', full_name: 'Алексей Сидоров', products: {moex_gpt: true, moex_insight: true, code_agent: true, dion_agent: true}, models: {strong: true, coder: true, tool_caller: true, vl: true, fast: true}, api_key: 'moex-agent-demo-3', show_api_key: true, last_login_at: '2026-03-20T09:00:00Z', product_count: 4 },
+      { keycloak_sub: 'user-4', email: 'kuznetsova@moex.com', full_name: 'Елена Кузнецова', products: {moex_gpt: true, moex_insight: true, code_agent: false, dion_agent: true}, models: {strong: true, coder: false, tool_caller: true, vl: true, fast: true}, api_key: 'moex-agent-demo-4', show_api_key: false, last_login_at: '2026-03-18T16:45:00Z', product_count: 3 },
+      { keycloak_sub: 'user-5', email: 'volkov@nsd.ru', full_name: 'Дмитрий Волков', products: {moex_gpt: true, moex_insight: false, code_agent: false, dion_agent: true}, models: {strong: true, coder: false, tool_caller: false, vl: false, fast: true}, api_key: null, show_api_key: true, last_login_at: '2026-03-17T11:20:00Z', product_count: 2 },
+      { keycloak_sub: 'user-6', email: 'sokolova@moex.com', full_name: 'Анна Соколова', products: {moex_gpt: true, moex_insight: true, code_agent: true, dion_agent: true}, models: {strong: true, coder: true, tool_caller: true, vl: true, fast: true}, api_key: 'moex-agent-demo-6', show_api_key: true, last_login_at: '2026-03-20T08:10:00Z', product_count: 4 },
+    ];
+
+    // ── State ──
+    let allUsers = [];
+    let filteredUsers = [];
+    let selectedSubs = new Set();
+    let currentEditUser = null;
+    let searchTimeout = null;
+
+    // ── Pluralize helper ──
+    function pluralUsers(n) {
+      const mod10 = n % 10;
+      const mod100 = n % 100;
+      if (mod10 === 1 && mod100 !== 11) return n + ' пользователь';
+      if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return n + ' пользователя';
+      return n + ' пользователей';
+    }
+
+    // ── Toggle helper ──
+    function makeToggle(id, checked, label, dotClass, badgeHtml) {
+      return `
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            ${dotClass ? `<span class="w-2.5 h-2.5 rounded-full ${dotClass}"></span>` : ''}
+            <span class="text-sm font-medium text-[#33373B]">${label}</span>
+            ${badgeHtml || ''}
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="${id}" class="sr-only peer" ${checked ? 'checked' : ''}>
+            <div class="w-9 h-5 bg-gray-200 peer-focus:ring-2 peer-focus:ring-[#E1BD95] rounded-full peer peer-checked:bg-[#FF0508] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+          </label>
+        </div>`;
+    }
+
+    // ── Format date ──
+    function formatLastLogin(dateStr) {
+      if (!dateStr) return '—';
+      const d = new Date(dateStr);
+      const now = new Date();
+      const diffMs = now - d;
+      const diffDays = Math.floor(diffMs / 86400000);
+      if (diffDays === 0) return 'Сегодня, ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+      if (diffDays === 1) return 'Вчера, ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+      return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+    }
+
+    // ── Count enabled ──
+    function countEnabled(obj) {
+      return Object.values(obj).filter(v => v === true).length;
+    }
+
+    // ── Product dots ──
+    function renderProductDots(products) {
+      const map = [
+        { key: 'moex_gpt', style: 'MOEX GPT' },
+        { key: 'moex_insight', style: 'MOEX Insight' },
+        { key: 'code_agent', style: 'Code Agent' },
+        { key: 'dion_agent', style: 'Dion Agent' },
+      ];
+      return map.map(p => {
+        const dotClass = (PRODUCT_STYLES[p.style] || PRODUCT_STYLES['MOEX GPT']).dot;
+        const enabled = products[p.key];
+        return `<span class="w-2.5 h-2.5 rounded-full ${enabled ? dotClass : 'bg-gray-200'}" title="${p.style}: ${enabled ? 'вкл' : 'выкл'}"></span>`;
+      }).join('');
+    }
+
+    // ── Render user row ──
+    function renderUserRow(user, index) {
+      const modelCount = countEnabled(user.models);
+      const totalModels = Object.keys(user.models).length;
+      const isChecked = selectedSubs.has(user.keycloak_sub);
+
+      return `
+        <div class="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto_auto_auto_auto] items-center gap-3 sm:gap-4 px-5 py-4 transition-colors hover:bg-[#FBF7F3]/50 animate-fade-in-up" style="animation-delay:${index * 40}ms;animation-fill-mode:both">
+          <div class="flex items-center gap-3">
+            <input type="checkbox" class="user-checkbox h-4 w-4 rounded border-[#EEE7DC] accent-[#FF0508] cursor-pointer" data-sub="${user.keycloak_sub}" ${isChecked ? 'checked' : ''} onchange="toggleUserSelection('${user.keycloak_sub}')">
+            <span class="text-sm font-medium text-[#33373B]">${user.email}</span>
+          </div>
+          <span class="text-sm text-[#5c5f63] pl-7 sm:pl-0">${user.full_name}</span>
+          <div class="flex items-center gap-1.5 w-28 justify-center pl-7 sm:pl-0">
+            ${renderProductDots(user.products)}
+          </div>
+          <span class="text-sm text-[#5c5f63] w-20 text-center pl-7 sm:pl-0">${modelCount} из ${totalModels}</span>
+          <span class="text-xs text-[#5c5f63] w-32 text-center pl-7 sm:pl-0">${formatLastLogin(user.last_login_at)}</span>
+          <div class="w-24 text-center pl-7 sm:pl-0">
+            <button onclick="openUserModal('${user.keycloak_sub}')" class="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-medium border border-[#EEE7DC] rounded-lg hover:bg-[#FBF7F3] transition-colors">
+              ${icon('slidersHorizontal', 'h-3.5 w-3.5')} Настроить
+            </button>
+          </div>
+        </div>`;
+    }
+
+    // ── Render users table ──
+    function renderUsersTable() {
+      const body = document.getElementById('users-table-body');
+      if (filteredUsers.length === 0) {
+        body.innerHTML = `
+          <div class="text-center py-16">
+            <div class="mx-auto w-12 h-12 rounded-full bg-[#FBF7F3] flex items-center justify-center mb-4">
+              ${icon('search', 'h-5 w-5 text-[#5c5f63]')}
+            </div>
+            <p class="card-title mb-1">Пользователи не найдены</p>
+            <p class="body-text-sm text-[#5c5f63]">Попробуйте изменить поисковый запрос</p>
+          </div>`;
+      } else {
+        body.innerHTML = filteredUsers.map((u, i) => renderUserRow(u, i)).join('');
+      }
+      document.getElementById('users-count-subtitle').textContent = pluralUsers(allUsers.length);
+      updateSelectAll();
+    }
+
+    // ── Search ──
+    function handleSearch(query) {
+      const q = query.toLowerCase().trim();
+      if (!q) {
+        filteredUsers = [...allUsers];
+      } else {
+        filteredUsers = allUsers.filter(u =>
+          u.email.toLowerCase().includes(q) || u.full_name.toLowerCase().includes(q)
+        );
+      }
+      renderUsersTable();
+    }
+
+    // ── Selection ──
+    function toggleUserSelection(sub) {
+      if (selectedSubs.has(sub)) {
+        selectedSubs.delete(sub);
+      } else {
+        selectedSubs.add(sub);
+      }
+      updateBatchBar();
+      updateSelectAll();
+    }
+
+    function updateSelectAll() {
+      const cb = document.getElementById('select-all-checkbox');
+      if (!cb) return;
+      if (filteredUsers.length === 0) {
+        cb.checked = false;
+        cb.indeterminate = false;
+      } else if (selectedSubs.size === filteredUsers.length && filteredUsers.every(u => selectedSubs.has(u.keycloak_sub))) {
+        cb.checked = true;
+        cb.indeterminate = false;
+      } else if (selectedSubs.size > 0) {
+        cb.checked = false;
+        cb.indeterminate = true;
+      } else {
+        cb.checked = false;
+        cb.indeterminate = false;
+      }
+    }
+
+    function toggleSelectAll() {
+      const cb = document.getElementById('select-all-checkbox');
+      if (cb.checked) {
+        filteredUsers.forEach(u => selectedSubs.add(u.keycloak_sub));
+      } else {
+        filteredUsers.forEach(u => selectedSubs.delete(u.keycloak_sub));
+      }
+      renderUsersTable();
+      updateBatchBar();
+    }
+
+    function updateBatchBar() {
+      const bar = document.getElementById('batch-bar');
+      const count = document.getElementById('batch-count');
+      if (selectedSubs.size > 0) {
+        bar.classList.remove('hidden');
+        count.textContent = 'Выбрано: ' + selectedSubs.size;
+      } else {
+        bar.classList.add('hidden');
+      }
+    }
+
+    // ── Template dropdown ──
+    function toggleTemplateDropdown() {
+      const dd = document.getElementById('template-dropdown');
+      dd.classList.toggle('hidden');
+    }
+
+    // ── Apply template ──
+    async function applyTemplate(templateKey) {
+      const tpl = TEMPLATES[templateKey];
+      if (!tpl || selectedSubs.size === 0) return;
+
+      const subs = [...selectedSubs];
+      const settings = { products: tpl.products, models: tpl.models };
+
+      try {
+        const token = sessionStorage.getItem('auth_token');
+        const res = await fetch('/api/v1/admin/users/batch', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ keycloak_subs: subs, settings }),
+        });
+        if (res.ok) {
+          showToast(`Шаблон применён к ${subs.length} пользователям`);
+          await loadUsers();
+        } else {
+          throw new Error(res.status);
+        }
+      } catch {
+        // Apply locally for demo
+        subs.forEach(sub => {
+          const user = allUsers.find(u => u.keycloak_sub === sub);
+          if (user) {
+            Object.assign(user.products, tpl.products);
+            Object.assign(user.models, tpl.models);
+          }
+        });
+        filteredUsers = [...allUsers];
+        handleSearch(document.getElementById('search-input').value);
+        showToast(`Шаблон применён к ${subs.length} пользователям (демо)`);
+      }
+
+      toggleTemplateDropdown();
+      selectedSubs.clear();
+      updateBatchBar();
+      renderUsersTable();
+    }
+
+    // ── User modal ──
+    function openUserModal(sub) {
+      currentEditUser = allUsers.find(u => u.keycloak_sub === sub);
+      if (!currentEditUser) return;
+
+      document.getElementById('modal-user-name').textContent = currentEditUser.full_name;
+      document.getElementById('modal-user-email').textContent = currentEditUser.email;
+
+      // Products
+      document.getElementById('modal-products').innerHTML = ADMIN_PRODUCTS.map(p => {
+        const dotClass = (PRODUCT_STYLES[p.style] || PRODUCT_STYLES['MOEX GPT']).dot;
+        return makeToggle(`modal-product-${p.key}`, currentEditUser.products[p.key], p.name, dotClass);
+      }).join('');
+
+      // Models
+      document.getElementById('modal-models').innerHTML = ADMIN_MODELS.map(m => {
+        const badge = `<code style="font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 4px;">${m.alias}</code>`;
+        return makeToggle(`modal-model-${m.key}`, currentEditUser.models[m.key], m.name, null, badge);
+      }).join('');
+
+      // API
+      document.getElementById('modal-api-key').textContent = currentEditUser.api_key || 'не сгенерирован';
+      document.getElementById('modal-show-api-key').checked = currentEditUser.show_api_key;
+
+      // Show modal
+      const overlay = document.getElementById('user-modal-overlay');
+      overlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeUserModal() {
+      const overlay = document.getElementById('user-modal-overlay');
+      overlay.classList.add('hidden');
+      document.body.style.overflow = '';
+      currentEditUser = null;
+    }
+
+    function regenerateApiKey() {
+      const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+      const newKey = 'moex-agent-' + uuid;
+      document.getElementById('modal-api-key').textContent = newKey;
+      if (currentEditUser) currentEditUser.api_key = newKey;
+      showToast('Новый API-ключ сгенерирован');
+    }
+
+    async function saveUserSettings() {
+      if (!currentEditUser) return;
+
+      // Collect product toggles
+      const products = {};
+      ADMIN_PRODUCTS.forEach(p => {
+        const cb = document.getElementById(`modal-product-${p.key}`);
+        products[p.key] = cb ? cb.checked : false;
+      });
+
+      // Collect model toggles
+      const models = {};
+      ADMIN_MODELS.forEach(m => {
+        const cb = document.getElementById(`modal-model-${m.key}`);
+        models[m.key] = cb ? cb.checked : false;
+      });
+
+      const showApiKey = document.getElementById('modal-show-api-key').checked;
+      const apiKey = document.getElementById('modal-api-key').textContent;
+
+      const payload = {
+        products,
+        models,
+        api_key: apiKey === 'не сгенерирован' ? null : apiKey,
+        show_api_key: showApiKey,
+      };
+
+      try {
+        const token = sessionStorage.getItem('auth_token');
+        const res = await fetch(`/api/v1/admin/users/${currentEditUser.keycloak_sub}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+          showToast('Настройки сохранены');
+          await loadUsers();
+        } else {
+          throw new Error(res.status);
+        }
+      } catch {
+        // Update locally for demo
+        Object.assign(currentEditUser.products, products);
+        Object.assign(currentEditUser.models, models);
+        currentEditUser.api_key = payload.api_key;
+        currentEditUser.show_api_key = showApiKey;
+        handleSearch(document.getElementById('search-input').value);
+        showToast('Настройки сохранены (демо)');
+      }
+
+      closeUserModal();
+    }
+
+    // ── Load users from API or mock ──
+    async function loadUsers(search = '') {
+      try {
+        const token = sessionStorage.getItem('auth_token');
+        if (!token) throw new Error('no token');
+        const params = new URLSearchParams({ page: 1, per_page: 20 });
+        if (search) params.set('search', search);
+        const res = await fetch(`/api/v1/admin/users?${params}`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        allUsers = data.items || data;
+      } catch {
+        // Fallback to mock data
+        allUsers = JSON.parse(JSON.stringify(MOCK_USERS));
+      }
+      filteredUsers = [...allUsers];
+      renderUsersTable();
+    }
+
+    // ── Close dropdown on outside click ──
+    document.addEventListener('click', (e) => {
+      const dd = document.getElementById('template-dropdown');
+      if (dd && !dd.classList.contains('hidden') && !e.target.closest('#batch-bar')) {
+        dd.classList.add('hidden');
+      }
+    });
+
+    // ── Escape closes modal ──
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeUserModal();
+    });
+
+    // ── DOMContentLoaded ──
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check admin role
+      const isAdmin = UserSettings.isAdmin();
+      if (!isAdmin) {
+        document.getElementById('admin-content').innerHTML = `
+          <div class="text-center py-20">
+            <p class="section-title mb-2">Доступ ограничен</p>
+            <p class="body-text-sm text-[#5c5f63]">Эта страница доступна только администраторам.</p>
+            <a href="index.html" class="inline-flex items-center gap-2 h-11 px-6 rounded-lg text-sm font-semibold border border-[#33373B] text-[#33373B] hover:bg-[#33373B] hover:text-white transition-colors mt-6">На главную</a>
+          </div>`;
+        return;
+      }
+
+      // Icons
+      document.getElementById('icon-admin-header').innerHTML = icon('shield', 'h-5 w-5 text-[#5c5f63]');
+      document.getElementById('icon-search-input').innerHTML = icon('search', 'h-4 w-4');
+      document.getElementById('icon-chevron-batch').innerHTML = icon('chevronDown', 'h-3.5 w-3.5');
+      document.getElementById('modal-close-btn').innerHTML = icon('x', 'w-5 h-5');
+      document.getElementById('icon-regenerate').innerHTML = icon('zap', 'h-3.5 w-3.5');
+
+      // Select all checkbox
+      document.getElementById('select-all-checkbox').addEventListener('change', toggleSelectAll);
+
+      // Search input with debounce
+      const searchInput = document.getElementById('search-input');
+      searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => handleSearch(searchInput.value), 250);
+      });
+
+      // Load users
+      loadUsers();
+    });
+  </script>
+</body>
+</html>

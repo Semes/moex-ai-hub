@@ -24,7 +24,7 @@ services:
   db:
     image: nexus-dev.tech.moex.com/moex-docker-static-hosted/postgres:16
     environment:
-      POSTGRES_DB: moex_ai_hub
+      POSTGRES_DB: moex_agent_hub
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:

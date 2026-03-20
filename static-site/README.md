@@ -1,4 +1,4 @@
-# MOEX AI Hub — Статическая версия (HTML + Tailwind CSS)
+# MOEX Agent Hub — Статическая версия (HTML + Tailwind CSS)
 
 Версия без React, Next.js и npm-зависимостей.  
 Работает на чистом HTML + Tailwind CSS + vanilla JavaScript.
@@ -86,8 +86,8 @@ Tailwind CSS имеет standalone-бинарник, не требующий Nod
 ```nginx
 server {
     listen 80;
-    server_name moex-ai-hub.internal;
-    root /var/www/moex-ai-hub;
+    server_name moex-agent-hub.internal;
+    root /var/www/moex-agent-hub;
     index index.html;
     
     location / {

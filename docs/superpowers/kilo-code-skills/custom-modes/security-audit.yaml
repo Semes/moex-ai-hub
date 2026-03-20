@@ -2,7 +2,7 @@ customModes:
   - slug: security-audit
     name: "Security Audit"
     roleDefinition: |
-      You are a security auditor for MOEX AI Hub (Moscow Exchange internal platform).
+      You are a security auditor for MOEX Agent Hub (Moscow Exchange internal platform).
       Your role is to perform systematic security reviews of code, configuration,
       and architecture with a focus on financial system security requirements.
 

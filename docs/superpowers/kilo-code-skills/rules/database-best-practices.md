@@ -1,8 +1,8 @@
-# Database Best Practices -- MOEX AI Hub
+# Database Best Practices -- MOEX Agent Hub
 
 ## Описание
 
-Правила работы с PostgreSQL в проекте MOEX AI Hub. Покрывают проектирование схемы, написание запросов, миграции и оптимизацию. Основаны на официальных рекомендациях PostgreSQL, Bytebase SQL Review Guide и best practices для финансовых систем.
+Правила работы с PostgreSQL в проекте MOEX Agent Hub. Покрывают проектирование схемы, написание запросов, миграции и оптимизацию. Основаны на официальных рекомендациях PostgreSQL, Bytebase SQL Review Guide и best practices для финансовых систем.
 
 ## Общие принципы
 

@@ -1,8 +1,8 @@
-# Coding Standards -- MOEX AI Hub
+# Coding Standards -- MOEX Agent Hub
 
 ## Описание
 
-Единые стандарты кодирования для проекта MOEX AI Hub. Применяются ко всему коду, генерируемому AI-агентом. Основаны на лучших практиках из awesome-cursorrules, OpenSSF Security Guide и внутренних стандартов MOEX.
+Единые стандарты кодирования для проекта MOEX Agent Hub. Применяются ко всему коду, генерируемому AI-агентом. Основаны на лучших практиках из awesome-cursorrules, OpenSSF Security Guide и внутренних стандартов MOEX.
 
 ## Общие принципы
 
